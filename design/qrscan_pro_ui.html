@@ -1,0 +1,1399 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QRScan Pro — UI Design</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0a0a0f;
+    --surface: #13131a;
+    --surface2: #1c1c27;
+    --surface3: #242433;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.12);
+    --accent: #6EE7B7;
+    --accent2: #34D399;
+    --accent-dim: rgba(110,231,183,0.15);
+    --accent-dim2: rgba(110,231,183,0.08);
+    --text: #F0F0F8;
+    --text2: #9090A8;
+    --text3: #5a5a70;
+    --red: #FF6B6B;
+    --blue: #60A5FA;
+    --yellow: #FBBF24;
+    --phone-w: 375px;
+    --phone-h: 812px;
+    --r: 44px;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── Layout ── */
+  .hero {
+    text-align: center;
+    padding: 80px 40px 60px;
+    position: relative;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(110,231,183,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--accent-dim2); border: 1px solid rgba(110,231,183,0.2);
+    color: var(--accent); font-size: 12px; font-weight: 500; letter-spacing: 0.1em;
+    padding: 6px 14px; border-radius: 100px; margin-bottom: 24px; text-transform: uppercase;
+  }
+  .hero h1 {
+    font-size: clamp(36px, 5vw, 64px); font-weight: 700; letter-spacing: -0.03em;
+    line-height: 1.1; margin-bottom: 16px;
+    background: linear-gradient(135deg, #fff 30%, var(--accent) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .hero p { color: var(--text2); font-size: 16px; max-width: 460px; margin: 0 auto; line-height: 1.6; }
+
+  .section-label {
+    display: flex; align-items: center; gap: 12px;
+    padding: 0 48px; margin-bottom: 32px;
+  }
+  .section-label span {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent);
+  }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  .screens-row {
+    display: flex; gap: 32px; padding: 0 48px 80px;
+    align-items: flex-start; overflow-x: auto;
+    scrollbar-width: thin; scrollbar-color: var(--surface3) transparent;
+  }
+  .screens-row::-webkit-scrollbar { height: 4px; }
+  .screens-row::-webkit-scrollbar-track { background: transparent; }
+  .screens-row::-webkit-scrollbar-thumb { background: var(--surface3); border-radius: 2px; }
+
+  .screen-wrap {
+    display: flex; flex-direction: column; align-items: center; gap: 16px; flex-shrink: 0;
+  }
+  .screen-title {
+    font-size: 13px; font-weight: 500; color: var(--text2);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .screen-title .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+
+  /* ── Phone Shell ── */
+  .phone {
+    width: var(--phone-w); height: var(--phone-h);
+    background: var(--surface);
+    border-radius: var(--r);
+    border: 1.5px solid var(--border2);
+    position: relative; overflow: hidden;
+    box-shadow:
+      0 0 0 1px rgba(0,0,0,0.5),
+      0 40px 80px rgba(0,0,0,0.6),
+      inset 0 1px 0 rgba(255,255,255,0.08);
+  }
+  .phone-screen {
+    position: absolute; inset: 0;
+    border-radius: calc(var(--r) - 1px);
+    overflow: hidden; display: flex; flex-direction: column;
+  }
+
+  /* Status Bar */
+  .status-bar {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 14px 28px 0; flex-shrink: 0; z-index: 10; position: relative;
+  }
+  .status-time { font-size: 15px; font-weight: 600; color: var(--text); }
+  .status-icons { display: flex; gap: 6px; align-items: center; }
+  .status-icons svg { width: 16px; height: 16px; fill: var(--text); opacity: 0.9; }
+
+  /* Dynamic Island */
+  .dynamic-island {
+    width: 120px; height: 34px; background: #000;
+    border-radius: 20px; margin: 0 auto 0;
+    position: absolute; top: 10px; left: 50%; transform: translateX(-50%);
+    z-index: 20;
+  }
+
+  /* Nav Bar */
+  .nav-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 20px 8px; flex-shrink: 0;
+  }
+  .nav-title { font-size: 17px; font-weight: 600; color: var(--text); }
+  .nav-btn {
+    width: 36px; height: 36px; border-radius: 50%; background: var(--surface3);
+    display: flex; align-items: center; justify-content: center;
+    border: 1px solid var(--border2); cursor: pointer; flex-shrink: 0;
+  }
+  .nav-btn svg { width: 16px; height: 16px; }
+  .nav-action {
+    font-size: 13px; font-weight: 500; color: var(--accent);
+    background: var(--accent-dim2); border: 1px solid rgba(110,231,183,0.2);
+    padding: 6px 12px; border-radius: 20px;
+    display: flex; align-items: center; gap: 4px;
+  }
+
+  /* Tab Bar */
+  .tab-bar {
+    display: flex; align-items: center; justify-content: space-around;
+    padding: 12px 0 28px; background: rgba(19,19,26,0.95);
+    backdrop-filter: blur(20px); border-top: 1px solid var(--border);
+    flex-shrink: 0; position: relative; z-index: 10;
+  }
+  .tab-item {
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+    flex: 1; cursor: pointer; position: relative;
+  }
+  .tab-icon {
+    width: 28px; height: 28px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .tab-icon svg { width: 20px; height: 20px; }
+  .tab-label { font-size: 10px; font-weight: 500; }
+  .tab-item.active .tab-label { color: var(--accent); }
+  .tab-item.active .tab-icon { background: var(--accent-dim); }
+  .tab-item.active .tab-icon svg { stroke: var(--accent); }
+  .tab-item:not(.active) .tab-label { color: var(--text3); }
+  .tab-item:not(.active) .tab-icon svg { stroke: var(--text3); }
+
+  /* Content area */
+  .content { flex: 1; overflow: hidden; position: relative; }
+
+  /* ══════════════════════════════════════════════════
+     SCREEN 1: 扫码主页
+  ══════════════════════════════════════════════════ */
+  .scan-bg {
+    position: absolute; inset: 0;
+    background: #000;
+  }
+  .camera-feed {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, #0d1f0d 0%, #0a1a0e 40%, #0d1a12 100%);
+  }
+  /* Fake camera bokeh */
+  .camera-feed::before {
+    content: ''; position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 80px 60px at 20% 30%, rgba(110,231,183,0.06) 0%, transparent 100%),
+      radial-gradient(ellipse 120px 80px at 80% 60%, rgba(96,165,250,0.04) 0%, transparent 100%),
+      radial-gradient(ellipse 60px 90px at 50% 80%, rgba(110,231,183,0.05) 0%, transparent 100%);
+  }
+  .scan-overlay {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    z-index: 2;
+  }
+  .scan-frame {
+    width: 220px; height: 220px; position: relative;
+  }
+  .scan-corner {
+    position: absolute; width: 28px; height: 28px;
+    border-color: var(--accent); border-style: solid; border-width: 0;
+  }
+  .scan-corner.tl { top: 0; left: 0; border-top-width: 3px; border-left-width: 3px; border-radius: 4px 0 0 0; }
+  .scan-corner.tr { top: 0; right: 0; border-top-width: 3px; border-right-width: 3px; border-radius: 0 4px 0 0; }
+  .scan-corner.bl { bottom: 0; left: 0; border-bottom-width: 3px; border-left-width: 3px; border-radius: 0 0 0 4px; }
+  .scan-corner.br { bottom: 0; right: 0; border-bottom-width: 3px; border-right-width: 3px; border-radius: 0 0 4px 0; }
+  .scan-line {
+    position: absolute; left: 3px; right: 3px; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    top: 30%; animation: scanLine 2s ease-in-out infinite;
+    box-shadow: 0 0 8px var(--accent);
+  }
+  @keyframes scanLine {
+    0%, 100% { top: 10%; opacity: 0.6; }
+    50% { top: 85%; opacity: 1; }
+  }
+  .scan-hint {
+    position: absolute; bottom: -40px; left: 50%; transform: translateX(-50%);
+    font-size: 13px; color: rgba(255,255,255,0.5); white-space: nowrap;
+    font-weight: 400;
+  }
+
+  /* Scan status bar overlay (top) */
+  .scan-top-bar {
+    position: absolute; top: 0; left: 0; right: 0; z-index: 5;
+    background: linear-gradient(180deg, rgba(0,0,0,0.7) 0%, transparent 100%);
+    padding: 60px 20px 32px;
+    display: flex; justify-content: space-between; align-items: flex-start;
+  }
+  .scan-top-bar .nav-title { color: #fff; font-size: 17px; }
+
+  /* Tools row */
+  .scan-tools {
+    position: absolute; bottom: 0; left: 0; right: 0; z-index: 5;
+    background: linear-gradient(0deg, rgba(0,0,0,0.85) 0%, transparent 100%);
+    padding: 32px 20px 16px;
+    display: flex; flex-direction: column; gap: 20px;
+  }
+  .tool-btns {
+    display: flex; justify-content: center; gap: 40px; align-items: center;
+  }
+  .tool-btn {
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+  }
+  .tool-btn-circle {
+    width: 52px; height: 52px; border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    display: flex; align-items: center; justify-content: center;
+    backdrop-filter: blur(10px);
+  }
+  .tool-btn-circle.active { background: rgba(110,231,183,0.2); border-color: var(--accent); }
+  .tool-btn-circle svg { width: 22px; height: 22px; stroke: #fff; }
+  .tool-btn-circle.active svg { stroke: var(--accent); }
+  .tool-btn-label { font-size: 11px; color: rgba(255,255,255,0.6); font-weight: 500; }
+
+  /* ══════════════════════════════════════════════════
+     SCREEN 2: 扫码详情页
+  ══════════════════════════════════════════════════ */
+  .detail-content {
+    flex: 1; overflow-y: auto; padding: 8px 20px 20px;
+    display: flex; flex-direction: column; gap: 16px;
+  }
+  .detail-meta {
+    display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
+  }
+  .tag-pill {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 4px 10px; border-radius: 20px;
+    font-size: 11px; font-weight: 600; letter-spacing: 0.04em;
+  }
+  .tag-pill.qr { background: rgba(110,231,183,0.12); color: var(--accent); border: 1px solid rgba(110,231,183,0.25); }
+  .tag-pill.camera { background: rgba(96,165,250,0.12); color: var(--blue); border: 1px solid rgba(96,165,250,0.2); }
+  .tag-pill.time { background: var(--surface3); color: var(--text3); border: 1px solid var(--border); font-weight: 400; }
+
+  .detail-card {
+    background: var(--surface2); border: 1px solid var(--border2);
+    border-radius: 16px; overflow: hidden;
+  }
+  .detail-card-header {
+    padding: 12px 16px; border-bottom: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .detail-card-header span { font-size: 11px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; }
+  .detail-raw {
+    padding: 16px; font-family: 'DM Mono', monospace;
+    font-size: 13px; line-height: 1.6; color: var(--text); word-break: break-all;
+    max-height: 160px; overflow-y: auto;
+  }
+
+  .url-banner {
+    background: rgba(96,165,250,0.08); border: 1px solid rgba(96,165,250,0.2);
+    border-radius: 12px; padding: 12px 16px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .url-banner-icon {
+    width: 36px; height: 36px; border-radius: 10px;
+    background: rgba(96,165,250,0.15); display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .url-banner-icon svg { width: 18px; height: 18px; stroke: var(--blue); }
+  .url-banner-text { flex: 1; min-width: 0; }
+  .url-banner-text .label { font-size: 11px; color: var(--text3); font-weight: 500; }
+  .url-banner-text .value { font-size: 13px; color: var(--blue); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .url-open-btn {
+    font-size: 12px; font-weight: 600; color: var(--blue);
+    background: rgba(96,165,250,0.15); border: 1px solid rgba(96,165,250,0.3);
+    padding: 6px 12px; border-radius: 20px; white-space: nowrap; flex-shrink: 0;
+  }
+
+  .action-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+  }
+  .action-btn {
+    background: var(--surface2); border: 1px solid var(--border2);
+    border-radius: 14px; padding: 14px 16px;
+    display: flex; align-items: center; gap: 12px;
+    cursor: pointer;
+  }
+  .action-btn.primary {
+    background: var(--accent-dim); border-color: rgba(110,231,183,0.3);
+    grid-column: span 2;
+  }
+  .action-btn-icon {
+    width: 34px; height: 34px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .action-btn.primary .action-btn-icon { background: rgba(110,231,183,0.2); }
+  .action-btn:not(.primary) .action-btn-icon { background: var(--surface3); }
+  .action-btn-icon svg { width: 17px; height: 17px; }
+  .action-btn.primary .action-btn-icon svg { stroke: var(--accent); }
+  .action-btn:not(.primary) .action-btn-icon svg { stroke: var(--text2); }
+  .action-btn-text .title { font-size: 14px; font-weight: 600; }
+  .action-btn.primary .action-btn-text .title { color: var(--accent); }
+  .action-btn:not(.primary) .action-btn-text .title { color: var(--text); }
+  .action-btn-text .sub { font-size: 11px; color: var(--text3); margin-top: 1px; }
+
+  /* ══════════════════════════════════════════════════
+     SCREEN 3: 历史记录
+  ══════════════════════════════════════════════════ */
+  .history-search {
+    margin: 0 20px 12px;
+    background: var(--surface2); border: 1px solid var(--border2);
+    border-radius: 14px; padding: 10px 14px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .history-search svg { width: 16px; height: 16px; stroke: var(--text3); flex-shrink: 0; }
+  .history-search span { font-size: 14px; color: var(--text3); }
+
+  .filter-chips {
+    display: flex; gap: 8px; padding: 0 20px 12px; overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .filter-chips::-webkit-scrollbar { display: none; }
+  .chip {
+    flex-shrink: 0; padding: 5px 12px; border-radius: 20px;
+    font-size: 12px; font-weight: 500; border: 1px solid var(--border2);
+    white-space: nowrap;
+  }
+  .chip.active { background: var(--accent-dim); border-color: rgba(110,231,183,0.3); color: var(--accent); }
+  .chip:not(.active) { background: var(--surface2); color: var(--text3); }
+
+  .history-list { flex: 1; overflow-y: auto; padding: 0 20px; display: flex; flex-direction: column; gap: 10px; }
+  .history-item {
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 14px; padding: 14px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .history-item-icon {
+    width: 40px; height: 40px; border-radius: 12px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .history-item-icon.qr { background: rgba(110,231,183,0.12); }
+  .history-item-icon.barcode { background: rgba(251,191,36,0.12); }
+  .history-item-icon.url { background: rgba(96,165,250,0.12); }
+  .history-item-icon svg { width: 18px; height: 18px; }
+  .history-item-icon.qr svg { stroke: var(--accent); }
+  .history-item-icon.barcode svg { stroke: var(--yellow); }
+  .history-item-icon.url svg { stroke: var(--blue); }
+  .history-item-body { flex: 1; min-width: 0; }
+  .history-item-title { font-size: 14px; font-weight: 500; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .history-item-meta { display: flex; gap: 8px; align-items: center; margin-top: 3px; }
+  .history-item-meta span { font-size: 11px; color: var(--text3); }
+  .history-item-meta .sep { width: 3px; height: 3px; border-radius: 50%; background: var(--text3); }
+  .history-item-src {
+    display: flex; align-items: center; gap: 3px;
+    font-size: 10px; color: var(--text3);
+  }
+  .history-item-src svg { width: 10px; height: 10px; stroke: var(--text3); }
+  .history-chevron { flex-shrink: 0; }
+  .history-chevron svg { width: 14px; height: 14px; stroke: var(--text3); }
+
+  /* ══════════════════════════════════════════════════
+     SCREEN 4: 二维码生成页
+  ══════════════════════════════════════════════════ */
+  .gen-content {
+    flex: 1; overflow-y: auto; padding: 8px 20px 20px;
+    display: flex; flex-direction: column; gap: 14px;
+  }
+  /* Preview */
+  .qr-preview-wrap {
+    display: flex; justify-content: center; padding: 4px 0;
+  }
+  .qr-preview-box {
+    width: 160px; height: 160px; border-radius: 20px;
+    background: #fff;
+    display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.1);
+  }
+  .qr-svg-wrap { width: 140px; height: 140px; }
+
+  /* SVG QR code - simplified representation */
+  .qr-block { fill: #111; }
+  .qr-quiet { fill: transparent; }
+
+  .section-card {
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 16px; overflow: hidden;
+  }
+  .section-card-title {
+    padding: 12px 16px; border-bottom: 1px solid var(--border);
+    font-size: 12px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em;
+  }
+  .form-row {
+    padding: 14px 16px; border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 12px;
+  }
+  .form-row:last-child { border-bottom: none; }
+  .form-row-label { font-size: 14px; font-weight: 500; color: var(--text); flex: 1; }
+  .form-row-value { font-size: 13px; color: var(--text2); }
+  .seg-control {
+    display: flex; background: var(--surface3); border-radius: 8px; padding: 2px; gap: 2px;
+  }
+  .seg-btn {
+    padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 600;
+  }
+  .seg-btn.active { background: var(--accent); color: #000; }
+  .seg-btn:not(.active) { color: var(--text3); }
+
+  .color-swatch {
+    width: 24px; height: 24px; border-radius: 6px;
+    border: 1.5px solid rgba(255,255,255,0.15);
+  }
+  .toggle-track {
+    width: 44px; height: 26px; border-radius: 13px;
+    display: flex; align-items: center; padding: 3px;
+    transition: background 0.2s;
+  }
+  .toggle-track.on { background: var(--accent2); justify-content: flex-end; }
+  .toggle-track.off { background: var(--surface3); justify-content: flex-start; }
+  .toggle-thumb {
+    width: 20px; height: 20px; border-radius: 50%; background: #fff;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+  }
+  .slider-wrap { display: flex; align-items: center; gap: 10px; padding: 0 16px 14px; }
+  .slider-track {
+    flex: 1; height: 4px; background: var(--surface3); border-radius: 2px; position: relative;
+  }
+  .slider-fill {
+    position: absolute; left: 0; top: 0; bottom: 0; border-radius: 2px;
+    background: linear-gradient(90deg, var(--accent2), var(--accent));
+  }
+  .slider-thumb {
+    position: absolute; top: 50%; transform: translate(-50%, -50%);
+    width: 18px; height: 18px; border-radius: 50%; background: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.4), 0 0 0 3px rgba(110,231,183,0.3);
+  }
+  .slider-label { font-size: 12px; color: var(--text3); width: 38px; text-align: right; }
+
+  /* Shape selector */
+  .shape-select { display: flex; gap: 8px; padding: 0 16px 14px; }
+  .shape-opt {
+    flex: 1; aspect-ratio: 1; border-radius: 12px;
+    background: var(--surface3); border: 1.5px solid transparent;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .shape-opt.active { border-color: var(--accent); background: var(--accent-dim); }
+  .shape-icon { width: 28px; height: 28px; }
+
+  /* Generate button */
+  .gen-btn {
+    margin: 0 20px 4px;
+    background: linear-gradient(135deg, var(--accent2) 0%, var(--accent) 100%);
+    border-radius: 16px; padding: 16px;
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    font-size: 16px; font-weight: 700; color: #000;
+    box-shadow: 0 8px 24px rgba(110,231,183,0.25);
+  }
+  .gen-btn svg { width: 20px; height: 20px; stroke: #000; }
+
+  /* Export row */
+  .export-row {
+    display: flex; gap: 8px; padding: 0 20px 20px;
+  }
+  .export-btn {
+    flex: 1; background: var(--surface2); border: 1px solid var(--border2);
+    border-radius: 12px; padding: 12px 8px;
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+  }
+  .export-btn svg { width: 18px; height: 18px; stroke: var(--text2); }
+  .export-btn span { font-size: 11px; color: var(--text2); font-weight: 500; }
+
+  /* ══════════════════════════════════════════════════
+     SCREEN 5: 设置页
+  ══════════════════════════════════════════════════ */
+  .settings-content {
+    flex: 1; overflow-y: auto; padding: 8px 20px 20px;
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .settings-section { }
+  .settings-label { font-size: 11px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: 0.1em; padding: 8px 4px 6px; }
+  .settings-card {
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 16px; overflow: hidden;
+  }
+  .settings-row {
+    padding: 14px 16px; border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 12px;
+  }
+  .settings-row:last-child { border-bottom: none; }
+  .settings-row-icon {
+    width: 32px; height: 32px; border-radius: 9px;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .settings-row-icon svg { width: 16px; height: 16px; }
+  .settings-row-body { flex: 1; }
+  .settings-row-title { font-size: 14px; font-weight: 500; color: var(--text); }
+  .settings-row-sub { font-size: 12px; color: var(--text3); margin-top: 1px; }
+  .settings-row-right { display: flex; align-items: center; gap: 6px; }
+  .settings-row-right .val { font-size: 13px; color: var(--text3); }
+  .chevron-sm svg { width: 12px; height: 12px; stroke: var(--text3); }
+
+  /* codec toggles */
+  .codec-section {
+    display: flex; flex-direction: column; gap: 0;
+  }
+
+  /* ══════════════════════════════════════════════════
+     SCREEN 6: WebView
+  ══════════════════════════════════════════════════ */
+  .webview-nav {
+    display: flex; align-items: center; gap: 8px;
+    padding: 10px 16px; background: var(--surface2); border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+  .webview-url-bar {
+    flex: 1; background: var(--surface3); border: 1px solid var(--border2);
+    border-radius: 10px; padding: 8px 12px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .webview-url-bar svg { width: 13px; height: 13px; stroke: var(--accent); flex-shrink: 0; }
+  .webview-url-bar span { font-size: 12px; color: var(--text2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-family: 'DM Mono', monospace; }
+  .webview-actions { display: flex; gap: 6px; }
+  .webview-actions svg { width: 18px; height: 18px; stroke: var(--text2); }
+  .webview-content {
+    flex: 1; background: #fff; position: relative; overflow: hidden;
+  }
+  .fake-webpage {
+    padding: 0; height: 100%;
+    background: linear-gradient(180deg, #f8f9fa 0%, #fff 100%);
+  }
+  .fake-header {
+    background: #fff; padding: 12px 16px; border-bottom: 1px solid #e5e7eb;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .fake-logo { width: 32px; height: 32px; border-radius: 8px; background: #3B82F6; }
+  .fake-logo-text { font-size: 14px; font-weight: 700; color: #111; font-family: 'DM Sans', sans-serif; }
+  .fake-content { padding: 16px; }
+  .fake-hero-img {
+    width: 100%; height: 80px; border-radius: 12px;
+    background: linear-gradient(135deg, #DBEAFE, #EDE9FE);
+    margin-bottom: 12px; display: flex; align-items: center; justify-content: center;
+  }
+  .fake-title { font-size: 16px; font-weight: 700; color: #111; margin-bottom: 8px; font-family: 'DM Sans', sans-serif; line-height: 1.3; }
+  .fake-body { font-size: 12px; color: #6B7280; line-height: 1.6; font-family: 'DM Sans', sans-serif; }
+  .webview-progress {
+    position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, var(--accent2), var(--accent));
+    width: 65%;
+    box-shadow: 0 0 8px var(--accent);
+  }
+
+  /* ══ SVG icons ══ */
+  svg { fill: none; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.8; }
+
+  /* ══ Responsive gallery label ══ */
+  .gallery-section { margin-bottom: 60px; }
+  .divider { height: 1px; background: var(--border); margin: 40px 48px; }
+
+  /* scroll indicator */
+  .scroll-hint {
+    text-align: center; padding: 0 0 20px;
+    font-size: 12px; color: var(--text3);
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .scroll-hint svg { width: 16px; height: 16px; stroke: var(--text3); }
+
+  /* Animated scan line only when visible */
+  @media (prefers-reduced-motion: reduce) {
+    .scan-line { animation: none; top: 50%; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="hero-tag">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+    QRScan Pro
+  </div>
+  <h1>UI Design<br>全页面设计稿</h1>
+  <p>6 个核心页面 · iOS 风格 · 深色主题<br>扫码 · 详情 · 历史 · 生成 · 设置 · WebView</p>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     ROW 1: 扫码主页 + 扫码详情页 + WebView
+═══════════════════════════════════════════ -->
+<div class="gallery-section">
+  <div class="section-label">
+    <span>扫码功能</span>
+  </div>
+  <div class="scroll-hint">
+    <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    左右滑动查看更多页面
+  </div>
+  <div class="screens-row">
+
+    <!-- SCREEN 1: 扫码主页 -->
+    <div class="screen-wrap">
+      <div class="screen-title"><span class="dot"></span>扫码主页</div>
+      <div class="phone">
+        <div class="phone-screen">
+          <div class="dynamic-island"></div>
+          <!-- Camera full-screen -->
+          <div class="scan-bg">
+            <div class="camera-feed"></div>
+            <!-- Top bar -->
+            <div class="scan-top-bar">
+              <div class="nav-title">扫码</div>
+              <div class="nav-action">
+                <svg width="14" height="14" viewBox="0 0 24 24" stroke="currentColor" fill="none"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 17h3m3 0h-3m0 0v-3m0 3v3"/></svg>
+                生成
+              </div>
+            </div>
+            <!-- Scan frame -->
+            <div class="scan-overlay">
+              <div class="scan-frame">
+                <div class="scan-corner tl"></div>
+                <div class="scan-corner tr"></div>
+                <div class="scan-corner bl"></div>
+                <div class="scan-corner br"></div>
+                <div class="scan-line"></div>
+                <div class="scan-hint">将二维码放入框内自动识别</div>
+              </div>
+            </div>
+            <!-- Tools -->
+            <div class="scan-tools">
+              <div class="tool-btns">
+                <div class="tool-btn">
+                  <div class="tool-btn-circle active">
+                    <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                  </div>
+                  <span class="tool-btn-label">闪光灯</span>
+                </div>
+                <div class="tool-btn" style="transform: scale(1.15);">
+                  <div class="tool-btn-circle" style="width:64px;height:64px;background:rgba(110,231,183,0.2);border-color:var(--accent);">
+                    <svg viewBox="0 0 24 24" style="width:28px;height:28px;stroke:var(--accent)"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+                  </div>
+                  <span class="tool-btn-label" style="color:var(--accent);font-weight:600;">扫码中</span>
+                </div>
+                <div class="tool-btn">
+                  <div class="tool-btn-circle">
+                    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+                  </div>
+                  <span class="tool-btn-label">相册</span>
+                </div>
+              </div>
+              <!-- Tab Bar -->
+              <div class="tab-bar" style="margin: 0 -20px -16px; padding-left:0; padding-right:0;">
+                <div class="tab-item active">
+                  <div class="tab-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></div>
+                  <span class="tab-label">扫码</span>
+                </div>
+                <div class="tab-item">
+                  <div class="tab-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
+                  <span class="tab-label">历史</span>
+                </div>
+                <div class="tab-item">
+                  <div class="tab-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/></svg></div>
+                  <span class="tab-label">设置</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCREEN 2: 扫码详情页 -->
+    <div class="screen-wrap">
+      <div class="screen-title"><span class="dot"></span>扫码详情页</div>
+      <div class="phone">
+        <div class="phone-screen" style="background: var(--surface);">
+          <div class="dynamic-island"></div>
+          <div style="height:54px;"></div>
+          <div class="nav-bar">
+            <div class="nav-btn">
+              <svg width="16" height="16" viewBox="0 0 24 24" stroke="var(--text2)" fill="none"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            </div>
+            <div class="nav-title">扫描结果</div>
+            <div class="nav-btn">
+              <svg width="16" height="16" viewBox="0 0 24 24" stroke="var(--text2)" fill="none"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.59 13.51l6.83 3.98M15.41 6.51L8.59 10.49"/></svg>
+            </div>
+          </div>
+          <div class="detail-content">
+            <!-- Meta tags -->
+            <div class="detail-meta">
+              <span class="tag-pill qr">QR Code</span>
+              <span class="tag-pill camera">
+                <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                相机
+              </span>
+              <span class="tag-pill time">今天 14:23</span>
+            </div>
+
+            <!-- Raw content -->
+            <div class="detail-card">
+              <div class="detail-card-header">
+                <span>原始内容</span>
+                <span style="font-size:11px;color:var(--accent);font-weight:600;">已复制 ✓</span>
+              </div>
+              <div class="detail-raw">https://www.apple.com/shop/product/MQKQ3LL/A</div>
+            </div>
+
+            <!-- URL Banner -->
+            <div class="url-banner">
+              <div class="url-banner-icon">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 010 20M2 12h20"/></svg>
+              </div>
+              <div class="url-banner-text">
+                <div class="label">检测到网页链接</div>
+                <div class="value">apple.com/shop/product/...</div>
+              </div>
+              <div class="url-open-btn">打开</div>
+            </div>
+
+            <!-- Actions -->
+            <div class="action-grid">
+              <div class="action-btn primary">
+                <div class="action-btn-icon">
+                  <svg viewBox="0 0 24 24"><path d="M8 17.929H6c-1.105 0-2-.912-2-2.036V5.036C4 3.91 4.895 3 6 3h8c1.105 0 2 .911 2 2.036v1.866"/><rect x="10" y="8.071" width="10" height="12.929" rx="2"/></svg>
+                </div>
+                <div class="action-btn-text">
+                  <div class="title">复制内容</div>
+                  <div class="sub">复制到剪贴板</div>
+                </div>
+              </div>
+              <div class="action-btn">
+                <div class="action-btn-icon">
+                  <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.59 13.51l6.83 3.98M15.41 6.51L8.59 10.49"/></svg>
+                </div>
+                <div class="action-btn-text">
+                  <div class="title">分享</div>
+                  <div class="sub">发送给他人</div>
+                </div>
+              </div>
+              <div class="action-btn">
+                <div class="action-btn-icon">
+                  <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg>
+                </div>
+                <div class="action-btn-text">
+                  <div class="title">删除</div>
+                  <div class="sub">移除记录</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Tab Bar -->
+          <div class="tab-bar">
+            <div class="tab-item active">
+              <div class="tab-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></div>
+              <span class="tab-label">扫码</span>
+            </div>
+            <div class="tab-item">
+              <div class="tab-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
+              <span class="tab-label">历史</span>
+            </div>
+            <div class="tab-item">
+              <div class="tab-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/></svg></div>
+              <span class="tab-label">设置</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCREEN 3: WebView -->
+    <div class="screen-wrap">
+      <div class="screen-title"><span class="dot"></span>内置 WebView</div>
+      <div class="phone">
+        <div class="phone-screen" style="background:#fff;">
+          <div class="dynamic-island" style="background:#1a1a1a;"></div>
+          <div style="height:54px; background:var(--surface);"></div>
+          <!-- WebView nav -->
+          <div class="webview-nav">
+            <div class="nav-btn" style="background:var(--surface3);">
+              <svg width="16" height="16" viewBox="0 0 24 24" stroke="var(--text2)" fill="none"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            </div>
+            <div class="webview-url-bar">
+              <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+              <span>apple.com/shop/product/MQKQ3LL/A</span>
+            </div>
+            <div class="webview-actions">
+              <svg viewBox="0 0 24 24" width="18" height="18" stroke="var(--text2)" fill="none"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </div>
+          </div>
+          <!-- Progress bar -->
+          <div style="position:relative; height:2px; background: var(--surface3);">
+            <div style="position:absolute;left:0;top:0;bottom:0;width:80%;background:linear-gradient(90deg,#34D399,#6EE7B7);box-shadow:0 0 6px #6EE7B7;"></div>
+          </div>
+          <!-- Fake webpage -->
+          <div class="webview-content">
+            <div class="fake-webpage">
+              <div class="fake-header">
+                <div class="fake-logo"></div>
+                <div class="fake-logo-text">Apple</div>
+                <div style="margin-left:auto;font-size:12px;color:#6B7280;font-family:'DM Sans',sans-serif;">Shop</div>
+              </div>
+              <div class="fake-content">
+                <div class="fake-hero-img">
+                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="1.5"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12" y2="18"/></svg>
+                </div>
+                <div class="fake-title">iPhone 15 Pro Max</div>
+                <div class="fake-body">Titanium. So strong. So light. So Pro. A17 Pro chip with a 48MP Main camera system. Action button for instant access. Dynamic Island.</div>
+                <div style="margin-top:12px;display:flex;gap:8px;align-items:center;">
+                  <div style="font-size:18px;font-weight:700;color:#111;font-family:'DM Sans',sans-serif;">¥ 9,999</div>
+                  <div style="font-size:11px;color:#6B7280;font-family:'DM Sans',sans-serif;">起</div>
+                </div>
+                <div style="margin-top:12px;background:#000;color:#fff;border-radius:10px;padding:10px;text-align:center;font-size:13px;font-weight:600;font-family:'DM Sans',sans-serif;">立即购买</div>
+                <div style="margin-top:8px;background:#f3f4f6;border-radius:10px;padding:10px;text-align:center;font-size:13px;font-weight:600;color:#111;font-family:'DM Sans',sans-serif;">加入购物车</div>
+                <!-- more fake content lines -->
+                <div style="margin-top:16px;height:1px;background:#e5e7eb;"></div>
+                <div style="margin-top:12px;font-size:12px;color:#9CA3AF;font-family:'DM Sans',sans-serif;line-height:1.5;">颜色：黑色钛金属 • 存储容量：256GB • 包含：iPhone、USB-C 连接线...</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════════
+     ROW 2: 历史记录 + 生成页 + 设置页
+═══════════════════════════════════════════ -->
+<div class="gallery-section">
+  <div class="section-label">
+    <span>历史 · 生成 · 设置</span>
+  </div>
+  <div class="screens-row">
+
+    <!-- SCREEN 4: 历史记录 -->
+    <div class="screen-wrap">
+      <div class="screen-title"><span class="dot"></span>历史记录</div>
+      <div class="phone">
+        <div class="phone-screen" style="background: var(--surface);">
+          <div class="dynamic-island"></div>
+          <div style="height:54px;"></div>
+          <div class="nav-bar">
+            <div class="nav-title">历史记录</div>
+            <div style="display:flex;gap:8px;">
+              <div class="nav-btn">
+                <svg width="15" height="15" viewBox="0 0 24 24" stroke="var(--text2)" fill="none"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg>
+              </div>
+            </div>
+          </div>
+          <!-- Search -->
+          <div class="history-search">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            <span>搜索扫描内容…</span>
+          </div>
+          <!-- Filter chips -->
+          <div class="filter-chips">
+            <div class="chip active">全部</div>
+            <div class="chip">二维码</div>
+            <div class="chip">条形码</div>
+            <div class="chip">相册</div>
+            <div class="chip">今天</div>
+          </div>
+          <!-- List -->
+          <div class="history-list">
+            <div class="history-item">
+              <div class="history-item-icon url">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a14.5 14.5 0 010 20"/></svg>
+              </div>
+              <div class="history-item-body">
+                <div class="history-item-title">https://www.apple.com/shop/product/MQ...</div>
+                <div class="history-item-meta">
+                  <span>QR Code</span><div class="sep"></div>
+                  <div class="history-item-src">
+                    <svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                    相机
+                  </div>
+                  <div class="sep"></div><span>14:23</span>
+                </div>
+              </div>
+              <div class="history-chevron"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div>
+            </div>
+
+            <div class="history-item">
+              <div class="history-item-icon barcode">
+                <svg viewBox="0 0 24 24"><path d="M3 9V6a1 1 0 011-1h3M3 15v3a1 1 0 001 1h3M21 9V6a1 1 0 00-1-1h-3M21 15v3a1 1 0 01-1 1h-3M7 8v8M11 8v8M15 8v8M17 8v4"/></svg>
+              </div>
+              <div class="history-item-body">
+                <div class="history-item-title">6901234567892</div>
+                <div class="history-item-meta">
+                  <span>EAN-13</span><div class="sep"></div>
+                  <div class="history-item-src">
+                    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+                    相册
+                  </div>
+                  <div class="sep"></div><span>11:05</span>
+                </div>
+              </div>
+              <div class="history-chevron"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div>
+            </div>
+
+            <div class="history-item">
+              <div class="history-item-icon qr">
+                <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+              </div>
+              <div class="history-item-body">
+                <div class="history-item-title">WIFI:T:WPA;S:HomeNetwork;P:pass...</div>
+                <div class="history-item-meta">
+                  <span>QR Code</span><div class="sep"></div>
+                  <div class="history-item-src">
+                    <svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                    相机
+                  </div>
+                  <div class="sep"></div><span>昨天</span>
+                </div>
+              </div>
+              <div class="history-chevron"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div>
+            </div>
+
+            <div class="history-item">
+              <div class="history-item-icon url">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a14.5 14.5 0 010 20"/></svg>
+              </div>
+              <div class="history-item-body">
+                <div class="history-item-title">https://github.com/flutter/flutter</div>
+                <div class="history-item-meta">
+                  <span>QR Code</span><div class="sep"></div>
+                  <div class="history-item-src">
+                    <svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                    相机
+                  </div>
+                  <div class="sep"></div><span>昨天</span>
+                </div>
+              </div>
+              <div class="history-chevron"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div>
+            </div>
+
+            <div class="history-item" style="opacity:0.5;">
+              <div class="history-item-icon barcode">
+                <svg viewBox="0 0 24 24"><path d="M3 9V6a1 1 0 011-1h3M3 15v3a1 1 0 001 1h3M21 9V6a1 1 0 00-1-1h-3M21 15v3a1 1 0 01-1 1h-3M7 8v8M11 8v8M15 8v8M17 8v4"/></svg>
+              </div>
+              <div class="history-item-body">
+                <div class="history-item-title">9780201379624</div>
+                <div class="history-item-meta">
+                  <span>EAN-13</span><div class="sep"></div>
+                  <div class="history-item-src">
+                    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+                    相册
+                  </div>
+                  <div class="sep"></div><span>3天前</span>
+                </div>
+              </div>
+              <div class="history-chevron"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div>
+            </div>
+          </div>
+
+          <!-- Tab Bar -->
+          <div class="tab-bar">
+            <div class="tab-item">
+              <div class="tab-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></div>
+              <span class="tab-label">扫码</span>
+            </div>
+            <div class="tab-item active">
+              <div class="tab-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
+              <span class="tab-label">历史</span>
+            </div>
+            <div class="tab-item">
+              <div class="tab-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/></svg></div>
+              <span class="tab-label">设置</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCREEN 5: 二维码生成 -->
+    <div class="screen-wrap">
+      <div class="screen-title"><span class="dot"></span>二维码生成</div>
+      <div class="phone">
+        <div class="phone-screen" style="background: var(--surface);">
+          <div class="dynamic-island"></div>
+          <div style="height:54px;"></div>
+          <div class="nav-bar">
+            <div class="nav-btn">
+              <svg width="16" height="16" viewBox="0 0 24 24" stroke="var(--text2)" fill="none"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            </div>
+            <div class="nav-title">生成二维码</div>
+            <div style="font-size:13px;color:var(--text3);font-weight:500;">重置</div>
+          </div>
+          <div class="gen-content">
+            <!-- Preview -->
+            <div class="qr-preview-wrap">
+              <div class="qr-preview-box">
+                <!-- Simplified QR code SVG -->
+                <svg class="qr-svg-wrap" viewBox="0 0 21 21" xmlns="http://www.w3.org/2000/svg">
+                  <!-- finder patterns -->
+                  <rect x="1" y="1" width="7" height="7" fill="#111" rx="1"/>
+                  <rect x="2" y="2" width="5" height="5" fill="white"/>
+                  <rect x="3" y="3" width="3" height="3" fill="#111"/>
+                  <rect x="13" y="1" width="7" height="7" fill="#111" rx="1"/>
+                  <rect x="14" y="2" width="5" height="5" fill="white"/>
+                  <rect x="15" y="3" width="3" height="3" fill="#111"/>
+                  <rect x="1" y="13" width="7" height="7" fill="#111" rx="1"/>
+                  <rect x="2" y="14" width="5" height="5" fill="white"/>
+                  <rect x="3" y="15" width="3" height="3" fill="#111"/>
+                  <!-- data modules -->
+                  <rect x="9" y="1" width="1" height="1" fill="#111"/>
+                  <rect x="11" y="1" width="1" height="1" fill="#111"/>
+                  <rect x="9" y="3" width="2" height="1" fill="#111"/>
+                  <rect x="9" y="5" width="1" height="1" fill="#111"/>
+                  <rect x="11" y="5" width="1" height="1" fill="#111"/>
+                  <rect x="9" y="7" width="3" height="1" fill="#111"/>
+                  <rect x="1" y="9" width="1" height="1" fill="#111"/>
+                  <rect x="3" y="9" width="2" height="1" fill="#111"/>
+                  <rect x="7" y="9" width="1" height="1" fill="#111"/>
+                  <rect x="9" y="9" width="1" height="2" fill="#111"/>
+                  <rect x="11" y="9" width="3" height="1" fill="#111"/>
+                  <rect x="15" y="9" width="1" height="1" fill="#111"/>
+                  <rect x="17" y="9" width="3" height="1" fill="#111"/>
+                  <rect x="1" y="11" width="3" height="1" fill="#111"/>
+                  <rect x="6" y="11" width="2" height="1" fill="#111"/>
+                  <rect x="10" y="11" width="2" height="1" fill="#111"/>
+                  <rect x="13" y="11" width="1" height="1" fill="#111"/>
+                  <rect x="16" y="11" width="1" height="1" fill="#111"/>
+                  <rect x="19" y="11" width="1" height="1" fill="#111"/>
+                  <rect x="9" y="13" width="1" height="1" fill="#111"/>
+                  <rect x="11" y="13" width="3" height="1" fill="#111"/>
+                  <rect x="9" y="15" width="2" height="1" fill="#111"/>
+                  <rect x="13" y="13" width="1" height="3" fill="#111"/>
+                  <rect x="15" y="13" width="1" height="1" fill="#111"/>
+                  <rect x="17" y="13" width="3" height="1" fill="#111"/>
+                  <rect x="9" y="17" width="1" height="1" fill="#111"/>
+                  <rect x="11" y="17" width="1" height="1" fill="#111"/>
+                  <rect x="15" y="15" width="1" height="1" fill="#111"/>
+                  <rect x="17" y="15" width="1" height="3" fill="#111"/>
+                  <rect x="19" y="17" width="1" height="1" fill="#111"/>
+                  <rect x="9" y="19" width="3" height="1" fill="#111"/>
+                  <rect x="13" y="19" width="1" height="1" fill="#111"/>
+                  <rect x="15" y="19" width="3" height="1" fill="#111"/>
+                  <rect x="19" y="19" width="1" height="1" fill="#111"/>
+                </svg>
+              </div>
+            </div>
+
+            <!-- Content input -->
+            <div class="section-card">
+              <div class="section-card-title">内容</div>
+              <div style="padding:14px 16px;">
+                <div style="background:var(--surface3);border:1px solid var(--border2);border-radius:10px;padding:10px 12px;font-family:'DM Mono',monospace;font-size:12px;color:var(--text);line-height:1.5;">
+                  https://github.com/yourapp
+                  <span style="opacity:0.4;">|</span>
+                </div>
+                <div style="display:flex;justify-content:flex-end;margin-top:4px;">
+                  <span style="font-size:11px;color:var(--text3);">26 / 2953</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Style params -->
+            <div class="section-card">
+              <div class="section-card-title">样式参数</div>
+              <!-- Error level -->
+              <div class="form-row">
+                <div class="form-row-label">纠错级别</div>
+                <div class="seg-control">
+                  <div class="seg-btn">L</div>
+                  <div class="seg-btn active">M</div>
+                  <div class="seg-btn">Q</div>
+                  <div class="seg-btn">H</div>
+                </div>
+              </div>
+              <!-- Colors -->
+              <div class="form-row">
+                <div class="form-row-label">前景色</div>
+                <div style="display:flex;align-items:center;gap:8px;">
+                  <div class="color-swatch" style="background:#111111;"></div>
+                  <span class="form-row-value">#111111</span>
+                  <div class="chevron-sm"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-row-label">背景色</div>
+                <div style="display:flex;align-items:center;gap:8px;">
+                  <div class="color-swatch" style="background:#FFFFFF;"></div>
+                  <span class="form-row-value">#FFFFFF</span>
+                  <div class="chevron-sm"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div>
+                </div>
+              </div>
+              <!-- Size slider -->
+              <div class="form-row" style="flex-direction:column;align-items:stretch;gap:10px;">
+                <div style="display:flex;justify-content:space-between;">
+                  <div class="form-row-label">输出尺寸</div>
+                  <span style="font-size:13px;color:var(--accent);font-weight:600;">512 px</span>
+                </div>
+                <div class="slider-track">
+                  <div class="slider-fill" style="width:40%;"></div>
+                  <div class="slider-thumb" style="left:40%;"></div>
+                </div>
+                <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text3);">
+                  <span>128px</span><span>2048px</span>
+                </div>
+              </div>
+              <!-- Logo toggle -->
+              <div class="form-row">
+                <div class="form-row-label">中心 Logo</div>
+                <div class="toggle-track on"><div class="toggle-thumb"></div></div>
+              </div>
+              <!-- Logo ratio -->
+              <div class="form-row" style="flex-direction:column;align-items:stretch;gap:10px;">
+                <div style="display:flex;justify-content:space-between;">
+                  <div class="form-row-label" style="color:var(--text2);">Logo 占比</div>
+                  <span style="font-size:13px;color:var(--accent);font-weight:600;">20%</span>
+                </div>
+                <div class="slider-track">
+                  <div class="slider-fill" style="width:33%;"></div>
+                  <div class="slider-thumb" style="left:33%;"></div>
+                </div>
+                <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text3);">
+                  <span>10%</span><span>30%</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Shape -->
+            <div class="section-card">
+              <div class="section-card-title">码点形状</div>
+              <div class="shape-select">
+                <div class="shape-opt active">
+                  <svg class="shape-icon" viewBox="0 0 28 28"><rect x="4" y="4" width="20" height="20" fill="var(--accent)" rx="2"/></svg>
+                </div>
+                <div class="shape-opt">
+                  <svg class="shape-icon" viewBox="0 0 28 28"><circle cx="14" cy="14" r="10" fill="var(--text3)"/></svg>
+                </div>
+                <div class="shape-opt">
+                  <svg class="shape-icon" viewBox="0 0 28 28"><rect x="4" y="4" width="20" height="20" rx="7" fill="var(--text3)"/></svg>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <!-- Generate Button -->
+          <div class="gen-btn">
+            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 17h3m3 0h-3m0 0v-3m0 3v3"/></svg>
+            生成二维码
+          </div>
+          <!-- Export row -->
+          <div class="export-row">
+            <div class="export-btn">
+              <svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v14a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+              <span>保存相册</span>
+            </div>
+            <div class="export-btn">
+              <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.59 13.51l6.83 3.98M15.41 6.51L8.59 10.49"/></svg>
+              <span>分享</span>
+            </div>
+            <div class="export-btn">
+              <svg viewBox="0 0 24 24"><path d="M8 17.929H6c-1.105 0-2-.912-2-2.036V5.036C4 3.91 4.895 3 6 3h8c1.105 0 2 .911 2 2.036v1.866"/><rect x="10" y="8.071" width="10" height="12.929" rx="2"/></svg>
+              <span>复制图片</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCREEN 6: 设置页 -->
+    <div class="screen-wrap">
+      <div class="screen-title"><span class="dot"></span>设置页</div>
+      <div class="phone">
+        <div class="phone-screen" style="background: var(--surface);">
+          <div class="dynamic-island"></div>
+          <div style="height:54px;"></div>
+          <div class="nav-bar">
+            <div class="nav-title">设置</div>
+          </div>
+          <div class="settings-content">
+
+            <!-- 码制配置 -->
+            <div class="settings-section">
+              <div class="settings-label">码制配置</div>
+              <div class="settings-card">
+                <div class="settings-row">
+                  <div class="settings-row-icon" style="background:rgba(110,231,183,0.12);">
+                    <svg viewBox="0 0 24 24" stroke="var(--accent)" fill="none"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+                  </div>
+                  <div class="settings-row-body">
+                    <div class="settings-row-title">QR Code</div>
+                  </div>
+                  <div class="toggle-track on"><div class="toggle-thumb"></div></div>
+                </div>
+                <div class="settings-row">
+                  <div class="settings-row-icon" style="background:rgba(110,231,183,0.12);">
+                    <svg viewBox="0 0 24 24" stroke="var(--accent)" fill="none"><rect x="2" y="6" width="20" height="12" rx="1"/><path d="M6 6v12M10 6v12M14 6v12M18 6v12"/></svg>
+                  </div>
+                  <div class="settings-row-body">
+                    <div class="settings-row-title">EAN / UPC</div>
+                  </div>
+                  <div class="toggle-track on"><div class="toggle-thumb"></div></div>
+                </div>
+                <div class="settings-row">
+                  <div class="settings-row-icon" style="background:rgba(110,231,183,0.12);">
+                    <svg viewBox="0 0 24 24" stroke="var(--accent)" fill="none"><rect x="2" y="6" width="20" height="12" rx="1"/><path d="M7 6v12M9 6v12M13 6v12M17 6v12"/></svg>
+                  </div>
+                  <div class="settings-row-body">
+                    <div class="settings-row-title">Code 128 / 39</div>
+                  </div>
+                  <div class="toggle-track on"><div class="toggle-thumb"></div></div>
+                </div>
+                <div class="settings-row">
+                  <div class="settings-row-icon" style="background:rgba(251,191,36,0.1);">
+                    <svg viewBox="0 0 24 24" stroke="var(--yellow)" fill="none"><path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3z"/><rect x="14" y="14" width="3" height="3"/></svg>
+                  </div>
+                  <div class="settings-row-body">
+                    <div class="settings-row-title">PDF417 / Aztec</div>
+                  </div>
+                  <div class="toggle-track off"><div class="toggle-thumb"></div></div>
+                </div>
+                <div class="settings-row" style="border-bottom:none;">
+                  <div class="settings-row-icon" style="background:rgba(96,165,250,0.1);">
+                    <svg viewBox="0 0 24 24" stroke="var(--blue)" fill="none"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
+                  </div>
+                  <div class="settings-row-body">
+                    <div class="settings-row-title">Data Matrix</div>
+                  </div>
+                  <div class="toggle-track off"><div class="toggle-thumb"></div></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 扫描行为 -->
+            <div class="settings-section">
+              <div class="settings-label">扫描行为</div>
+              <div class="settings-card">
+                <div class="settings-row">
+                  <div class="settings-row-icon" style="background:rgba(251,191,36,0.1);">
+                    <svg viewBox="0 0 24 24" stroke="var(--yellow)" fill="none"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                  </div>
+                  <div class="settings-row-body"><div class="settings-row-title">振动反馈</div></div>
+                  <div class="toggle-track on"><div class="toggle-thumb"></div></div>
+                </div>
+                <div class="settings-row">
+                  <div class="settings-row-icon" style="background:rgba(110,231,183,0.1);">
+                    <svg viewBox="0 0 24 24" stroke="var(--accent)" fill="none"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg>
+                  </div>
+                  <div class="settings-row-body"><div class="settings-row-title">音效反馈</div></div>
+                  <div class="toggle-track on"><div class="toggle-thumb"></div></div>
+                </div>
+                <div class="settings-row">
+                  <div class="settings-row-icon" style="background:rgba(96,165,250,0.1);">
+                    <svg viewBox="0 0 24 24" stroke="var(--blue)" fill="none"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 014-4h14M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>
+                  </div>
+                  <div class="settings-row-body">
+                    <div class="settings-row-title">连续扫描</div>
+                    <div class="settings-row-sub">扫完后自动继续</div>
+                  </div>
+                  <div class="toggle-track off"><div class="toggle-thumb"></div></div>
+                </div>
+                <div class="settings-row" style="border-bottom:none;">
+                  <div class="settings-row-icon" style="background:rgba(255,107,107,0.1);">
+                    <svg viewBox="0 0 24 24" stroke="var(--red)" fill="none"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+                  </div>
+                  <div class="settings-row-body">
+                    <div class="settings-row-title">扫描框形状</div>
+                    <div class="settings-row-sub">方形取景框</div>
+                  </div>
+                  <div class="settings-row-right">
+                    <span class="val">方形</span>
+                    <div class="chevron-sm"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 通用 -->
+            <div class="settings-section">
+              <div class="settings-label">通用</div>
+              <div class="settings-card">
+                <div class="settings-row">
+                  <div class="settings-row-icon" style="background:rgba(110,231,183,0.1);">
+                    <svg viewBox="0 0 24 24" stroke="var(--accent)" fill="none"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+                  </div>
+                  <div class="settings-row-body">
+                    <div class="settings-row-title">外观</div>
+                  </div>
+                  <div class="settings-row-right">
+                    <span class="val">深色</span>
+                    <div class="chevron-sm"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div>
+                  </div>
+                </div>
+                <div class="settings-row" style="border-bottom:none;">
+                  <div class="settings-row-icon" style="background:rgba(96,165,250,0.1);">
+                    <svg viewBox="0 0 24 24" stroke="var(--blue)" fill="none"><circle cx="12" cy="12" r="9"/><path d="M12 2a14.5 14.5 0 010 20M2 12h20"/></svg>
+                  </div>
+                  <div class="settings-row-body">
+                    <div class="settings-row-title">历史保留时长</div>
+                  </div>
+                  <div class="settings-row-right">
+                    <span class="val">永久</span>
+                    <div class="chevron-sm"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 关于 -->
+            <div class="settings-section">
+              <div class="settings-label">关于</div>
+              <div class="settings-card">
+                <div class="settings-row">
+                  <div class="settings-row-icon" style="background:rgba(110,231,183,0.1);">
+                    <svg viewBox="0 0 24 24" stroke="var(--accent)" fill="none"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                  </div>
+                  <div class="settings-row-body">
+                    <div class="settings-row-title">版本</div>
+                  </div>
+                  <div class="settings-row-right"><span class="val">1.0.0</span></div>
+                </div>
+                <div class="settings-row" style="border-bottom:none;">
+                  <div class="settings-row-icon" style="background:rgba(255,107,107,0.1);">
+                    <svg viewBox="0 0 24 24" stroke="var(--red)" fill="none"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+                  </div>
+                  <div class="settings-row-body">
+                    <div class="settings-row-title">意见反馈</div>
+                  </div>
+                  <div class="chevron-sm" style="margin-left:auto;"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <!-- Tab Bar -->
+          <div class="tab-bar">
+            <div class="tab-item">
+              <div class="tab-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></div>
+              <span class="tab-label">扫码</span>
+            </div>
+            <div class="tab-item">
+              <div class="tab-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
+              <span class="tab-label">历史</span>
+            </div>
+            <div class="tab-item active">
+              <div class="tab-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/></svg></div>
+              <span class="tab-label">设置</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Footer -->
+<div style="text-align:center;padding:40px 40px 80px;color:var(--text3);font-size:13px;border-top:1px solid var(--border);margin:0 48px;">
+  <div style="display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;margin-bottom:12px;">
+    <span style="display:flex;align-items:center;gap:6px;"><span style="width:8px;height:8px;border-radius:50%;background:var(--accent);display:inline-block;"></span>扫码主页</span>
+    <span style="display:flex;align-items:center;gap:6px;"><span style="width:8px;height:8px;border-radius:50%;background:var(--accent);display:inline-block;"></span>扫码详情页</span>
+    <span style="display:flex;align-items:center;gap:6px;"><span style="width:8px;height:8px;border-radius:50%;background:var(--accent);display:inline-block;"></span>内置 WebView</span>
+    <span style="display:flex;align-items:center;gap:6px;"><span style="width:8px;height:8px;border-radius:50%;background:var(--accent);display:inline-block;"></span>历史记录</span>
+    <span style="display:flex;align-items:center;gap:6px;"><span style="width:8px;height:8px;border-radius:50%;background:var(--accent);display:inline-block;"></span>二维码生成</span>
+    <span style="display:flex;align-items:center;gap:6px;"><span style="width:8px;height:8px;border-radius:50%;background:var(--accent);display:inline-block;"></span>设置页</span>
+  </div>
+  QRScan Pro · UI Design Spec · v1.1
+</div>
+
+</body>
+</html>
