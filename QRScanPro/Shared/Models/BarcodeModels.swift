@@ -54,6 +54,7 @@ enum BarcodeKind: String, Codable, CaseIterable, Identifiable {
 enum ScanSource: String, Codable {
     case camera
     case image
+    case generated
 
     var displayName: String {
         switch self {
@@ -61,6 +62,8 @@ enum ScanSource: String, Codable {
             return "相机"
         case .image:
             return "图片"
+        case .generated:
+            return "生成"
         }
     }
 }
@@ -105,6 +108,7 @@ enum HistoryFilter: String, CaseIterable, Identifiable {
     case qr
     case barcode
     case image
+    case generated
     case today
 
     var id: String { rawValue }
@@ -119,6 +123,8 @@ enum HistoryFilter: String, CaseIterable, Identifiable {
             return "条形码"
         case .image:
             return "图片"
+        case .generated:
+            return "生成"
         case .today:
             return "今天"
         }

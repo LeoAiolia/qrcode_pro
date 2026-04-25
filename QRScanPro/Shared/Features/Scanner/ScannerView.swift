@@ -44,7 +44,7 @@ struct ScannerView: View {
                 }
 
                 #if os(macOS)
-                Text("macOS 版仅支持二维码图片识别，可将包含二维码的图片导入识别。")
+                Text("macOS 版支持图片识别；是否识别条形码取决于设置中的码制配置。")
                     .font(.footnote)
                     .foregroundColor(AppTheme.textSecondary)
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -88,7 +88,10 @@ struct ScannerView: View {
 
         Task {
             do {
-                let result = try await recognizer.recognize(cgImage: cgImage)
+                let result = try await recognizer.recognize(
+                    cgImage: cgImage,
+                    allowedKinds: store.settings.enabledKinds
+                )
                 await MainActor.run {
                     handle(result: result)
                     isRecognizingImage = false

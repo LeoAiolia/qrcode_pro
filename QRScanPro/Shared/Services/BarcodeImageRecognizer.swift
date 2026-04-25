@@ -4,6 +4,7 @@ import Vision
 
 enum ImageRecognitionError: LocalizedError {
     case noBarcode
+    case noEnabledKind
     case invalidImage
     case requestFailed(String)
 
@@ -11,6 +12,8 @@ enum ImageRecognitionError: LocalizedError {
         switch self {
         case .noBarcode:
             return "未在图片中识别到二维码或条形码"
+        case .noEnabledKind:
+            return "请先在设置中启用至少一种码制"
         case .invalidImage:
             return "图片无法读取"
         case .requestFailed(let message):
@@ -20,8 +23,16 @@ enum ImageRecognitionError: LocalizedError {
 }
 
 struct BarcodeImageRecognizer {
-    func recognize(cgImage: CGImage) async throws -> ScanResult {
-        try await withCheckedThrowingContinuation { continuation in
+    func recognize(cgImage: CGImage, allowedKinds: Set<BarcodeKind>) async throws -> ScanResult {
+        let allowedSymbologies = allowedKinds.compactMap { kind in
+            kind.visionSymbology
+        }
+
+        guard !allowedSymbologies.isEmpty else {
+            throw ImageRecognitionError.noEnabledKind
+        }
+
+        return try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<ScanResult, Error>) in
             let request = VNDetectBarcodesRequest { request, error in
                 if let error {
                     continuation.resume(throwing: ImageRecognitionError.requestFailed(error.localizedDescription))
@@ -44,6 +55,7 @@ struct BarcodeImageRecognizer {
                 )
                 continuation.resume(returning: result)
             }
+            request.symbologies = allowedSymbologies
 
             let handler = VNImageRequestHandler(cgImage: cgImage, options: [:])
 
@@ -57,6 +69,31 @@ struct BarcodeImageRecognizer {
 }
 
 extension BarcodeKind {
+    var visionSymbology: VNBarcodeSymbology? {
+        switch self {
+        case .qr:
+            return .qr
+        case .ean13:
+            return .ean13
+        case .ean8:
+            return .ean8
+        case .upce:
+            return .upce
+        case .code128:
+            return .code128
+        case .code39:
+            return .code39
+        case .pdf417:
+            return .pdf417
+        case .aztec:
+            return .aztec
+        case .dataMatrix:
+            return .dataMatrix
+        case .unknown:
+            return nil
+        }
+    }
+
     init(symbology: VNBarcodeSymbology) {
         switch symbology {
         case .qr:

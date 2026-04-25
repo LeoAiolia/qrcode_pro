@@ -3,6 +3,7 @@ import SwiftUI
 struct SettingsView: View {
     @EnvironmentObject private var store: AppStore
     @State private var debugPresented = false
+    private let capability = PlatformCapability()
 
     var body: some View {
         List {
@@ -12,11 +13,15 @@ struct SettingsView: View {
                 }
             }
 
-            Section("扫描行为") {
-                Toggle("振动反馈", isOn: $store.settings.vibrationEnabled)
-                Toggle("音效反馈", isOn: $store.settings.soundEnabled)
-                Toggle("连续扫描", isOn: $store.settings.continuousScanEnabled)
+            #if os(iOS)
+            if capability.supportsCameraScanning {
+                Section("扫描行为") {
+                    Toggle("振动反馈", isOn: $store.settings.vibrationEnabled)
+                    Toggle("音效反馈", isOn: $store.settings.soundEnabled)
+                    Toggle("连续扫描", isOn: $store.settings.continuousScanEnabled)
+                }
             }
+            #endif
 
             Section("通用") {
                 Picker("外观", selection: $store.settings.appearance) {

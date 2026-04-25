@@ -115,7 +115,14 @@ struct HistoryView: View {
             switch result.source {
             case .image:
                 return true
-            case .camera:
+            case .camera, .generated:
+                return false
+            }
+        case .generated:
+            switch result.source {
+            case .generated:
+                return true
+            case .camera, .image:
                 return false
             }
         case .today:

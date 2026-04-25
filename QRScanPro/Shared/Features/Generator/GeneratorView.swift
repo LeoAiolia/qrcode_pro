@@ -110,7 +110,7 @@ struct GeneratorView: View {
     private var exportSection: some View {
         VStack(spacing: 10) {
             Button {
-                regenerate()
+                generateAndRecord()
             } label: {
                 Label("生成二维码", systemImage: "qrcode")
                     .frame(maxWidth: .infinity)
@@ -123,7 +123,21 @@ struct GeneratorView: View {
         }
     }
 
-    private func regenerate() {
+    private func generateAndRecord() {
+        guard regenerate() else {
+            return
+        }
+
+        let result = ScanResult(
+            value: content.trimmingCharacters(in: .whitespacesAndNewlines),
+            kind: .qr,
+            source: .generated
+        )
+        store.addResult(result)
+    }
+
+    @discardableResult
+    private func regenerate() -> Bool {
         do {
             generatedImage = try generator.generate(
                 content: content,
@@ -132,10 +146,12 @@ struct GeneratorView: View {
             )
             errorMessage = nil
             store.logger.info("二维码预览已刷新")
+            return true
         } catch {
             generatedImage = nil
             errorMessage = error.localizedDescription
             store.logger.error(error.localizedDescription)
+            return false
         }
     }
 }
