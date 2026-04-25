@@ -27,11 +27,11 @@
 		A00000000000000000000118 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000018 /* SettingsView.swift */; };
 		A00000000000000000000119 /* DebugLogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000019 /* DebugLogView.swift */; };
 		A00000000000000000000120 /* QRScanProApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000020 /* QRScanProApp.swift */; };
-		A00000000000000000000121 /* iOS ClipboardService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000021 /* iOS ClipboardService.swift */; };
+		A00000000000000000000121 /* ClipboardService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000021 /* ClipboardService.swift */; };
 		A00000000000000000000122 /* SafariPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000022 /* SafariPresenter.swift */; };
-		A00000000000000000000123 /* iOS ImageImportButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000023 /* iOS ImageImportButton.swift */; };
+		A00000000000000000000123 /* ImageImportButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000023 /* ImageImportButton.swift */; };
 		A00000000000000000000124 /* LiveScannerContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000024 /* LiveScannerContainer.swift */; };
-		A00000000000000000000125 /* iOS ShareImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000025 /* iOS ShareImageButton.swift */; };
+		A00000000000000000000125 /* ShareImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000025 /* ShareImageButton.swift */; };
 		A00000000000000000000201 /* AppTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000001 /* AppTab.swift */; };
 		A00000000000000000000202 /* BarcodeModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000002 /* BarcodeModels.swift */; };
 		A00000000000000000000203 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000003 /* AppSettings.swift */; };
@@ -52,83 +52,67 @@
 		A00000000000000000000218 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000018 /* SettingsView.swift */; };
 		A00000000000000000000219 /* DebugLogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000019 /* DebugLogView.swift */; };
 		A00000000000000000000220 /* QRScanProMacApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000026 /* QRScanProMacApp.swift */; };
-		A00000000000000000000221 /* macOS ClipboardService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000027 /* macOS ClipboardService.swift */; };
-		A00000000000000000000222 /* macOS ImageImportButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000028 /* macOS ImageImportButton.swift */; };
-		A00000000000000000000223 /* macOS ShareImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000029 /* macOS ShareImageButton.swift */; };
+		A00000000000000000000221 /* ClipboardService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000027 /* ClipboardService.swift */; };
+		A00000000000000000000222 /* ImageImportButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000028 /* ImageImportButton.swift */; };
+		A00000000000000000000223 /* ShareImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000029 /* ShareImageButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		A00000000000000000000001 /* AppTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScanPro/Shared/Models/AppTab.swift; sourceTree = "<group>"; };
-		A00000000000000000000002 /* BarcodeModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScanPro/Shared/Models/BarcodeModels.swift; sourceTree = "<group>"; };
-		A00000000000000000000003 /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScanPro/Shared/Models/AppSettings.swift; sourceTree = "<group>"; };
-		A00000000000000000000004 /* DebugLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScanPro/Shared/Services/DebugLogger.swift; sourceTree = "<group>"; };
-		A00000000000000000000005 /* AppStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScanPro/Shared/Services/AppStore.swift; sourceTree = "<group>"; };
-		A00000000000000000000006 /* LocalStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScanPro/Shared/Services/LocalStorage.swift; sourceTree = "<group>"; };
-		A00000000000000000000007 /* PlatformCapability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScanPro/Shared/Services/PlatformCapability.swift; sourceTree = "<group>"; };
-		A00000000000000000000008 /* BarcodeImageRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScanPro/Shared/Services/BarcodeImageRecognizer.swift; sourceTree = "<group>"; };
-		A00000000000000000000009 /* QRCodeGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScanPro/Shared/Services/QRCodeGenerator.swift; sourceTree = "<group>"; };
-		A00000000000000000000010 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScanPro/Shared/UI/Theme.swift; sourceTree = "<group>"; };
-		A00000000000000000000011 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScanPro/Shared/UI/RootView.swift; sourceTree = "<group>"; };
-		A00000000000000000000012 /* Compatibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScanPro/Shared/UI/Compatibility.swift; sourceTree = "<group>"; };
-		A00000000000000000000013 /* PlatformImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScanPro/Shared/UI/PlatformImageView.swift; sourceTree = "<group>"; };
-		A00000000000000000000014 /* ScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScanPro/Shared/Features/Scanner/ScannerView.swift; sourceTree = "<group>"; };
-		A00000000000000000000015 /* ScanResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScanPro/Shared/Features/Scanner/ScanResultView.swift; sourceTree = "<group>"; };
-		A00000000000000000000016 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScanPro/Shared/Features/History/HistoryView.swift; sourceTree = "<group>"; };
-		A00000000000000000000017 /* GeneratorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScanPro/Shared/Features/Generator/GeneratorView.swift; sourceTree = "<group>"; };
-		A00000000000000000000018 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScanPro/Shared/Features/Settings/SettingsView.swift; sourceTree = "<group>"; };
-		A00000000000000000000019 /* DebugLogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScanPro/Shared/Features/Debug/DebugLogView.swift; sourceTree = "<group>"; };
-		A00000000000000000000020 /* QRScanProApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScanPro/iOS/QRScanProApp.swift; sourceTree = "<group>"; };
-		A00000000000000000000021 /* iOS ClipboardService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScanPro/iOS/ClipboardService.swift; sourceTree = "<group>"; };
-		A00000000000000000000022 /* SafariPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScanPro/iOS/SafariPresenter.swift; sourceTree = "<group>"; };
-		A00000000000000000000023 /* iOS ImageImportButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScanPro/iOS/ImageImportButton.swift; sourceTree = "<group>"; };
-		A00000000000000000000024 /* LiveScannerContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScanPro/iOS/LiveScannerContainer.swift; sourceTree = "<group>"; };
-		A00000000000000000000025 /* iOS ShareImageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScanPro/iOS/ShareImageButton.swift; sourceTree = "<group>"; };
-		A00000000000000000000026 /* QRScanProMacApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScanPro/macOS/QRScanProMacApp.swift; sourceTree = "<group>"; };
-		A00000000000000000000027 /* macOS ClipboardService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScanPro/macOS/ClipboardService.swift; sourceTree = "<group>"; };
-		A00000000000000000000028 /* macOS ImageImportButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScanPro/macOS/ImageImportButton.swift; sourceTree = "<group>"; };
-		A00000000000000000000029 /* macOS ShareImageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScanPro/macOS/ShareImageButton.swift; sourceTree = "<group>"; };
-		A00000000000000000000030 /* QRScan Pro iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "QRScan Pro.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		A00000000000000000000031 /* QRScan Pro Mac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "QRScan Pro.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A00000000000000000000001 /* AppTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTab.swift; sourceTree = "<group>"; };
+		A00000000000000000000002 /* BarcodeModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeModels.swift; sourceTree = "<group>"; };
+		A00000000000000000000003 /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
+		A00000000000000000000004 /* DebugLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugLogger.swift; sourceTree = "<group>"; };
+		A00000000000000000000005 /* AppStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStore.swift; sourceTree = "<group>"; };
+		A00000000000000000000006 /* LocalStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStorage.swift; sourceTree = "<group>"; };
+		A00000000000000000000007 /* PlatformCapability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlatformCapability.swift; sourceTree = "<group>"; };
+		A00000000000000000000008 /* BarcodeImageRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeImageRecognizer.swift; sourceTree = "<group>"; };
+		A00000000000000000000009 /* QRCodeGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeGenerator.swift; sourceTree = "<group>"; };
+		A00000000000000000000010 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		A00000000000000000000011 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		A00000000000000000000012 /* Compatibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Compatibility.swift; sourceTree = "<group>"; };
+		A00000000000000000000013 /* PlatformImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlatformImageView.swift; sourceTree = "<group>"; };
+		A00000000000000000000014 /* ScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerView.swift; sourceTree = "<group>"; };
+		A00000000000000000000015 /* ScanResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanResultView.swift; sourceTree = "<group>"; };
+		A00000000000000000000016 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
+		A00000000000000000000017 /* GeneratorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratorView.swift; sourceTree = "<group>"; };
+		A00000000000000000000018 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		A00000000000000000000019 /* DebugLogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugLogView.swift; sourceTree = "<group>"; };
+		A00000000000000000000020 /* QRScanProApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScanProApp.swift; sourceTree = "<group>"; };
+		A00000000000000000000021 /* ClipboardService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardService.swift; sourceTree = "<group>"; };
+		A00000000000000000000022 /* SafariPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariPresenter.swift; sourceTree = "<group>"; };
+		A00000000000000000000023 /* ImageImportButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageImportButton.swift; sourceTree = "<group>"; };
+		A00000000000000000000024 /* LiveScannerContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveScannerContainer.swift; sourceTree = "<group>"; };
+		A00000000000000000000025 /* ShareImageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareImageButton.swift; sourceTree = "<group>"; };
+		A00000000000000000000026 /* QRScanProMacApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScanProMacApp.swift; sourceTree = "<group>"; };
+		A00000000000000000000027 /* ClipboardService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardService.swift; sourceTree = "<group>"; };
+		A00000000000000000000028 /* ImageImportButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageImportButton.swift; sourceTree = "<group>"; };
+		A00000000000000000000029 /* ShareImageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareImageButton.swift; sourceTree = "<group>"; };
+		A00000000000000000000030 /* QRScan Pro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "QRScan Pro.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A00000000000000000000031 /* QRScan Pro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "QRScan Pro.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		A00000000000000000000301 /* Frameworks */ = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
-		A00000000000000000000302 /* Frameworks */ = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+		A00000000000000000000301 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A00000000000000000000302 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		A00000000000000000000400 = {
 			isa = PBXGroup;
 			children = (
-				A00000000000000000000001 /* AppTab.swift */,
-				A00000000000000000000002 /* BarcodeModels.swift */,
-				A00000000000000000000003 /* AppSettings.swift */,
-				A00000000000000000000004 /* DebugLogger.swift */,
-				A00000000000000000000005 /* AppStore.swift */,
-				A00000000000000000000006 /* LocalStorage.swift */,
-				A00000000000000000000007 /* PlatformCapability.swift */,
-				A00000000000000000000008 /* BarcodeImageRecognizer.swift */,
-				A00000000000000000000009 /* QRCodeGenerator.swift */,
-				A00000000000000000000010 /* Theme.swift */,
-				A00000000000000000000011 /* RootView.swift */,
-				A00000000000000000000012 /* Compatibility.swift */,
-				A00000000000000000000013 /* PlatformImageView.swift */,
-				A00000000000000000000014 /* ScannerView.swift */,
-				A00000000000000000000015 /* ScanResultView.swift */,
-				A00000000000000000000016 /* HistoryView.swift */,
-				A00000000000000000000017 /* GeneratorView.swift */,
-				A00000000000000000000018 /* SettingsView.swift */,
-				A00000000000000000000019 /* DebugLogView.swift */,
-				A00000000000000000000020 /* QRScanProApp.swift */,
-				A00000000000000000000021 /* iOS ClipboardService.swift */,
-				A00000000000000000000022 /* SafariPresenter.swift */,
-				A00000000000000000000023 /* iOS ImageImportButton.swift */,
-				A00000000000000000000024 /* LiveScannerContainer.swift */,
-				A00000000000000000000025 /* iOS ShareImageButton.swift */,
-				A00000000000000000000026 /* QRScanProMacApp.swift */,
-				A00000000000000000000027 /* macOS ClipboardService.swift */,
-				A00000000000000000000028 /* macOS ImageImportButton.swift */,
-				A00000000000000000000029 /* macOS ShareImageButton.swift */,
+				A00000000000000000000410 /* QRScanPro */,
 				A00000000000000000000401 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -136,10 +120,142 @@
 		A00000000000000000000401 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				A00000000000000000000030 /* QRScan Pro iOS.app */,
-				A00000000000000000000031 /* QRScan Pro Mac.app */,
+				A00000000000000000000030 /* QRScan Pro.app */,
+				A00000000000000000000031 /* QRScan Pro.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		A00000000000000000000410 /* QRScanPro */ = {
+			isa = PBXGroup;
+			children = (
+				A00000000000000000000411 /* Shared */,
+				A00000000000000000000421 /* iOS */,
+				A00000000000000000000422 /* macOS */,
+			);
+			path = QRScanPro;
+			sourceTree = "<group>";
+		};
+		A00000000000000000000411 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				A00000000000000000000412 /* Models */,
+				A00000000000000000000413 /* Services */,
+				A00000000000000000000414 /* UI */,
+				A00000000000000000000415 /* Features */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		A00000000000000000000412 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				A00000000000000000000001 /* AppTab.swift */,
+				A00000000000000000000002 /* BarcodeModels.swift */,
+				A00000000000000000000003 /* AppSettings.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		A00000000000000000000413 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				A00000000000000000000004 /* DebugLogger.swift */,
+				A00000000000000000000005 /* AppStore.swift */,
+				A00000000000000000000006 /* LocalStorage.swift */,
+				A00000000000000000000007 /* PlatformCapability.swift */,
+				A00000000000000000000008 /* BarcodeImageRecognizer.swift */,
+				A00000000000000000000009 /* QRCodeGenerator.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		A00000000000000000000414 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				A00000000000000000000010 /* Theme.swift */,
+				A00000000000000000000011 /* RootView.swift */,
+				A00000000000000000000012 /* Compatibility.swift */,
+				A00000000000000000000013 /* PlatformImageView.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		A00000000000000000000415 /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				A00000000000000000000416 /* Scanner */,
+				A00000000000000000000417 /* History */,
+				A00000000000000000000418 /* Generator */,
+				A00000000000000000000419 /* Settings */,
+				A00000000000000000000420 /* Debug */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		A00000000000000000000416 /* Scanner */ = {
+			isa = PBXGroup;
+			children = (
+				A00000000000000000000014 /* ScannerView.swift */,
+				A00000000000000000000015 /* ScanResultView.swift */,
+			);
+			path = Scanner;
+			sourceTree = "<group>";
+		};
+		A00000000000000000000417 /* History */ = {
+			isa = PBXGroup;
+			children = (
+				A00000000000000000000016 /* HistoryView.swift */,
+			);
+			path = History;
+			sourceTree = "<group>";
+		};
+		A00000000000000000000418 /* Generator */ = {
+			isa = PBXGroup;
+			children = (
+				A00000000000000000000017 /* GeneratorView.swift */,
+			);
+			path = Generator;
+			sourceTree = "<group>";
+		};
+		A00000000000000000000419 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				A00000000000000000000018 /* SettingsView.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		A00000000000000000000420 /* Debug */ = {
+			isa = PBXGroup;
+			children = (
+				A00000000000000000000019 /* DebugLogView.swift */,
+			);
+			path = Debug;
+			sourceTree = "<group>";
+		};
+		A00000000000000000000421 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				A00000000000000000000020 /* QRScanProApp.swift */,
+				A00000000000000000000021 /* ClipboardService.swift */,
+				A00000000000000000000022 /* SafariPresenter.swift */,
+				A00000000000000000000023 /* ImageImportButton.swift */,
+				A00000000000000000000024 /* LiveScannerContainer.swift */,
+				A00000000000000000000025 /* ShareImageButton.swift */,
+			);
+			path = iOS;
+			sourceTree = "<group>";
+		};
+		A00000000000000000000422 /* macOS */ = {
+			isa = PBXGroup;
+			children = (
+				A00000000000000000000026 /* QRScanProMacApp.swift */,
+				A00000000000000000000027 /* ClipboardService.swift */,
+				A00000000000000000000028 /* ImageImportButton.swift */,
+				A00000000000000000000029 /* ShareImageButton.swift */,
+			);
+			path = macOS;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -153,11 +269,13 @@
 				A00000000000000000000301 /* Frameworks */,
 				A00000000000000000000701 /* Resources */,
 			);
-			buildRules = ();
-			dependencies = ();
+			buildRules = (
+			);
+			dependencies = (
+			);
 			name = "QRScan Pro iOS";
 			productName = "QRScan Pro";
-			productReference = A00000000000000000000030 /* QRScan Pro iOS.app */;
+			productReference = A00000000000000000000030 /* QRScan Pro.app */;
 			productType = "com.apple.product-type.application";
 		};
 		A00000000000000000000502 /* QRScan Pro Mac */ = {
@@ -168,11 +286,13 @@
 				A00000000000000000000302 /* Frameworks */,
 				A00000000000000000000702 /* Resources */,
 			);
-			buildRules = ();
-			dependencies = ();
+			buildRules = (
+			);
+			dependencies = (
+			);
 			name = "QRScan Pro Mac";
 			productName = "QRScan Pro";
-			productReference = A00000000000000000000031 /* QRScan Pro Mac.app */;
+			productReference = A00000000000000000000031 /* QRScan Pro.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -213,8 +333,20 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		A00000000000000000000701 /* Resources */ = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
-		A00000000000000000000702 /* Resources */ = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+		A00000000000000000000701 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A00000000000000000000702 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -242,11 +374,11 @@
 				A00000000000000000000118 /* SettingsView.swift in Sources */,
 				A00000000000000000000119 /* DebugLogView.swift in Sources */,
 				A00000000000000000000120 /* QRScanProApp.swift in Sources */,
-				A00000000000000000000121 /* iOS ClipboardService.swift in Sources */,
+				A00000000000000000000121 /* ClipboardService.swift in Sources */,
 				A00000000000000000000122 /* SafariPresenter.swift in Sources */,
-				A00000000000000000000123 /* iOS ImageImportButton.swift in Sources */,
+				A00000000000000000000123 /* ImageImportButton.swift in Sources */,
 				A00000000000000000000124 /* LiveScannerContainer.swift in Sources */,
-				A00000000000000000000125 /* iOS ShareImageButton.swift in Sources */,
+				A00000000000000000000125 /* ShareImageButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -274,9 +406,9 @@
 				A00000000000000000000218 /* SettingsView.swift in Sources */,
 				A00000000000000000000219 /* DebugLogView.swift in Sources */,
 				A00000000000000000000220 /* QRScanProMacApp.swift in Sources */,
-				A00000000000000000000221 /* macOS ClipboardService.swift in Sources */,
-				A00000000000000000000222 /* macOS ImageImportButton.swift in Sources */,
-				A00000000000000000000223 /* macOS ShareImageButton.swift in Sources */,
+				A00000000000000000000221 /* ClipboardService.swift in Sources */,
+				A00000000000000000000222 /* ImageImportButton.swift in Sources */,
+				A00000000000000000000223 /* ShareImageButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -396,6 +528,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = X7S38PP265;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "QRScan Pro";
@@ -403,6 +536,7 @@
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "用于选择图片识别二维码或条形码";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.yuxiaor.qrscnpro;
@@ -423,6 +557,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = X7S38PP265;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "QRScan Pro";
@@ -430,6 +565,7 @@
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "用于选择图片识别二维码或条形码";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.yuxiaor.qrscnpro;
@@ -449,6 +585,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = X7S38PP265;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -471,6 +608,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = X7S38PP265;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
