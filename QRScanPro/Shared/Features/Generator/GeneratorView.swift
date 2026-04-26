@@ -164,11 +164,55 @@ struct GeneratorView: View {
     // MARK: - Params
 
     private var paramsForm: some View {
+        #if os(iOS)
+        VStack(alignment: .leading, spacing: Spacing.l) {
+            generatorSection("内容") {
+                contentEditor
+            }
+
+            generatorSection("尺寸 / 边距 / 纠错") {
+                Picker("纠错级别", selection: levelBinding) {
+                    ForEach(QRErrorCorrectionLevel.allCases) { level in
+                        Text(level.rawValue).tag(level)
+                    }
+                }
+                .pickerStyle(.segmented)
+
+                Stepper(value: sizeBinding, in: 256...2048, step: 64) {
+                    Text("输出尺寸：\(state.config.sizePx) px")
+                }
+
+                Stepper(value: marginBinding, in: 0...10) {
+                    Text("外边距：\(state.config.marginModules) 模块")
+                }
+            }
+
+            generatorSection("形状与配色") {
+                Picker("码点形状", selection: dotShapeBinding) {
+                    ForEach(QRDotShape.allCases) { shape in
+                        Text(shape.displayName).tag(shape)
+                    }
+                }
+                ColorPicker("前景色", selection: foregroundBinding, supportsOpacity: false)
+                ColorPicker("背景色", selection: backgroundBinding, supportsOpacity: false)
+                Text(String(format: "对比度 %.1f : 1", state.contrastRatio))
+                    .font(AppFont.caption)
+                    .foregroundColor(state.hasContrastWarning ? AppColor.warning : AppColor.textSecondary)
+            }
+
+            generatorSection("Logo") {
+                logoControls
+
+                VStack(alignment: .leading) {
+                    Text(String(format: "Logo 占比 %.0f%%", state.config.logoRatio * 100))
+                    Slider(value: logoRatioBinding, in: 0.10...0.40, step: 0.01)
+                }
+            }
+        }
+        #else
         Form {
             Section("内容") {
-                TextEditor(text: contentBinding)
-                    .frame(minHeight: 80)
-                    .font(AppFont.body)
+                contentEditor
             }
 
             Section("尺寸 / 边距 / 纠错") {
@@ -210,11 +254,52 @@ struct GeneratorView: View {
                 }
             }
         }
-        #if os(macOS)
         .formStyle(.grouped)
         .padding(Spacing.l)
         #endif
     }
+
+    private var contentEditor: some View {
+        ZStack(alignment: .topLeading) {
+            if state.content.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                Text("输入文本、网址、Wi-Fi 信息等")
+                    .font(AppFont.body)
+                    .foregroundColor(AppColor.textSecondary)
+                    .padding(.horizontal, 5)
+                    .padding(.vertical, 8)
+                    .allowsHitTesting(false)
+            }
+
+            TextEditor(text: contentBinding)
+                .frame(minHeight: 96)
+                .font(AppFont.body)
+                .scrollContentBackground(.hidden)
+                .background(Color.clear)
+        }
+    }
+
+    #if os(iOS)
+    private func generatorSection<Content: View>(
+        _ title: String,
+        @ViewBuilder content: () -> Content
+    ) -> some View {
+        VStack(alignment: .leading, spacing: Spacing.s) {
+            Text(title)
+                .font(AppFont.caption)
+                .foregroundColor(AppColor.textSecondary)
+                .textCase(.uppercase)
+                .padding(.horizontal, Spacing.s)
+
+            VStack(alignment: .leading, spacing: Spacing.m) {
+                content()
+            }
+            .padding(Spacing.l)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(AppColor.surface)
+            .clipShape(RoundedRectangle(cornerRadius: Radius.l, style: .continuous))
+        }
+    }
+    #endif
 
     @ViewBuilder
     private var logoControls: some View {
