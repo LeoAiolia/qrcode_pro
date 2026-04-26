@@ -52,6 +52,7 @@ struct InAppBrowserView: View {
                 } label: {
                     Image(systemName: "ellipsis.circle")
                 }
+                .accessibilityLabel("更多操作")
             }
         }
     }
@@ -81,11 +82,13 @@ struct InAppBrowserView: View {
             Button { navigationAction = .back } label: {
                 Image(systemName: "chevron.left")
             }
+            .accessibilityLabel("后退")
             .disabled(!canGoBack)
 
             Button { navigationAction = .forward } label: {
                 Image(systemName: "chevron.right")
             }
+            .accessibilityLabel("前进")
             .disabled(!canGoForward)
 
             Spacer()
@@ -93,6 +96,7 @@ struct InAppBrowserView: View {
             Button { navigationAction = .reload } label: {
                 Image(systemName: "arrow.clockwise")
             }
+            .accessibilityLabel("刷新页面")
         }
         .font(.title3)
         .padding(.horizontal, Spacing.xl)

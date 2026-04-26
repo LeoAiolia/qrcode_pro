@@ -269,6 +269,7 @@ struct HistoryView: View {
             } label: {
                 Image(systemName: "ellipsis.circle")
             }
+            .accessibilityLabel("更多操作")
         }
     }
 

@@ -297,6 +297,7 @@ private struct ResultRow: View {
                 }
                 .buttonStyle(.borderless)
                 .help("复制内容")
+                .accessibilityLabel("复制识别内容")
 
                 if entry.code?.url != nil {
                     Button(action: openURL) {
@@ -304,6 +305,7 @@ private struct ResultRow: View {
                     }
                     .buttonStyle(.borderless)
                     .help("打开链接")
+                    .accessibilityLabel("在浏览器中打开")
                 }
             }
         }
