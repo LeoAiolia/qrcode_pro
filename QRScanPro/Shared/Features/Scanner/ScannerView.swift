@@ -32,7 +32,7 @@ struct ScannerView: View {
                 )
                 .ignoresSafeArea()
 
-                ScannerOverlay(style: settings.scanFrameStyle, isContinuous: settings.continuousScanEnabled)
+                ScannerOverlay(isContinuous: settings.continuousScanEnabled)
                     .ignoresSafeArea()
 
                 bottomControls

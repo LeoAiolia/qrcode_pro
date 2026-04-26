@@ -51,22 +51,6 @@ enum HistoryRetention: String, Codable, CaseIterable, Identifiable {
     }
 }
 
-enum ScanFrameStyle: String, Codable, CaseIterable, Identifiable {
-    case square
-    case fullScreen
-
-    var id: String { rawValue }
-
-    var title: String {
-        switch self {
-        case .square:
-            return "方形"
-        case .fullScreen:
-            return "全屏"
-        }
-    }
-}
-
 enum ExportFormat: String, Codable, CaseIterable, Identifiable {
     case png
     case svg
@@ -103,9 +87,6 @@ final class SettingsStore {
     var continuousScanEnabled: Bool {
         didSet { write(\.continuousScanEnabled, oldValue) }
     }
-    var scanFrameStyle: ScanFrameStyle {
-        didSet { write(\.scanFrameStyle, oldValue) }
-    }
     var appearance: AppAppearance {
         didSet { write(\.appearance, oldValue) }
     }
@@ -132,7 +113,6 @@ final class SettingsStore {
         self.vibrationEnabled = snapshot.vibrationEnabled
         self.soundEnabled = snapshot.soundEnabled
         self.continuousScanEnabled = snapshot.continuousScanEnabled
-        self.scanFrameStyle = snapshot.scanFrameStyle
         self.appearance = snapshot.appearance
         self.historyRetention = snapshot.historyRetention
         self.defaultExportFormat = snapshot.defaultExportFormat
@@ -148,7 +128,6 @@ final class SettingsStore {
         var vibrationEnabled: Bool
         var soundEnabled: Bool
         var continuousScanEnabled: Bool
-        var scanFrameStyle: ScanFrameStyle
         var appearance: AppAppearance
         var historyRetention: HistoryRetention
         var defaultExportFormat: ExportFormat
@@ -159,7 +138,6 @@ final class SettingsStore {
             vibrationEnabled: true,
             soundEnabled: true,
             continuousScanEnabled: false,
-            scanFrameStyle: .square,
             appearance: .system,
             historyRetention: .forever,
             defaultExportFormat: .png,
@@ -168,7 +146,7 @@ final class SettingsStore {
 
         enum CodingKeys: String, CodingKey {
             case enabledKinds, vibrationEnabled, soundEnabled, continuousScanEnabled
-            case scanFrameStyle, appearance, historyRetention
+            case appearance, historyRetention
             case defaultExportFormat, defaultExportDirectoryBookmark
         }
 
@@ -177,7 +155,6 @@ final class SettingsStore {
             vibrationEnabled: Bool,
             soundEnabled: Bool,
             continuousScanEnabled: Bool,
-            scanFrameStyle: ScanFrameStyle,
             appearance: AppAppearance,
             historyRetention: HistoryRetention,
             defaultExportFormat: ExportFormat,
@@ -187,7 +164,6 @@ final class SettingsStore {
             self.vibrationEnabled = vibrationEnabled
             self.soundEnabled = soundEnabled
             self.continuousScanEnabled = continuousScanEnabled
-            self.scanFrameStyle = scanFrameStyle
             self.appearance = appearance
             self.historyRetention = historyRetention
             self.defaultExportFormat = defaultExportFormat
@@ -201,7 +177,6 @@ final class SettingsStore {
             self.vibrationEnabled = (try? c.decode(Bool.self, forKey: .vibrationEnabled)) ?? defaults.vibrationEnabled
             self.soundEnabled = (try? c.decode(Bool.self, forKey: .soundEnabled)) ?? defaults.soundEnabled
             self.continuousScanEnabled = (try? c.decode(Bool.self, forKey: .continuousScanEnabled)) ?? defaults.continuousScanEnabled
-            self.scanFrameStyle = (try? c.decode(ScanFrameStyle.self, forKey: .scanFrameStyle)) ?? defaults.scanFrameStyle
             self.appearance = (try? c.decode(AppAppearance.self, forKey: .appearance)) ?? defaults.appearance
             self.historyRetention = (try? c.decode(HistoryRetention.self, forKey: .historyRetention)) ?? defaults.historyRetention
             self.defaultExportFormat = (try? c.decode(ExportFormat.self, forKey: .defaultExportFormat)) ?? defaults.defaultExportFormat
@@ -229,7 +204,6 @@ final class SettingsStore {
             vibrationEnabled: vibrationEnabled,
             soundEnabled: soundEnabled,
             continuousScanEnabled: continuousScanEnabled,
-            scanFrameStyle: scanFrameStyle,
             appearance: appearance,
             historyRetention: historyRetention,
             defaultExportFormat: defaultExportFormat,

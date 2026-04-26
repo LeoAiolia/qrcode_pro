@@ -3,7 +3,6 @@ import SwiftUI
 
 /// 相机预览之上的扫描框 + 四角动效 + 扫描线。纯 SwiftUI，与相机层解耦。
 struct ScannerOverlay: View {
-    let style: ScanFrameStyle
     let isContinuous: Bool
 
     @State private var scanLineOffset: CGFloat = 0
@@ -65,15 +64,9 @@ struct ScannerOverlay: View {
     }
 
     private func frameRect(in size: CGSize) -> CGRect {
-        switch style {
-        case .square:
-            let side = min(size.width, size.height) * 0.7
-            let origin = CGPoint(x: (size.width - side) / 2, y: (size.height - side) / 2)
-            return CGRect(origin: origin, size: CGSize(width: side, height: side))
-        case .fullScreen:
-            let inset: CGFloat = 24
-            return CGRect(x: inset, y: inset, width: size.width - inset * 2, height: size.height - inset * 2)
-        }
+        let side = min(size.width, size.height) * 0.7
+        let origin = CGPoint(x: (size.width - side) / 2, y: (size.height - side) / 2)
+        return CGRect(origin: origin, size: CGSize(width: side, height: side))
     }
 }
 
