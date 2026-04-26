@@ -15,6 +15,10 @@ struct CardBackground: ViewModifier {
     func body(content: Content) -> some View {
         content
             .background(AppColor.surface)
+            .overlay {
+                RoundedRectangle(cornerRadius: Radius.m, style: .continuous)
+                    .stroke(AppColor.separator.opacity(0.35), lineWidth: 0.5)
+            }
             .clipShape(RoundedRectangle(cornerRadius: Radius.m, style: .continuous))
     }
 }

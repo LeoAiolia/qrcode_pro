@@ -437,6 +437,10 @@ private struct GeneratedRow: View {
             thumbnail
                 .frame(width: 44, height: 44)
                 .background(Color.white)
+                .overlay {
+                    RoundedRectangle(cornerRadius: Radius.m, style: .continuous)
+                        .stroke(AppColor.separator.opacity(0.45), lineWidth: 0.5)
+                }
                 .clipShape(RoundedRectangle(cornerRadius: Radius.m))
 
             VStack(alignment: .leading, spacing: 4) {

@@ -36,10 +36,10 @@ enum AppFont {
 }
 
 enum AppColor {
-    // 背景三层（HIG: systemBackground / secondarySystemBackground / tertiarySystemBackground）
+    // 背景三层：页面用 grouped 底色，item/card 用更高层级的 surface。
     static var background: Color {
         #if os(iOS)
-        return Color(uiColor: .systemBackground)
+        return Color(uiColor: .systemGroupedBackground)
         #elseif os(macOS)
         return Color(nsColor: .windowBackgroundColor)
         #endif
@@ -47,7 +47,7 @@ enum AppColor {
 
     static var surface: Color {
         #if os(iOS)
-        return Color(uiColor: .secondarySystemBackground)
+        return Color(uiColor: .secondarySystemGroupedBackground)
         #elseif os(macOS)
         return Color(nsColor: .underPageBackgroundColor)
         #endif
@@ -55,7 +55,7 @@ enum AppColor {
 
     static var surfaceRaised: Color {
         #if os(iOS)
-        return Color(uiColor: .tertiarySystemBackground)
+        return Color(uiColor: .tertiarySystemGroupedBackground)
         #elseif os(macOS)
         return Color(nsColor: .controlBackgroundColor)
         #endif
