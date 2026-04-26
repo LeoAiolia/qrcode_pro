@@ -1,0 +1,2135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QRScan Pro — Logo / Splash / Light Mode / Icons</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    /* iOS Dark mode */
+    --d-systemBackground: #000000;
+    --d-secondarySystemBackground: #1C1C1E;
+    --d-tertiarySystemBackground: #2C2C2E;
+    --d-systemGroupedBackground: #000000;
+    --d-secondarySystemGroupedBackground: #1C1C1E;
+    --d-label: #FFFFFF;
+    --d-secondaryLabel: rgba(235,235,245,0.6);
+    --d-tertiaryLabel: rgba(235,235,245,0.3);
+    --d-separator: rgba(84,84,88,0.65);
+    --d-separator-opaque: #38383A;
+
+    /* iOS Light mode */
+    --l-systemBackground: #FFFFFF;
+    --l-secondarySystemBackground: #F2F2F7;
+    --l-tertiarySystemBackground: #FFFFFF;
+    --l-systemGroupedBackground: #F2F2F7;
+    --l-secondarySystemGroupedBackground: #FFFFFF;
+    --l-label: #000000;
+    --l-secondaryLabel: rgba(60,60,67,0.6);
+    --l-tertiaryLabel: rgba(60,60,67,0.3);
+    --l-separator: rgba(60,60,67,0.29);
+    --l-separator-opaque: #C6C6C8;
+
+    /* System colors */
+    --systemBlue: #0A84FF;
+    --systemBlueLight: #007AFF;
+    --systemGreen: #30D158;
+    --systemGreenLight: #34C759;
+    --systemOrange: #FF9F0A;
+    --systemOrangeLight: #FF9500;
+    --systemRed: #FF453A;
+    --systemRedLight: #FF3B30;
+    --systemYellow: #FFD60A;
+    --systemYellowLight: #FFCC00;
+    --systemPurple: #BF5AF2;
+    --systemPurpleLight: #AF52DE;
+    --systemTeal: #64D2FF;
+    --systemTealLight: #5AC8FA;
+    --systemGray: #8E8E93;
+    --systemGray2: #636366;
+    --systemGray3: #48484A;
+    --systemGray4: #3A3A3C;
+    --systemGray5: #2C2C2E;
+    --systemGray6: #1C1C1E;
+    --systemGray-light: #8E8E93;
+    --systemGray2-light: #AEAEB2;
+    --systemGray3-light: #C7C7CC;
+    --systemGray4-light: #D1D1D6;
+    --systemGray5-light: #E5E5EA;
+    --systemGray6-light: #F2F2F7;
+
+    /* Brand colors */
+    --brand-primary: #0A84FF;
+    --brand-secondary: #5E5CE6;
+
+    /* Layout */
+    --canvas: #0a0a0f;
+    --iphone-w: 393px;
+    --iphone-h: 852px;
+    --iphone-r: 55px;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", sans-serif;
+    background: var(--canvas);
+    color: #fff;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Hero */
+  .hero {
+    text-align: center;
+    padding: 80px 40px 40px;
+    position: relative;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(10,132,255,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(10,132,255,0.12); border: 1px solid rgba(10,132,255,0.25);
+    color: var(--systemBlue); font-size: 12px; font-weight: 600; letter-spacing: 0.08em;
+    padding: 6px 14px; border-radius: 100px; margin-bottom: 24px; text-transform: uppercase;
+  }
+  .hero h1 {
+    font-size: clamp(36px, 5vw, 60px); font-weight: 700; letter-spacing: -0.03em;
+    line-height: 1.1; margin-bottom: 16px;
+    background: linear-gradient(135deg, #fff 30%, var(--systemBlue) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .hero p { color: rgba(235,235,245,0.6); font-size: 15px; max-width: 620px; margin: 0 auto; line-height: 1.6; }
+
+  /* Section */
+  .section-header {
+    padding: 60px 48px 0;
+    margin-bottom: 32px;
+  }
+  .section-meta {
+    display: flex; align-items: baseline; gap: 14px; margin-bottom: 12px;
+  }
+  .section-num {
+    font-size: 12px; font-weight: 600; letter-spacing: 0.15em;
+    color: rgba(235,235,245,0.3); font-family: 'DM Mono', monospace;
+  }
+  .section-title { font-size: 28px; font-weight: 700; letter-spacing: -0.02em; }
+  .section-desc {
+    font-size: 14px; color: rgba(235,235,245,0.6);
+    max-width: 720px; line-height: 1.55;
+  }
+  .section-desc strong { color: #fff; font-weight: 600; }
+
+  .big-divider { height: 1px; background: rgba(84,84,88,0.4); margin: 60px 48px; }
+
+  /* ════════════════════════════════════════════════
+     SECTION: LOGO
+  ════════════════════════════════════════════════ */
+  .logo-showcase {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    padding: 0 48px 60px;
+  }
+  .logo-card {
+    background: #1C1C1E;
+    border-radius: 16px;
+    padding: 32px 24px;
+    border: 1px solid rgba(255,255,255,0.06);
+    display: flex; flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+  .logo-card-bg-light { background: #F2F2F7; }
+  .logo-card-bg-light .logo-card-label { color: rgba(60,60,67,0.6); }
+  .logo-card-bg-light .logo-card-title { color: #000; }
+  .logo-card-label {
+    font-size: 11px; font-weight: 600;
+    color: rgba(235,235,245,0.5);
+    text-transform: uppercase; letter-spacing: 0.08em;
+  }
+  .logo-card-title { font-size: 14px; font-weight: 600; }
+  .logo-card-spec {
+    font-size: 11px; font-family: 'DM Mono', monospace;
+    color: rgba(235,235,245,0.4);
+  }
+  .logo-card-bg-light .logo-card-spec { color: rgba(60,60,67,0.45); }
+
+  /* App icon — squircle (iOS 7+) */
+  .app-icon {
+    width: 180px; height: 180px;
+    border-radius: 40px; /* iOS squircle approx */
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 12px 32px rgba(0,0,0,0.3);
+  }
+
+  /* App icon variants */
+  .app-icon-primary {
+    background:
+      radial-gradient(circle at 30% 30%, #1A8FFF 0%, #0A84FF 40%, #0066CC 100%);
+  }
+  .app-icon-light {
+    background:
+      radial-gradient(circle at 30% 30%, #5AC8FA 0%, #007AFF 50%, #0051D5 100%);
+  }
+  .app-icon-dark-tinted {
+    background:
+      radial-gradient(circle at 30% 30%, #1A1A1A 0%, #0A0A0A 100%);
+  }
+  .app-icon-dark-tinted .qr-glyph rect { fill: #FFFFFF !important; }
+
+  /* iOS 18 tinted icon (monochrome)*/
+  .app-icon-tinted {
+    background: linear-gradient(135deg, #1C1C1E 0%, #000000 100%);
+  }
+  .app-icon-tinted .qr-glyph rect { fill: #0A84FF !important; opacity: 0.95; }
+
+  /* macOS app icon — uses tilted template */
+  .app-icon-macos {
+    background: linear-gradient(180deg, #1A8FFF 0%, #0A84FF 50%, #0066CC 100%);
+    border-radius: 36px;
+    position: relative;
+  }
+
+  .app-icon-glyph {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .qr-glyph {
+    width: 66%; height: 66%;
+  }
+  .qr-glyph rect { fill: white; }
+
+  /* Sizes table */
+  .sizes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: 12px;
+    margin-top: 16px;
+  }
+  .size-cell {
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    padding: 12px;
+    background: rgba(255,255,255,0.03);
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.05);
+  }
+  .size-label { font-size: 10px; color: rgba(235,235,245,0.5); }
+  .size-spec { font-size: 9px; font-family: 'DM Mono', monospace; color: rgba(235,235,245,0.4); }
+
+  .icon-32, .icon-40, .icon-58, .icon-60, .icon-80, .icon-87, .icon-120, .icon-180 {
+    border-radius: 22%;
+    background: radial-gradient(circle at 30% 30%, #1A8FFF 0%, #0A84FF 40%, #0066CC 100%);
+    position: relative;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  }
+  .icon-32  { width: 32px; height: 32px; border-radius: 7px; }
+  .icon-40  { width: 40px; height: 40px; border-radius: 9px; }
+  .icon-58  { width: 58px; height: 58px; border-radius: 13px; }
+  .icon-60  { width: 60px; height: 60px; border-radius: 14px; }
+  .icon-80  { width: 80px; height: 80px; border-radius: 18px; }
+  .icon-87  { width: 87px; height: 87px; border-radius: 20px; }
+
+  .icon-mini-glyph {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .icon-mini-glyph svg { width: 60%; height: 60%; }
+  .icon-mini-glyph rect { fill: white; }
+
+  /* ════════════════════════════════════════════════
+     SECTION: SPLASH SCREEN
+  ════════════════════════════════════════════════ */
+  .splash-row {
+    display: flex; gap: 32px; padding: 0 48px 60px;
+    align-items: flex-start; overflow-x: auto;
+    scrollbar-width: thin; scrollbar-color: #48484A transparent;
+  }
+  .splash-row::-webkit-scrollbar { height: 4px; }
+  .splash-row::-webkit-scrollbar-track { background: transparent; }
+  .splash-row::-webkit-scrollbar-thumb { background: #48484A; border-radius: 2px; }
+
+  .screen-wrap {
+    display: flex; flex-direction: column; align-items: center; gap: 14px; flex-shrink: 0;
+  }
+  .screen-title {
+    font-size: 13px; font-weight: 500; color: rgba(235,235,245,0.6);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .screen-title .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--systemBlue); }
+  .screen-meta {
+    font-size: 11px; color: rgba(235,235,245,0.3);
+    text-align: center; max-width: 380px; line-height: 1.5;
+  }
+
+  .iphone {
+    width: var(--iphone-w); height: var(--iphone-h);
+    background: #000;
+    border-radius: var(--iphone-r);
+    border: 2.5px solid #1a1a1a;
+    position: relative; overflow: hidden;
+    box-shadow:
+      0 0 0 1.5px rgba(0,0,0,0.5),
+      0 40px 80px rgba(0,0,0,0.6),
+      inset 0 1px 0 rgba(255,255,255,0.05);
+  }
+  .iphone-screen {
+    position: absolute; inset: 0;
+    border-radius: calc(var(--iphone-r) - 2.5px);
+    overflow: hidden;
+    display: flex; flex-direction: column;
+  }
+  .dynamic-island {
+    width: 122px; height: 34px; background: #000;
+    border-radius: 20px;
+    position: absolute; top: 11px; left: 50%; transform: translateX(-50%);
+    z-index: 30;
+  }
+
+  /* Splash variants */
+  .splash-light {
+    flex: 1;
+    background: linear-gradient(180deg, #F2F2F7 0%, #FFFFFF 100%);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    position: relative;
+  }
+  .splash-dark {
+    flex: 1;
+    background: linear-gradient(180deg, #000 0%, #0a0a0f 100%);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    position: relative;
+  }
+  .splash-gradient {
+    flex: 1;
+    background:
+      radial-gradient(ellipse at 30% 20%, rgba(10,132,255,0.4) 0%, transparent 50%),
+      radial-gradient(ellipse at 70% 70%, rgba(94,92,230,0.3) 0%, transparent 50%),
+      linear-gradient(180deg, #000 0%, #0a0a0f 100%);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    position: relative;
+  }
+
+  .splash-logo {
+    width: 120px; height: 120px;
+    border-radius: 28px;
+    overflow: hidden;
+    box-shadow: 0 12px 32px rgba(0,0,0,0.2);
+  }
+  .splash-title {
+    margin-top: 20px;
+    font-size: 32px; font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  .splash-tagline {
+    margin-top: 8px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .splash-light-text { color: #000; }
+  .splash-light-tagline { color: rgba(60,60,67,0.6); }
+  .splash-dark-text { color: #fff; }
+  .splash-dark-tagline { color: rgba(235,235,245,0.6); }
+
+  .splash-bottom {
+    position: absolute; bottom: 50px;
+    font-size: 11px; font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .splash-loader {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.15);
+    border-top-color: var(--systemBlue);
+    margin-top: 32px;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .splash-loader-light {
+    border-color: rgba(0,0,0,0.1);
+    border-top-color: var(--systemBlueLight);
+  }
+
+  /* Animated scan effect on splash */
+  .splash-scan-bg {
+    position: absolute; inset: 0;
+    overflow: hidden;
+  }
+  .splash-scan-line-h {
+    position: absolute; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgba(10,132,255,0.6) 50%, transparent 100%);
+    top: 50%;
+    animation: scanH 3s ease-in-out infinite;
+  }
+  @keyframes scanH {
+    0%, 100% { top: 25%; opacity: 0.3; }
+    50% { top: 75%; opacity: 0.8; }
+  }
+
+  /* ════════════════════════════════════════════════
+     SECTION: LIGHT MODE PHONES
+  ════════════════════════════════════════════════ */
+  .light-iphone-screen {
+    background: var(--l-systemBackground);
+  }
+  .light-status-bar {
+    height: 54px;
+    flex-shrink: 0;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 16px 32px 0;
+    position: relative; z-index: 25;
+  }
+  .light-status-time {
+    font-size: 17px; font-weight: 600; color: #000;
+    font-feature-settings: "tnum";
+  }
+  .light-status-icons svg { width: 17px; height: 12px; }
+
+  .light-nav {
+    background: var(--l-systemBackground);
+    padding: 8px 16px 12px;
+    flex-shrink: 0;
+    display: flex; align-items: center; gap: 8px;
+    min-height: 44px;
+  }
+  .light-nav-back {
+    display: flex; align-items: center; gap: 4px;
+    color: var(--systemBlueLight);
+    font-size: 17px;
+  }
+  .light-nav-back svg { width: 12px; height: 18px; stroke: var(--systemBlueLight); stroke-width: 2.5; }
+  .light-nav-title {
+    flex: 1; text-align: center;
+    font-size: 17px; font-weight: 600;
+    color: #000;
+  }
+  .light-nav-action {
+    color: var(--systemBlueLight);
+    font-size: 17px;
+  }
+  .light-nav-action.bold { font-weight: 600; }
+
+  .light-large-title {
+    padding: 8px 16px 12px;
+    font-size: 34px; font-weight: 700; letter-spacing: -0.02em;
+    color: #000;
+  }
+
+  .light-tab-bar {
+    display: flex; align-items: center; justify-content: space-around;
+    padding: 8px 0 28px;
+    background: rgba(248,248,248,0.92);
+    backdrop-filter: blur(30px);
+    border-top: 0.5px solid var(--l-separator);
+    flex-shrink: 0;
+  }
+  .light-tab {
+    display: flex; flex-direction: column; align-items: center; gap: 2px;
+    flex: 1; padding: 6px 0;
+  }
+  .light-tab svg { width: 26px; height: 26px; }
+  .light-tab .label { font-size: 10px; font-weight: 500; }
+  .light-tab.active svg { fill: var(--systemBlueLight); stroke: var(--systemBlueLight); }
+  .light-tab.active .label { color: var(--systemBlueLight); }
+  .light-tab:not(.active) svg { fill: var(--systemGray); stroke: var(--systemGray); }
+  .light-tab:not(.active) .label { color: var(--systemGray); }
+
+  .light-content {
+    flex: 1; overflow-y: auto;
+    background: var(--l-systemGroupedBackground);
+  }
+
+  .light-search {
+    margin: 4px 16px 8px;
+    background: rgba(118,118,128,0.12);
+    border-radius: 10px;
+    padding: 7px 8px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .light-search svg { width: 13px; height: 13px; stroke: rgba(60,60,67,0.6); flex-shrink: 0; }
+  .light-search span { font-size: 17px; color: rgba(60,60,67,0.6); }
+
+  .light-segmented {
+    display: flex;
+    background: rgba(118,118,128,0.12);
+    border-radius: 9px;
+    padding: 2px;
+  }
+  .light-seg-btn {
+    flex: 1;
+    padding: 6px 14px;
+    border-radius: 7px;
+    font-size: 13px;
+    text-align: center;
+    color: #000;
+    font-weight: 500;
+  }
+  .light-seg-btn.active {
+    background: white;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+    font-weight: 600;
+  }
+
+  .light-form-section { margin: 16px 16px 0; }
+  .light-form-header {
+    padding: 0 16px 6px;
+    font-size: 13px;
+    color: rgba(60,60,67,0.6);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .light-form-card {
+    background: var(--l-secondarySystemGroupedBackground);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .light-form-row {
+    padding: 11px 16px;
+    display: flex; align-items: center; gap: 12px;
+    min-height: 44px;
+    border-bottom: 0.33px solid var(--l-separator);
+  }
+  .light-form-row:last-child { border-bottom: none; }
+  .light-form-label { flex: 1; font-size: 17px; color: #000; }
+  .light-form-value { font-size: 17px; color: rgba(60,60,67,0.6); }
+  .light-form-chevron svg { width: 7px; height: 12px; stroke: rgba(60,60,67,0.3); stroke-width: 2.5; }
+
+  .light-raw-card {
+    margin: 0 16px 16px;
+    background: var(--l-secondarySystemGroupedBackground);
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-family: 'DM Mono', monospace;
+    font-size: 14px;
+    line-height: 1.55;
+    color: #000;
+    word-break: break-all;
+  }
+
+  .light-actions {
+    margin: 0 16px;
+    background: var(--l-secondarySystemGroupedBackground);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .light-action-row {
+    padding: 12px 16px;
+    display: flex; align-items: center; gap: 14px;
+    min-height: 44px;
+    border-bottom: 0.33px solid var(--l-separator);
+    color: var(--systemBlueLight);
+    font-size: 17px;
+  }
+  .light-action-row:last-child { border-bottom: none; }
+  .light-action-row.destructive { color: var(--systemRedLight); }
+  .light-action-row svg { width: 20px; height: 20px; stroke: currentColor; fill: currentColor; }
+
+  .light-meta-row {
+    display: flex; gap: 8px; padding: 12px 16px 8px;
+    flex-wrap: wrap;
+  }
+  .light-tag {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 13px; font-weight: 500;
+  }
+  .light-tag.green { background: rgba(52,199,89,0.15); color: #1d8838; }
+  .light-tag.blue { background: rgba(0,122,255,0.12); color: var(--systemBlueLight); }
+  .light-tag.gray { background: rgba(118,118,128,0.12); color: rgba(60,60,67,0.6); }
+
+  /* SF Icon for light */
+  .sf-icon {
+    width: 28px; height: 28px;
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .sf-icon svg { width: 16px; height: 16px; stroke: white; fill: white; }
+  .icon-blue { background: var(--systemBlueLight); }
+  .icon-green { background: var(--systemGreenLight); }
+  .icon-orange { background: var(--systemOrangeLight); }
+  .icon-red { background: var(--systemRedLight); }
+  .icon-purple { background: var(--systemPurpleLight); }
+  .icon-yellow { background: var(--systemYellowLight); }
+  .icon-gray { background: var(--systemGray); }
+  .icon-teal { background: var(--systemTealLight); }
+
+  /* Switch */
+  .light-switch {
+    width: 51px; height: 31px;
+    border-radius: 16px;
+    display: flex; align-items: center;
+    padding: 2px;
+  }
+  .light-switch.on { background: var(--systemGreenLight); justify-content: flex-end; }
+  .light-switch.off { background: rgba(120,120,128,0.16); justify-content: flex-start; }
+  .light-switch-thumb {
+    width: 27px; height: 27px;
+    border-radius: 50%;
+    background: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.15), 0 1px 1px rgba(0,0,0,0.1);
+  }
+
+  /* Light theme scan camera */
+  .scan-camera {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, #0d1f0d 0%, #0a1a0e 40%);
+  }
+  .scan-camera::before {
+    content: ''; position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 80px 60px at 20% 30%, rgba(48,209,88,0.06) 0%, transparent 100%);
+  }
+  .scan-frame {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 240px; height: 240px;
+  }
+  .scan-corner {
+    position: absolute; width: 24px; height: 24px;
+    border-color: white; border-style: solid; border-width: 0;
+  }
+  .scan-corner.tl { top: 0; left: 0; border-top-width: 3px; border-left-width: 3px; }
+  .scan-corner.tr { top: 0; right: 0; border-top-width: 3px; border-right-width: 3px; }
+  .scan-corner.bl { bottom: 0; left: 0; border-bottom-width: 3px; border-left-width: 3px; }
+  .scan-corner.br { bottom: 0; right: 0; border-bottom-width: 3px; border-right-width: 3px; }
+
+  .scan-top-bar {
+    position: absolute; top: 0; left: 0; right: 0; z-index: 10;
+    padding: 65px 16px 0;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .scan-top-btn {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.4);
+    backdrop-filter: blur(20px);
+    display: flex; align-items: center; justify-content: center;
+    border: 0.5px solid rgba(255,255,255,0.1);
+  }
+  .scan-top-btn svg { width: 20px; height: 20px; stroke: white; fill: white; }
+  .scan-top-btn.active { background: rgba(255,255,255,0.95); }
+  .scan-top-btn.active svg { stroke: black; fill: black; }
+  .scan-bottom-bar {
+    position: absolute; bottom: 110px; left: 0; right: 0; z-index: 10;
+    display: flex; justify-content: center; gap: 40px;
+  }
+  .scan-bottom-btn {
+    width: 60px; height: 60px;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(20px);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 2px;
+    border: 0.5px solid rgba(255,255,255,0.1);
+  }
+  .scan-bottom-btn svg { width: 22px; height: 22px; stroke: white; fill: white; }
+  .scan-bottom-btn span { font-size: 9px; color: white; font-weight: 500; }
+  .scan-hint {
+    position: absolute; top: calc(50% + 150px); left: 50%; transform: translateX(-50%);
+    font-size: 15px; color: rgba(255,255,255,0.85); white-space: nowrap;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+  }
+
+  /* ════════════════════════════════════════════════
+     SECTION: ICON AUDIT TABLE
+  ════════════════════════════════════════════════ */
+  .audit-section {
+    padding: 0 48px 60px;
+  }
+  .audit-table {
+    width: 100%;
+    background: #1C1C1E;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  .audit-row {
+    display: grid;
+    grid-template-columns: 60px 1.2fr 1.5fr 80px 1fr;
+    gap: 16px;
+    padding: 14px 20px;
+    align-items: center;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .audit-row:last-child { border-bottom: none; }
+  .audit-row.head {
+    background: rgba(255,255,255,0.03);
+    font-size: 11px;
+    font-weight: 600;
+    color: rgba(235,235,245,0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .audit-icon-preview {
+    width: 36px; height: 36px;
+    background: #2C2C2E;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .audit-icon-preview svg {
+    width: 22px; height: 22px;
+    stroke: var(--systemBlue); fill: var(--systemBlue);
+  }
+  .audit-name {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: #fff;
+  }
+  .audit-usage {
+    font-size: 12px;
+    color: rgba(235,235,245,0.7);
+  }
+  .audit-status {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 6px;
+    display: inline-block;
+    text-align: center;
+  }
+  .audit-status.sf {
+    background: rgba(52,199,89,0.15);
+    color: var(--systemGreen);
+    border: 1px solid rgba(52,199,89,0.3);
+  }
+  .audit-status.custom {
+    background: rgba(255,159,10,0.15);
+    color: var(--systemOrange);
+    border: 1px solid rgba(255,159,10,0.3);
+  }
+  .audit-note {
+    font-size: 11px;
+    color: rgba(235,235,245,0.5);
+  }
+  .audit-note code {
+    background: rgba(255,255,255,0.05);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--systemBlue);
+  }
+
+  /* Custom icon spec */
+  .custom-icon-spec {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+    padding: 0 48px 60px;
+  }
+  .icon-spec-card {
+    background: #1C1C1E;
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  .icon-spec-header {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 14px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .icon-spec-preview {
+    width: 56px; height: 56px;
+    background: #2C2C2E;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .icon-spec-preview svg {
+    width: 36px; height: 36px;
+  }
+  .icon-spec-name {
+    font-size: 14px; font-weight: 600;
+  }
+  .icon-spec-sub {
+    font-size: 12px; color: rgba(235,235,245,0.5);
+    margin-top: 2px;
+  }
+  .icon-spec-row {
+    display: flex; justify-content: space-between; padding: 6px 0;
+    font-size: 12px;
+  }
+  .icon-spec-row .key { color: rgba(235,235,245,0.5); }
+  .icon-spec-row .val {
+    font-family: 'DM Mono', monospace; color: #fff;
+  }
+  .icon-export {
+    margin-top: 12px;
+    padding: 10px;
+    background: rgba(10,132,255,0.1);
+    border: 1px solid rgba(10,132,255,0.25);
+    border-radius: 8px;
+    font-size: 11px; color: var(--systemBlue);
+    text-align: center;
+  }
+  .icon-sizes {
+    display: flex; gap: 8px; margin-top: 8px;
+    flex-wrap: wrap;
+  }
+  .icon-size-pill {
+    font-size: 10px;
+    padding: 3px 8px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 6px;
+    font-family: 'DM Mono', monospace;
+    color: rgba(235,235,245,0.7);
+  }
+
+  /* SVG Defaults */
+  svg { fill: none; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.8; }
+
+  /* Brand showcase */
+  .brand-explore {
+    padding: 0 48px 60px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+  }
+  .brand-card {
+    background: #1C1C1E;
+    border-radius: 16px;
+    padding: 24px;
+    border: 1px solid rgba(255,255,255,0.06);
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .brand-card-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: rgba(235,235,245,0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .color-row {
+    display: flex; gap: 8px; align-items: center;
+  }
+  .color-chip {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.05);
+  }
+  .color-info { font-size: 12px; }
+  .color-info .name { font-weight: 600; }
+  .color-info .hex { font-family: 'DM Mono', monospace; color: rgba(235,235,245,0.5); font-size: 10px; }
+
+  /* iOS 18 icon variants section */
+  .ios18-variants {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    padding: 0 48px 60px;
+  }
+  .variant-card {
+    background: #1C1C1E;
+    border-radius: 14px;
+    padding: 24px 20px;
+    border: 1px solid rgba(255,255,255,0.06);
+    display: flex; flex-direction: column;
+    align-items: center; gap: 14px;
+  }
+  .variant-icon {
+    width: 100px; height: 100px;
+    border-radius: 22px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  }
+  .variant-card h4 {
+    font-size: 13px; font-weight: 600;
+  }
+  .variant-card p {
+    font-size: 11px; color: rgba(235,235,245,0.5);
+    text-align: center; line-height: 1.5;
+  }
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════
+     Hero
+════════════════════════════════════════════════ -->
+<div class="hero">
+  <div class="hero-tag">QRScan Pro · Brand & Assets</div>
+  <h1>Logo · Splash<br>Light Mode · Icons</h1>
+  <p>App Icon 全尺寸切图 · 启动屏 · 浅色模式适配 · SF Symbols 图标审计 · 非 SF 图标的切图规范</p>
+</div>
+
+<!-- ════════════════════════════════════════════════
+     SECTION 1: APP LOGO
+════════════════════════════════════════════════ -->
+<div class="section-header">
+  <div class="section-meta">
+    <span class="section-num">01</span>
+    <span class="section-title">App Logo / Icon</span>
+  </div>
+  <div class="section-desc">
+    主图标采用 <strong>iOS Squircle</strong> 形状（圆角矩形 + 连续曲率），渐变蓝色背景代表「扫描光束」，居中白色 QR 码符号代表核心功能。提供 iOS / iPadOS / macOS / iOS 18 Tinted 四个变体，全部尺寸由 Asset Catalog 自动管理。
+  </div>
+</div>
+
+<div class="logo-showcase">
+  <!-- Primary Light variant -->
+  <div class="logo-card logo-card-bg-light">
+    <div class="logo-card-label">Primary Light</div>
+    <div class="app-icon app-icon-light">
+      <div class="app-icon-glyph">
+        <svg class="qr-glyph" viewBox="0 0 100 100">
+          <!-- Three position markers (finder patterns) -->
+          <rect x="6" y="6" width="28" height="28" rx="3"/>
+          <rect x="11" y="11" width="18" height="18" rx="2" fill="#007AFF"/>
+          <rect x="15" y="15" width="10" height="10" rx="1" fill="white"/>
+
+          <rect x="66" y="6" width="28" height="28" rx="3"/>
+          <rect x="71" y="11" width="18" height="18" rx="2" fill="#007AFF"/>
+          <rect x="75" y="15" width="10" height="10" rx="1" fill="white"/>
+
+          <rect x="6" y="66" width="28" height="28" rx="3"/>
+          <rect x="11" y="71" width="18" height="18" rx="2" fill="#007AFF"/>
+          <rect x="15" y="75" width="10" height="10" rx="1" fill="white"/>
+
+          <!-- Data modules -->
+          <rect x="42" y="6" width="6" height="6" rx="1"/>
+          <rect x="52" y="6" width="6" height="6" rx="1"/>
+          <rect x="42" y="16" width="6" height="6" rx="1"/>
+          <rect x="42" y="26" width="6" height="6" rx="1"/>
+          <rect x="52" y="26" width="6" height="6" rx="1"/>
+
+          <rect x="6" y="42" width="6" height="6" rx="1"/>
+          <rect x="16" y="42" width="6" height="6" rx="1"/>
+          <rect x="32" y="42" width="6" height="6" rx="1"/>
+          <rect x="42" y="42" width="6" height="6" rx="1"/>
+          <rect x="62" y="42" width="6" height="6" rx="1"/>
+          <rect x="78" y="42" width="6" height="6" rx="1"/>
+          <rect x="88" y="42" width="6" height="6" rx="1"/>
+
+          <rect x="42" y="52" width="6" height="6" rx="1"/>
+          <rect x="62" y="52" width="6" height="6" rx="1"/>
+          <rect x="72" y="52" width="6" height="6" rx="1"/>
+          <rect x="82" y="52" width="6" height="6" rx="1"/>
+
+          <rect x="42" y="62" width="6" height="6" rx="1"/>
+          <rect x="52" y="62" width="6" height="6" rx="1"/>
+          <rect x="78" y="62" width="6" height="6" rx="1"/>
+
+          <rect x="42" y="72" width="6" height="6" rx="1"/>
+          <rect x="62" y="72" width="6" height="6" rx="1"/>
+          <rect x="72" y="72" width="6" height="6" rx="1"/>
+          <rect x="88" y="72" width="6" height="6" rx="1"/>
+
+          <rect x="42" y="82" width="6" height="6" rx="1"/>
+          <rect x="52" y="82" width="6" height="6" rx="1"/>
+          <rect x="68" y="82" width="6" height="6" rx="1"/>
+          <rect x="78" y="82" width="6" height="6" rx="1"/>
+          <rect x="88" y="82" width="6" height="6" rx="1"/>
+
+          <rect x="42" y="88" width="0" height="0"/>
+        </svg>
+      </div>
+    </div>
+    <div class="logo-card-title">QRScan Pro</div>
+    <div class="logo-card-spec">主色 · #007AFF</div>
+  </div>
+
+  <!-- Dark variant -->
+  <div class="logo-card">
+    <div class="logo-card-label">Primary Dark</div>
+    <div class="app-icon app-icon-primary">
+      <div class="app-icon-glyph">
+        <svg class="qr-glyph" viewBox="0 0 100 100">
+          <rect x="6" y="6" width="28" height="28" rx="3"/>
+          <rect x="11" y="11" width="18" height="18" rx="2" fill="#0A84FF"/>
+          <rect x="15" y="15" width="10" height="10" rx="1" fill="white"/>
+          <rect x="66" y="6" width="28" height="28" rx="3"/>
+          <rect x="71" y="11" width="18" height="18" rx="2" fill="#0A84FF"/>
+          <rect x="75" y="15" width="10" height="10" rx="1" fill="white"/>
+          <rect x="6" y="66" width="28" height="28" rx="3"/>
+          <rect x="11" y="71" width="18" height="18" rx="2" fill="#0A84FF"/>
+          <rect x="15" y="75" width="10" height="10" rx="1" fill="white"/>
+          <rect x="42" y="6" width="6" height="6" rx="1"/>
+          <rect x="52" y="6" width="6" height="6" rx="1"/>
+          <rect x="42" y="16" width="6" height="6" rx="1"/>
+          <rect x="42" y="26" width="6" height="6" rx="1"/>
+          <rect x="52" y="26" width="6" height="6" rx="1"/>
+          <rect x="6" y="42" width="6" height="6" rx="1"/>
+          <rect x="16" y="42" width="6" height="6" rx="1"/>
+          <rect x="32" y="42" width="6" height="6" rx="1"/>
+          <rect x="42" y="42" width="6" height="6" rx="1"/>
+          <rect x="62" y="42" width="6" height="6" rx="1"/>
+          <rect x="78" y="42" width="6" height="6" rx="1"/>
+          <rect x="88" y="42" width="6" height="6" rx="1"/>
+          <rect x="42" y="52" width="6" height="6" rx="1"/>
+          <rect x="62" y="52" width="6" height="6" rx="1"/>
+          <rect x="72" y="52" width="6" height="6" rx="1"/>
+          <rect x="82" y="52" width="6" height="6" rx="1"/>
+          <rect x="42" y="62" width="6" height="6" rx="1"/>
+          <rect x="52" y="62" width="6" height="6" rx="1"/>
+          <rect x="78" y="62" width="6" height="6" rx="1"/>
+          <rect x="42" y="72" width="6" height="6" rx="1"/>
+          <rect x="62" y="72" width="6" height="6" rx="1"/>
+          <rect x="72" y="72" width="6" height="6" rx="1"/>
+          <rect x="88" y="72" width="6" height="6" rx="1"/>
+          <rect x="42" y="82" width="6" height="6" rx="1"/>
+          <rect x="52" y="82" width="6" height="6" rx="1"/>
+          <rect x="68" y="82" width="6" height="6" rx="1"/>
+          <rect x="78" y="82" width="6" height="6" rx="1"/>
+          <rect x="88" y="82" width="6" height="6" rx="1"/>
+        </svg>
+      </div>
+    </div>
+    <div class="logo-card-title">深色背景版</div>
+    <div class="logo-card-spec">主色 · #0A84FF</div>
+  </div>
+
+  <!-- iOS 18 Tinted -->
+  <div class="logo-card">
+    <div class="logo-card-label">iOS 18 Tinted</div>
+    <div class="app-icon app-icon-tinted">
+      <div class="app-icon-glyph">
+        <svg class="qr-glyph" viewBox="0 0 100 100">
+          <rect x="6" y="6" width="28" height="28" rx="3"/>
+          <rect x="11" y="11" width="18" height="18" rx="2" fill="#000"/>
+          <rect x="15" y="15" width="10" height="10" rx="1"/>
+          <rect x="66" y="6" width="28" height="28" rx="3"/>
+          <rect x="71" y="11" width="18" height="18" rx="2" fill="#000"/>
+          <rect x="75" y="15" width="10" height="10" rx="1"/>
+          <rect x="6" y="66" width="28" height="28" rx="3"/>
+          <rect x="11" y="71" width="18" height="18" rx="2" fill="#000"/>
+          <rect x="15" y="75" width="10" height="10" rx="1"/>
+          <rect x="42" y="6" width="6" height="6" rx="1"/><rect x="52" y="6" width="6" height="6" rx="1"/>
+          <rect x="42" y="16" width="6" height="6" rx="1"/><rect x="42" y="26" width="6" height="6" rx="1"/><rect x="52" y="26" width="6" height="6" rx="1"/>
+          <rect x="6" y="42" width="6" height="6" rx="1"/><rect x="16" y="42" width="6" height="6" rx="1"/><rect x="32" y="42" width="6" height="6" rx="1"/>
+          <rect x="42" y="42" width="6" height="6" rx="1"/><rect x="62" y="42" width="6" height="6" rx="1"/><rect x="78" y="42" width="6" height="6" rx="1"/><rect x="88" y="42" width="6" height="6" rx="1"/>
+          <rect x="42" y="52" width="6" height="6" rx="1"/><rect x="62" y="52" width="6" height="6" rx="1"/><rect x="72" y="52" width="6" height="6" rx="1"/><rect x="82" y="52" width="6" height="6" rx="1"/>
+          <rect x="42" y="62" width="6" height="6" rx="1"/><rect x="52" y="62" width="6" height="6" rx="1"/><rect x="78" y="62" width="6" height="6" rx="1"/>
+          <rect x="42" y="72" width="6" height="6" rx="1"/><rect x="62" y="72" width="6" height="6" rx="1"/><rect x="72" y="72" width="6" height="6" rx="1"/><rect x="88" y="72" width="6" height="6" rx="1"/>
+          <rect x="42" y="82" width="6" height="6" rx="1"/><rect x="52" y="82" width="6" height="6" rx="1"/><rect x="68" y="82" width="6" height="6" rx="1"/><rect x="78" y="82" width="6" height="6" rx="1"/><rect x="88" y="82" width="6" height="6" rx="1"/>
+        </svg>
+      </div>
+    </div>
+    <div class="logo-card-title">iOS 18 单色版</div>
+    <div class="logo-card-spec">系统按用户色调染色</div>
+  </div>
+
+  <!-- macOS variant -->
+  <div class="logo-card">
+    <div class="logo-card-label">macOS</div>
+    <div class="app-icon app-icon-macos" style="border-radius:38px;">
+      <div class="app-icon-glyph">
+        <svg class="qr-glyph" viewBox="0 0 100 100">
+          <rect x="6" y="6" width="28" height="28" rx="3"/>
+          <rect x="11" y="11" width="18" height="18" rx="2" fill="#0A84FF"/>
+          <rect x="15" y="15" width="10" height="10" rx="1" fill="white"/>
+          <rect x="66" y="6" width="28" height="28" rx="3"/>
+          <rect x="71" y="11" width="18" height="18" rx="2" fill="#0A84FF"/>
+          <rect x="75" y="15" width="10" height="10" rx="1" fill="white"/>
+          <rect x="6" y="66" width="28" height="28" rx="3"/>
+          <rect x="11" y="71" width="18" height="18" rx="2" fill="#0A84FF"/>
+          <rect x="15" y="75" width="10" height="10" rx="1" fill="white"/>
+          <rect x="42" y="6" width="6" height="6" rx="1"/><rect x="52" y="6" width="6" height="6" rx="1"/>
+          <rect x="42" y="16" width="6" height="6" rx="1"/><rect x="42" y="26" width="6" height="6" rx="1"/><rect x="52" y="26" width="6" height="6" rx="1"/>
+          <rect x="6" y="42" width="6" height="6" rx="1"/><rect x="16" y="42" width="6" height="6" rx="1"/><rect x="32" y="42" width="6" height="6" rx="1"/>
+          <rect x="42" y="42" width="6" height="6" rx="1"/><rect x="62" y="42" width="6" height="6" rx="1"/><rect x="78" y="42" width="6" height="6" rx="1"/><rect x="88" y="42" width="6" height="6" rx="1"/>
+          <rect x="42" y="52" width="6" height="6" rx="1"/><rect x="62" y="52" width="6" height="6" rx="1"/><rect x="72" y="52" width="6" height="6" rx="1"/><rect x="82" y="52" width="6" height="6" rx="1"/>
+          <rect x="42" y="62" width="6" height="6" rx="1"/><rect x="52" y="62" width="6" height="6" rx="1"/><rect x="78" y="62" width="6" height="6" rx="1"/>
+          <rect x="42" y="72" width="6" height="6" rx="1"/><rect x="62" y="72" width="6" height="6" rx="1"/><rect x="72" y="72" width="6" height="6" rx="1"/><rect x="88" y="72" width="6" height="6" rx="1"/>
+          <rect x="42" y="82" width="6" height="6" rx="1"/><rect x="52" y="82" width="6" height="6" rx="1"/><rect x="68" y="82" width="6" height="6" rx="1"/><rect x="78" y="82" width="6" height="6" rx="1"/><rect x="88" y="82" width="6" height="6" rx="1"/>
+        </svg>
+      </div>
+    </div>
+    <div class="logo-card-title">macOS 版本</div>
+    <div class="logo-card-spec">略大圆角 · macOS 14+</div>
+  </div>
+</div>
+
+<!-- iOS App Icon Sizes -->
+<div class="section-header">
+  <div class="section-meta">
+    <span class="section-num">01.1</span>
+    <span class="section-title">iOS / iPadOS App Icon 切图规格</span>
+  </div>
+  <div class="section-desc">
+    使用 <strong>1024×1024 主图</strong>（无圆角），通过 Asset Catalog 自动生成所有尺寸。设计软件中导出 1024×1024 PNG 即可。下方展示 iPhone 全尺寸预览：
+  </div>
+</div>
+
+<div style="padding: 0 48px 60px;">
+  <div class="logo-card" style="display:block;">
+    <div class="logo-card-label" style="margin-bottom:16px;">iPhone / iPad — Asset Catalog 自动生成</div>
+    <div class="sizes-grid">
+      <div class="size-cell">
+        <div class="icon-32"><div class="icon-mini-glyph"><svg viewBox="0 0 21 21"><rect x="1" y="1" width="6" height="6"/><rect x="14" y="1" width="6" height="6"/><rect x="1" y="14" width="6" height="6"/><rect x="9" y="3" width="2" height="1"/></svg></div></div>
+        <div class="size-label">通知</div>
+        <div class="size-spec">40×40 @1x · 60×60 @3x</div>
+      </div>
+      <div class="size-cell">
+        <div class="icon-40"><div class="icon-mini-glyph"><svg viewBox="0 0 21 21"><rect x="1" y="1" width="6" height="6"/><rect x="14" y="1" width="6" height="6"/><rect x="1" y="14" width="6" height="6"/><rect x="9" y="3" width="2" height="1"/></svg></div></div>
+        <div class="size-label">Spotlight</div>
+        <div class="size-spec">80×80 @2x · 120×120 @3x</div>
+      </div>
+      <div class="size-cell">
+        <div class="icon-58"><div class="icon-mini-glyph"><svg viewBox="0 0 21 21"><rect x="1" y="1" width="6" height="6"/><rect x="14" y="1" width="6" height="6"/><rect x="1" y="14" width="6" height="6"/><rect x="9" y="3" width="2" height="1"/></svg></div></div>
+        <div class="size-label">设置</div>
+        <div class="size-spec">58×58 @2x · 87×87 @3x</div>
+      </div>
+      <div class="size-cell">
+        <div class="icon-60"><div class="icon-mini-glyph"><svg viewBox="0 0 21 21"><rect x="1" y="1" width="6" height="6"/><rect x="14" y="1" width="6" height="6"/><rect x="1" y="14" width="6" height="6"/><rect x="9" y="3" width="2" height="1"/></svg></div></div>
+        <div class="size-label">App</div>
+        <div class="size-spec">120×120 @2x · 180×180 @3x</div>
+      </div>
+      <div class="size-cell">
+        <div class="icon-87"><div class="icon-mini-glyph"><svg viewBox="0 0 21 21"><rect x="1" y="1" width="6" height="6"/><rect x="14" y="1" width="6" height="6"/><rect x="1" y="14" width="6" height="6"/><rect x="9" y="3" width="2" height="1"/></svg></div></div>
+        <div class="size-label">App Store</div>
+        <div class="size-spec">1024×1024 @1x</div>
+      </div>
+    </div>
+    <div class="icon-export" style="margin-top:20px;">
+      ⓘ 实际导出只需提供单张 <code style="background:rgba(10,132,255,0.2);padding:2px 6px;border-radius:4px;font-family:'DM Mono',monospace;color:white;">AppIcon.png · 1024×1024 · PNG · sRGB · 无 Alpha</code>，Xcode Asset Catalog 自动生成所有尺寸
+    </div>
+  </div>
+</div>
+
+<div class="big-divider"></div>
+
+<!-- ════════════════════════════════════════════════
+     SECTION 2: SPLASH SCREEN
+════════════════════════════════════════════════ -->
+<div class="section-header">
+  <div class="section-meta">
+    <span class="section-num">02</span>
+    <span class="section-title">启动屏（Launch Screen）</span>
+  </div>
+  <div class="section-desc">
+    使用 <strong>SwiftUI Launch Screen</strong> 配置（iOS 14+），无需 Storyboard 或图片资源。提供浅色 / 深色 / 渐变三种风格，下方任选一种实现即可。<strong>推荐方案 A：极简 Logo + App 名称</strong>，与 Apple 系统应用启动一致。
+  </div>
+</div>
+
+<div class="splash-row">
+
+  <!-- Light splash (recommended) -->
+  <div class="screen-wrap">
+    <div class="screen-title"><span class="dot"></span>方案 A · 浅色（推荐）</div>
+    <div class="screen-meta">极简 Logo + 应用名称<br>与系统 App 启动风格一致</div>
+    <div class="iphone">
+      <div class="iphone-screen">
+        <div class="dynamic-island"></div>
+        <div class="splash-light">
+          <div class="splash-logo">
+            <div class="app-icon app-icon-light" style="width:120px;height:120px;border-radius:28px;">
+              <div class="app-icon-glyph">
+                <svg class="qr-glyph" viewBox="0 0 100 100">
+                  <rect x="6" y="6" width="28" height="28" rx="3"/>
+                  <rect x="11" y="11" width="18" height="18" rx="2" fill="#007AFF"/>
+                  <rect x="15" y="15" width="10" height="10" rx="1" fill="white"/>
+                  <rect x="66" y="6" width="28" height="28" rx="3"/>
+                  <rect x="71" y="11" width="18" height="18" rx="2" fill="#007AFF"/>
+                  <rect x="75" y="15" width="10" height="10" rx="1" fill="white"/>
+                  <rect x="6" y="66" width="28" height="28" rx="3"/>
+                  <rect x="11" y="71" width="18" height="18" rx="2" fill="#007AFF"/>
+                  <rect x="15" y="75" width="10" height="10" rx="1" fill="white"/>
+                  <rect x="42" y="6" width="6" height="6" rx="1"/><rect x="52" y="6" width="6" height="6" rx="1"/>
+                  <rect x="42" y="16" width="6" height="6" rx="1"/><rect x="42" y="26" width="6" height="6" rx="1"/><rect x="52" y="26" width="6" height="6" rx="1"/>
+                  <rect x="6" y="42" width="6" height="6" rx="1"/><rect x="16" y="42" width="6" height="6" rx="1"/><rect x="32" y="42" width="6" height="6" rx="1"/>
+                  <rect x="42" y="42" width="6" height="6" rx="1"/><rect x="62" y="42" width="6" height="6" rx="1"/><rect x="78" y="42" width="6" height="6" rx="1"/><rect x="88" y="42" width="6" height="6" rx="1"/>
+                  <rect x="42" y="52" width="6" height="6" rx="1"/><rect x="62" y="52" width="6" height="6" rx="1"/><rect x="72" y="52" width="6" height="6" rx="1"/><rect x="82" y="52" width="6" height="6" rx="1"/>
+                  <rect x="42" y="62" width="6" height="6" rx="1"/><rect x="52" y="62" width="6" height="6" rx="1"/><rect x="78" y="62" width="6" height="6" rx="1"/>
+                  <rect x="42" y="72" width="6" height="6" rx="1"/><rect x="62" y="72" width="6" height="6" rx="1"/><rect x="72" y="72" width="6" height="6" rx="1"/><rect x="88" y="72" width="6" height="6" rx="1"/>
+                  <rect x="42" y="82" width="6" height="6" rx="1"/><rect x="52" y="82" width="6" height="6" rx="1"/><rect x="68" y="82" width="6" height="6" rx="1"/><rect x="78" y="82" width="6" height="6" rx="1"/><rect x="88" y="82" width="6" height="6" rx="1"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div class="splash-title splash-light-text">QRScan Pro</div>
+          <div class="splash-tagline splash-light-tagline">扫码 · 识别 · 生成</div>
+          <div class="splash-bottom" style="color:rgba(60,60,67,0.4);">v 1.0.0</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dark splash -->
+  <div class="screen-wrap">
+    <div class="screen-title"><span class="dot"></span>方案 B · 深色</div>
+    <div class="screen-meta">深色背景适配<br>系统自动切换</div>
+    <div class="iphone">
+      <div class="iphone-screen">
+        <div class="dynamic-island"></div>
+        <div class="splash-dark">
+          <div class="splash-logo">
+            <div class="app-icon app-icon-primary" style="width:120px;height:120px;border-radius:28px;">
+              <div class="app-icon-glyph">
+                <svg class="qr-glyph" viewBox="0 0 100 100">
+                  <rect x="6" y="6" width="28" height="28" rx="3"/>
+                  <rect x="11" y="11" width="18" height="18" rx="2" fill="#0A84FF"/>
+                  <rect x="15" y="15" width="10" height="10" rx="1" fill="white"/>
+                  <rect x="66" y="6" width="28" height="28" rx="3"/>
+                  <rect x="71" y="11" width="18" height="18" rx="2" fill="#0A84FF"/>
+                  <rect x="75" y="15" width="10" height="10" rx="1" fill="white"/>
+                  <rect x="6" y="66" width="28" height="28" rx="3"/>
+                  <rect x="11" y="71" width="18" height="18" rx="2" fill="#0A84FF"/>
+                  <rect x="15" y="75" width="10" height="10" rx="1" fill="white"/>
+                  <rect x="42" y="6" width="6" height="6" rx="1"/><rect x="52" y="6" width="6" height="6" rx="1"/>
+                  <rect x="42" y="16" width="6" height="6" rx="1"/><rect x="42" y="26" width="6" height="6" rx="1"/><rect x="52" y="26" width="6" height="6" rx="1"/>
+                  <rect x="6" y="42" width="6" height="6" rx="1"/><rect x="16" y="42" width="6" height="6" rx="1"/><rect x="32" y="42" width="6" height="6" rx="1"/>
+                  <rect x="42" y="42" width="6" height="6" rx="1"/><rect x="62" y="42" width="6" height="6" rx="1"/><rect x="78" y="42" width="6" height="6" rx="1"/><rect x="88" y="42" width="6" height="6" rx="1"/>
+                  <rect x="42" y="52" width="6" height="6" rx="1"/><rect x="62" y="52" width="6" height="6" rx="1"/><rect x="72" y="52" width="6" height="6" rx="1"/><rect x="82" y="52" width="6" height="6" rx="1"/>
+                  <rect x="42" y="62" width="6" height="6" rx="1"/><rect x="52" y="62" width="6" height="6" rx="1"/><rect x="78" y="62" width="6" height="6" rx="1"/>
+                  <rect x="42" y="72" width="6" height="6" rx="1"/><rect x="62" y="72" width="6" height="6" rx="1"/><rect x="72" y="72" width="6" height="6" rx="1"/><rect x="88" y="72" width="6" height="6" rx="1"/>
+                  <rect x="42" y="82" width="6" height="6" rx="1"/><rect x="52" y="82" width="6" height="6" rx="1"/><rect x="68" y="82" width="6" height="6" rx="1"/><rect x="78" y="82" width="6" height="6" rx="1"/><rect x="88" y="82" width="6" height="6" rx="1"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div class="splash-title splash-dark-text">QRScan Pro</div>
+          <div class="splash-tagline splash-dark-tagline">扫码 · 识别 · 生成</div>
+          <div class="splash-bottom" style="color:rgba(235,235,245,0.3);">v 1.0.0</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Gradient splash -->
+  <div class="screen-wrap">
+    <div class="screen-title"><span class="dot"></span>方案 C · 渐变（视觉款）</div>
+    <div class="screen-meta">扫描光束动效背景<br>更具品牌感</div>
+    <div class="iphone">
+      <div class="iphone-screen">
+        <div class="dynamic-island"></div>
+        <div class="splash-gradient">
+          <div class="splash-scan-bg">
+            <div class="splash-scan-line-h"></div>
+          </div>
+          <div class="splash-logo">
+            <div class="app-icon app-icon-primary" style="width:120px;height:120px;border-radius:28px;">
+              <div class="app-icon-glyph">
+                <svg class="qr-glyph" viewBox="0 0 100 100">
+                  <rect x="6" y="6" width="28" height="28" rx="3"/>
+                  <rect x="11" y="11" width="18" height="18" rx="2" fill="#0A84FF"/>
+                  <rect x="15" y="15" width="10" height="10" rx="1" fill="white"/>
+                  <rect x="66" y="6" width="28" height="28" rx="3"/>
+                  <rect x="71" y="11" width="18" height="18" rx="2" fill="#0A84FF"/>
+                  <rect x="75" y="15" width="10" height="10" rx="1" fill="white"/>
+                  <rect x="6" y="66" width="28" height="28" rx="3"/>
+                  <rect x="11" y="71" width="18" height="18" rx="2" fill="#0A84FF"/>
+                  <rect x="15" y="75" width="10" height="10" rx="1" fill="white"/>
+                  <rect x="42" y="6" width="6" height="6" rx="1"/><rect x="52" y="6" width="6" height="6" rx="1"/>
+                  <rect x="42" y="16" width="6" height="6" rx="1"/><rect x="42" y="26" width="6" height="6" rx="1"/><rect x="52" y="26" width="6" height="6" rx="1"/>
+                  <rect x="6" y="42" width="6" height="6" rx="1"/><rect x="16" y="42" width="6" height="6" rx="1"/><rect x="32" y="42" width="6" height="6" rx="1"/>
+                  <rect x="42" y="42" width="6" height="6" rx="1"/><rect x="62" y="42" width="6" height="6" rx="1"/><rect x="78" y="42" width="6" height="6" rx="1"/><rect x="88" y="42" width="6" height="6" rx="1"/>
+                  <rect x="42" y="52" width="6" height="6" rx="1"/><rect x="62" y="52" width="6" height="6" rx="1"/><rect x="72" y="52" width="6" height="6" rx="1"/><rect x="82" y="52" width="6" height="6" rx="1"/>
+                  <rect x="42" y="62" width="6" height="6" rx="1"/><rect x="52" y="62" width="6" height="6" rx="1"/><rect x="78" y="62" width="6" height="6" rx="1"/>
+                  <rect x="42" y="72" width="6" height="6" rx="1"/><rect x="62" y="72" width="6" height="6" rx="1"/><rect x="72" y="72" width="6" height="6" rx="1"/><rect x="88" y="72" width="6" height="6" rx="1"/>
+                  <rect x="42" y="82" width="6" height="6" rx="1"/><rect x="52" y="82" width="6" height="6" rx="1"/><rect x="68" y="82" width="6" height="6" rx="1"/><rect x="78" y="82" width="6" height="6" rx="1"/><rect x="88" y="82" width="6" height="6" rx="1"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div class="splash-title splash-dark-text">QRScan Pro</div>
+          <div class="splash-tagline splash-dark-tagline">扫码 · 识别 · 生成</div>
+          <div class="splash-loader"></div>
+          <div class="splash-bottom" style="color:rgba(255,255,255,0.4);">由 Vision 框架驱动</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="big-divider"></div>
+
+<!-- ════════════════════════════════════════════════
+     SECTION 3: LIGHT MODE SCREENS
+════════════════════════════════════════════════ -->
+<div class="section-header">
+  <div class="section-meta">
+    <span class="section-num">03</span>
+    <span class="section-title">浅色模式适配</span>
+  </div>
+  <div class="section-desc">
+    SwiftUI 原生 <code style="background:rgba(255,255,255,0.05);padding:2px 6px;border-radius:4px;font-family:'DM Mono',monospace;font-size:12px;color:var(--systemBlue);">@Environment(\.colorScheme)</code> 自动适配。所有颜色使用 System Color 语义化命名（如 <code style="background:rgba(255,255,255,0.05);padding:2px 6px;border-radius:4px;font-family:'DM Mono',monospace;font-size:12px;color:var(--systemBlue);">.systemBackground / .secondaryLabel</code>），无需手动配置。下方为关键页面的浅色模式预览。
+  </div>
+</div>
+
+<div class="splash-row">
+
+  <!-- Light: 扫码主页 (camera always dark) -->
+  <div class="screen-wrap">
+    <div class="screen-title"><span class="dot"></span>扫码主页 · 浅色</div>
+    <div class="screen-meta">取景画面始终深色<br>Tab Bar 适配浅色</div>
+    <div class="iphone">
+      <div class="iphone-screen light-iphone-screen">
+        <div class="dynamic-island"></div>
+        <div class="scan-camera"></div>
+        <div class="scan-frame">
+          <div class="scan-corner tl"></div>
+          <div class="scan-corner tr"></div>
+          <div class="scan-corner bl"></div>
+          <div class="scan-corner br"></div>
+        </div>
+        <div class="scan-hint">将二维码放入框内</div>
+
+        <div class="scan-top-bar">
+          <div class="scan-top-btn active">
+            <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M14.7 5.05L9.93 7.5L4.5 7L3 9v8l1.5 2L9.93 18.5l4.77 2.45L21 19v-3l-2.5-1.5V12l2.5-1.5V8l-6.3-2.95z"/></svg>
+          </div>
+          <div class="scan-top-btn">
+            <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M9 4h6l1.5 2H20a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V8a2 2 0 012-2h3.5L9 4zm3 13.5a4.5 4.5 0 100-9 4.5 4.5 0 000 9z"/></svg>
+          </div>
+        </div>
+
+        <div class="scan-bottom-bar">
+          <div class="scan-bottom-btn">
+            <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M5 4h14a1 1 0 011 1v3a1 1 0 01-1 1H5a1 1 0 01-1-1V5a1 1 0 011-1zm0 7h14a1 1 0 011 1v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-3a1 1 0 011-1zm0 7h14a1 1 0 011 1v1H4v-1a1 1 0 011-1z"/></svg>
+            <span>相册</span>
+          </div>
+          <div class="scan-bottom-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3M14 17h3m3 0h-3m0 0v-3m0 3v3m3-3h-3m0 3h3m-3-3v3"/></svg>
+            <span>生成</span>
+          </div>
+        </div>
+
+        <!-- Tab bar light -->
+        <div class="light-tab-bar" style="position:absolute;bottom:0;left:0;right:0;z-index:10;">
+          <div class="light-tab active">
+            <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M3 7V5a2 2 0 012-2h2v2H5v2H3zm0 12v-2h2v-2h2v2H5v2H3zm0 0h4v2H5a2 2 0 01-2-2zm14-2h2v-2h2v2a2 2 0 01-2 2h-2v-2zm-2-12h-2V3h2a2 2 0 012 2v2h-2V5z"/></svg>
+            <span class="label">扫码</span>
+          </div>
+          <div class="light-tab">
+            <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 18a8 8 0 110-16 8 8 0 010 16z"/><path d="M12 6h-1v7l5.25 3.15.75-1.23-4.5-2.67V6z"/></svg>
+            <span class="label">历史</span>
+          </div>
+          <div class="light-tab">
+            <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M19.43 12.98c.04-.32.07-.64.07-.98 0-.34-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46a.5.5 0 00-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65A.488.488 0 0014 2h-4a.488.488 0 00-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1a.566.566 0 00-.18-.03c-.17 0-.34.09-.43.25l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98 0 .33.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46a.5.5 0 00.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.05.24.25.42.49.42h4c.24 0 .44-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1a.5.5 0 00.61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5a3.5 3.5 0 110-7 3.5 3.5 0 010 7z"/></svg>
+            <span class="label">设置</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Light: Detail page -->
+  <div class="screen-wrap">
+    <div class="screen-title"><span class="dot"></span>扫码详情 · 浅色</div>
+    <div class="screen-meta">Form + Action 列表<br>白底灰背景标准布局</div>
+    <div class="iphone">
+      <div class="iphone-screen light-iphone-screen">
+        <div class="dynamic-island"></div>
+        <div class="light-status-bar">
+          <span class="light-status-time">9:41</span>
+          <div class="light-status-icons">
+            <svg viewBox="0 0 16 11"><path fill="black" d="M0 9.5h3v1H0zm4-2h3v3H4zm4-2.5h3v5.5H8zm4-3h3v8.5h-3z"/></svg>
+          </div>
+        </div>
+        <div class="light-nav">
+          <div class="light-nav-back">
+            <svg viewBox="0 0 12 18"><path d="M11 1L2 9l9 8" fill="none" stroke="currentColor"/></svg>
+            扫码
+          </div>
+          <div class="light-nav-title">扫描结果</div>
+          <div class="light-nav-action">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M14 9V5l7 7-7 7v-4H6V9h8z" stroke="none"/></svg>
+          </div>
+        </div>
+
+        <div class="light-content">
+          <div class="light-meta-row">
+            <span class="light-tag green">QR Code</span>
+            <span class="light-tag blue">📷 相机</span>
+            <span class="light-tag gray">今天 14:23</span>
+          </div>
+
+          <div class="light-form-section">
+            <div class="light-form-header">原始内容</div>
+            <div class="light-raw-card">https://www.apple.com/shop/product/MQKQ3LL/A</div>
+          </div>
+
+          <div class="light-form-section">
+            <div class="light-actions">
+              <div class="light-action-row">
+                <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 0v20M2 12h20"/></svg>
+                在 Safari 中打开
+              </div>
+              <div class="light-action-row">
+                <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M9 5H7c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2h-2v2h2v12H7V7h2V5z"/><path d="M15 1H9c-1.1 0-2 .9-2 2v2h2V3h6v2h2V3c0-1.1-.9-2-2-2z"/></svg>
+                复制
+              </div>
+              <div class="light-action-row">
+                <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M16 5l-1.42 1.42-1.59-1.59V16h-1.98V4.83L9.42 6.42 8 5l4-4 4 4zm4 5v11c0 1.1-.9 2-2 2H6c-1.11 0-2-.9-2-2V10c0-1.11.89-2 2-2h3v2H6v11h12V10h-3V8h3c1.1 0 2 .89 2 2z"/></svg>
+                分享...
+              </div>
+              <div class="light-action-row destructive">
+                <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+                删除记录
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Light: History -->
+  <div class="screen-wrap">
+    <div class="screen-title"><span class="dot"></span>历史记录 · 浅色</div>
+    <div class="screen-meta">SF Symbols 彩色图标<br>白色卡片 + 灰底</div>
+    <div class="iphone">
+      <div class="iphone-screen light-iphone-screen">
+        <div class="dynamic-island"></div>
+        <div class="light-status-bar">
+          <span class="light-status-time">9:41</span>
+          <div class="light-status-icons">
+            <svg viewBox="0 0 16 11"><path fill="black" d="M0 9.5h3v1H0zm4-2h3v3H4zm4-2.5h3v5.5H8zm4-3h3v8.5h-3z"/></svg>
+          </div>
+        </div>
+        <div class="light-content">
+          <div class="light-large-title">历史记录</div>
+
+          <div class="light-search">
+            <svg viewBox="0 0 24 24" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            <span>搜索</span>
+          </div>
+
+          <div style="padding: 0 16px 12px;">
+            <div class="light-segmented">
+              <div class="light-seg-btn active">全部</div>
+              <div class="light-seg-btn">扫码</div>
+              <div class="light-seg-btn">生成</div>
+            </div>
+          </div>
+
+          <div class="light-form-section">
+            <div class="light-form-header">扫码记录 · 23</div>
+            <div class="light-form-card">
+              <div class="light-form-row">
+                <div class="sf-icon icon-blue">
+                  <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a14.5 14.5 0 010 20"/></svg>
+                </div>
+                <div style="flex:1;min-width:0;">
+                  <div style="font-size:15px;color:#000;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">apple.com/shop/...</div>
+                  <div style="font-size:13px;color:rgba(60,60,67,0.6);margin-top:2px;">QR Code · 14:23</div>
+                </div>
+                <div class="light-form-chevron"><svg viewBox="0 0 7 12"><path d="M1 1l5 5-5 5" fill="none" stroke="currentColor"/></svg></div>
+              </div>
+              <div class="light-form-row">
+                <div class="sf-icon icon-yellow">
+                  <svg viewBox="0 0 24 24"><path d="M3 5h2v14H3zM7 5h1v14H7zM10 5h2v14h-2zM14 5h1v14h-1zM17 5h2v14h-2zM21 5h1v14h-1z"/></svg>
+                </div>
+                <div style="flex:1;min-width:0;">
+                  <div style="font-size:15px;color:#000;">6901234567892</div>
+                  <div style="font-size:13px;color:rgba(60,60,67,0.6);margin-top:2px;">EAN-13 · 11:05</div>
+                </div>
+                <div class="light-form-chevron"><svg viewBox="0 0 7 12"><path d="M1 1l5 5-5 5" fill="none" stroke="currentColor"/></svg></div>
+              </div>
+              <div class="light-form-row">
+                <div class="sf-icon icon-green">
+                  <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                </div>
+                <div style="flex:1;min-width:0;">
+                  <div style="font-size:15px;color:#000;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">WIFI:T:WPA;S:Home...</div>
+                  <div style="font-size:13px;color:rgba(60,60,67,0.6);margin-top:2px;">QR Code · 昨天</div>
+                </div>
+                <div class="light-form-chevron"><svg viewBox="0 0 7 12"><path d="M1 1l5 5-5 5" fill="none" stroke="currentColor"/></svg></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="light-form-section">
+            <div class="light-form-header">生成记录 · 8</div>
+            <div class="light-form-card">
+              <div class="light-form-row">
+                <div class="sf-icon icon-orange">
+                  <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 17h3m3 0h-3m0 0v-3m0 3v3"/></svg>
+                </div>
+                <div style="flex:1;min-width:0;">
+                  <div style="font-size:15px;color:#000;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">github.com/yourapp</div>
+                  <div style="font-size:13px;color:rgba(60,60,67,0.6);margin-top:2px;">512px · 今天 10:14</div>
+                </div>
+                <div class="light-form-chevron"><svg viewBox="0 0 7 12"><path d="M1 1l5 5-5 5" fill="none" stroke="currentColor"/></svg></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="light-tab-bar">
+          <div class="light-tab">
+            <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M3 7V5a2 2 0 012-2h2v2H5v2H3zm0 12v-2h2v-2h2v2H5v2H3zm0 0h4v2H5a2 2 0 01-2-2zm14-2h2v-2h2v2a2 2 0 01-2 2h-2v-2zm-2-12h-2V3h2a2 2 0 012 2v2h-2V5z"/></svg>
+            <span class="label">扫码</span>
+          </div>
+          <div class="light-tab active">
+            <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 18a8 8 0 110-16 8 8 0 010 16z"/><path d="M12 6h-1v7l5.25 3.15.75-1.23-4.5-2.67V6z"/></svg>
+            <span class="label">历史</span>
+          </div>
+          <div class="light-tab">
+            <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M19.43 12.98c.04-.32.07-.64.07-.98 0-.34-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46a.5.5 0 00-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65A.488.488 0 0014 2h-4a.488.488 0 00-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1a.566.566 0 00-.18-.03c-.17 0-.34.09-.43.25l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98 0 .33.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46a.5.5 0 00.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.05.24.25.42.49.42h4c.24 0 .44-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1a.5.5 0 00.61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5a3.5 3.5 0 110-7 3.5 3.5 0 010 7z"/></svg>
+            <span class="label">设置</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Light: Generate -->
+  <div class="screen-wrap">
+    <div class="screen-title"><span class="dot"></span>二维码生成 · 浅色</div>
+    <div class="screen-meta">Form 表单 + 实时预览<br>原生 ColorPicker / Picker</div>
+    <div class="iphone">
+      <div class="iphone-screen light-iphone-screen">
+        <div class="dynamic-island"></div>
+        <div class="light-status-bar">
+          <span class="light-status-time">9:41</span>
+          <div class="light-status-icons"><svg viewBox="0 0 16 11"><path fill="black" d="M0 9.5h3v1H0zm4-2h3v3H4zm4-2.5h3v5.5H8zm4-3h3v8.5h-3z"/></svg></div>
+        </div>
+        <div class="light-nav">
+          <div class="light-nav-back">
+            <svg viewBox="0 0 12 18"><path d="M11 1L2 9l9 8" fill="none" stroke="currentColor"/></svg>
+            扫码
+          </div>
+          <div class="light-nav-title">生成二维码</div>
+          <div class="light-nav-action bold">完成</div>
+        </div>
+
+        <div class="light-content">
+          <div style="display:flex;justify-content:center;padding:24px 16px;">
+            <div style="background:white;padding:14px;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.08);width:180px;height:180px;display:flex;align-items:center;justify-content:center;">
+              <svg viewBox="0 0 21 21" width="156" height="156">
+                <rect x="1" y="1" width="7" height="7" fill="#000"/><rect x="2" y="2" width="5" height="5" fill="white"/><rect x="3" y="3" width="3" height="3" fill="#000"/>
+                <rect x="13" y="1" width="7" height="7" fill="#000"/><rect x="14" y="2" width="5" height="5" fill="white"/><rect x="15" y="3" width="3" height="3" fill="#000"/>
+                <rect x="1" y="13" width="7" height="7" fill="#000"/><rect x="2" y="14" width="5" height="5" fill="white"/><rect x="3" y="15" width="3" height="3" fill="#000"/>
+                <rect x="9" y="1" width="1" height="1" fill="#000"/><rect x="11" y="1" width="1" height="1" fill="#000"/><rect x="9" y="3" width="2" height="1" fill="#000"/>
+                <rect x="9" y="5" width="1" height="1" fill="#000"/><rect x="11" y="5" width="1" height="1" fill="#000"/><rect x="9" y="7" width="3" height="1" fill="#000"/>
+                <rect x="1" y="9" width="1" height="1" fill="#000"/><rect x="3" y="9" width="2" height="1" fill="#000"/><rect x="9" y="9" width="1" height="2" fill="#000"/>
+                <rect x="11" y="9" width="3" height="1" fill="#000"/><rect x="15" y="9" width="1" height="1" fill="#000"/><rect x="17" y="9" width="3" height="1" fill="#000"/>
+                <rect x="1" y="11" width="3" height="1" fill="#000"/><rect x="6" y="11" width="2" height="1" fill="#000"/><rect x="10" y="11" width="2" height="1" fill="#000"/>
+                <rect x="13" y="11" width="1" height="1" fill="#000"/><rect x="9" y="13" width="1" height="1" fill="#000"/><rect x="11" y="13" width="3" height="1" fill="#000"/>
+                <rect x="13" y="13" width="1" height="3" fill="#000"/><rect x="17" y="13" width="3" height="1" fill="#000"/><rect x="9" y="17" width="1" height="1" fill="#000"/>
+                <rect x="11" y="17" width="1" height="1" fill="#000"/><rect x="17" y="15" width="1" height="3" fill="#000"/>
+                <rect x="9" y="19" width="3" height="1" fill="#000"/><rect x="13" y="19" width="1" height="1" fill="#000"/><rect x="15" y="19" width="3" height="1" fill="#000"/>
+              </svg>
+            </div>
+          </div>
+
+          <div class="light-form-section">
+            <div class="light-form-header">内容</div>
+            <div class="light-form-card">
+              <div class="light-form-row" style="padding:12px 16px;">
+                <div style="font-family:'DM Mono',monospace;font-size:14px;color:#000;">https://github.com/yourapp</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="light-form-section">
+            <div class="light-form-header">样式</div>
+            <div class="light-form-card">
+              <div class="light-form-row">
+                <div class="light-form-label">纠错级别</div>
+                <div class="light-form-value">中（M）</div>
+                <div class="light-form-chevron"><svg viewBox="0 0 7 12"><path d="M1 1l5 5-5 5" fill="none" stroke="currentColor"/></svg></div>
+              </div>
+              <div class="light-form-row">
+                <div class="light-form-label">前景色</div>
+                <div style="width:24px;height:24px;border-radius:50%;background:#000;border:1px solid var(--l-separator);"></div>
+              </div>
+              <div class="light-form-row">
+                <div class="light-form-label">背景色</div>
+                <div style="width:24px;height:24px;border-radius:50%;background:#fff;border:1px solid var(--l-separator);"></div>
+              </div>
+              <div class="light-form-row">
+                <div class="light-form-label">添加 Logo</div>
+                <div class="light-switch off"><div class="light-switch-thumb"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Light: Settings -->
+  <div class="screen-wrap">
+    <div class="screen-title"><span class="dot"></span>设置 · 浅色</div>
+    <div class="screen-meta">Form + Section + 彩色图标<br>iOS 系统设置标准布局</div>
+    <div class="iphone">
+      <div class="iphone-screen light-iphone-screen">
+        <div class="dynamic-island"></div>
+        <div class="light-status-bar">
+          <span class="light-status-time">9:41</span>
+          <div class="light-status-icons"><svg viewBox="0 0 16 11"><path fill="black" d="M0 9.5h3v1H0zm4-2h3v3H4zm4-2.5h3v5.5H8zm4-3h3v8.5h-3z"/></svg></div>
+        </div>
+        <div class="light-content">
+          <div class="light-large-title">设置</div>
+
+          <div class="light-form-section">
+            <div class="light-form-header">扫描</div>
+            <div class="light-form-card">
+              <div class="light-form-row">
+                <div class="sf-icon icon-orange">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 12h7v8h6v-8h7L12 2z" stroke="none"/></svg>
+                </div>
+                <div class="light-form-label">触感反馈</div>
+                <div class="light-switch on"><div class="light-switch-thumb"></div></div>
+              </div>
+              <div class="light-form-row">
+                <div class="sf-icon icon-blue">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3z" stroke="none"/></svg>
+                </div>
+                <div class="light-form-label">音效</div>
+                <div class="light-switch on"><div class="light-switch-thumb"></div></div>
+              </div>
+              <div class="light-form-row">
+                <div class="sf-icon icon-green">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 7v4H5.83l3.58-3.59L8 6l-6 6 6 6 1.41-1.41L5.83 13H21V7h-2z" stroke="none"/></svg>
+                </div>
+                <div class="light-form-label">连续扫描</div>
+                <div class="light-switch off"><div class="light-switch-thumb"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="light-form-section">
+            <div class="light-form-header">码制</div>
+            <div class="light-form-card">
+              <div class="light-form-row">
+                <div class="sf-icon icon-green">
+                  <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+                </div>
+                <div class="light-form-label">QR Code</div>
+                <div class="light-switch on"><div class="light-switch-thumb"></div></div>
+              </div>
+              <div class="light-form-row">
+                <div class="sf-icon icon-yellow">
+                  <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M3 5h2v14H3zM7 5h1v14H7zM10 5h2v14h-2zM14 5h1v14h-1zM17 5h2v14h-2zM21 5h1v14h-1z"/></svg>
+                </div>
+                <div class="light-form-label">条形码</div>
+                <div class="light-switch on"><div class="light-switch-thumb"></div></div>
+              </div>
+              <div class="light-form-row">
+                <div class="sf-icon icon-purple">
+                  <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3z"/></svg>
+                </div>
+                <div class="light-form-label">PDF417 / Aztec</div>
+                <div class="light-switch off"><div class="light-switch-thumb"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="light-form-section">
+            <div class="light-form-header">通用</div>
+            <div class="light-form-card">
+              <div class="light-form-row">
+                <div class="sf-icon icon-gray">
+                  <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><circle cx="12" cy="12" r="4"/></svg>
+                </div>
+                <div class="light-form-label">外观</div>
+                <div class="light-form-value">浅色</div>
+                <div class="light-form-chevron"><svg viewBox="0 0 7 12"><path d="M1 1l5 5-5 5" fill="none" stroke="currentColor"/></svg></div>
+              </div>
+              <div class="light-form-row">
+                <div class="sf-icon icon-red">
+                  <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M19 4h-3.5l-1-1h-5l-1 1H5v2h14V4zM6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12z"/></svg>
+                </div>
+                <div class="light-form-label">清空历史记录</div>
+                <div class="light-form-chevron"><svg viewBox="0 0 7 12"><path d="M1 1l5 5-5 5" fill="none" stroke="currentColor"/></svg></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="light-tab-bar">
+          <div class="light-tab">
+            <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M3 7V5a2 2 0 012-2h2v2H5v2H3zm0 12v-2h2v-2h2v2H5v2H3zm0 0h4v2H5a2 2 0 01-2-2zm14-2h2v-2h2v2a2 2 0 01-2 2h-2v-2zm-2-12h-2V3h2a2 2 0 012 2v2h-2V5z"/></svg>
+            <span class="label">扫码</span>
+          </div>
+          <div class="light-tab">
+            <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 18a8 8 0 110-16 8 8 0 010 16z"/><path d="M12 6h-1v7l5.25 3.15.75-1.23-4.5-2.67V6z"/></svg>
+            <span class="label">历史</span>
+          </div>
+          <div class="light-tab active">
+            <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M19.43 12.98c.04-.32.07-.64.07-.98 0-.34-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46a.5.5 0 00-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65A.488.488 0 0014 2h-4a.488.488 0 00-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1a.566.566 0 00-.18-.03c-.17 0-.34.09-.43.25l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98 0 .33.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46a.5.5 0 00.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.05.24.25.42.49.42h4c.24 0 .44-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1a.5.5 0 00.61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5a3.5 3.5 0 110-7 3.5 3.5 0 010 7z"/></svg>
+            <span class="label">设置</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="big-divider"></div>
+
+<!-- ════════════════════════════════════════════════
+     SECTION 4: SF SYMBOLS AUDIT
+════════════════════════════════════════════════ -->
+<div class="section-header">
+  <div class="section-meta">
+    <span class="section-num">04</span>
+    <span class="section-title">SF Symbols 图标审计</span>
+  </div>
+  <div class="section-desc">
+    所有图标优先使用 <strong>SF Symbols 5</strong>（Apple 官方图标库，可在 <a href="https://developer.apple.com/sf-symbols/" style="color:var(--systemBlue);">developer.apple.com/sf-symbols</a> 下载查看器）。代码使用 <code style="background:rgba(255,255,255,0.05);padding:2px 6px;border-radius:4px;font-family:'DM Mono',monospace;font-size:12px;color:var(--systemBlue);">Image(systemName: "qrcode")</code> 即可，自动适配字号、粗细、Dynamic Type。
+  </div>
+</div>
+
+<div class="audit-section">
+  <div class="audit-table">
+    <div class="audit-row head">
+      <div></div>
+      <div>SF Symbol 名称</div>
+      <div>使用位置</div>
+      <div>状态</div>
+      <div>备注</div>
+    </div>
+
+    <!-- Tab Bar icons -->
+    <div class="audit-row">
+      <div class="audit-icon-preview">
+        <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M3 7V5a2 2 0 012-2h2v2H5v2H3zm0 12v-2h2v-2h2v2H5v2H3zm0 0h4v2H5a2 2 0 01-2-2zm14-2h2v-2h2v2a2 2 0 01-2 2h-2v-2zm-2-12h-2V3h2a2 2 0 012 2v2h-2V5z"/></svg>
+      </div>
+      <div class="audit-name">qrcode.viewfinder</div>
+      <div class="audit-usage">扫码 Tab</div>
+      <div><span class="audit-status sf">SF</span></div>
+      <div class="audit-note">SF Symbols 1.0+</div>
+    </div>
+    <div class="audit-row">
+      <div class="audit-icon-preview">
+        <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 18a8 8 0 110-16 8 8 0 010 16z"/><path d="M12 6h-1v7l5.25 3.15.75-1.23-4.5-2.67V6z"/></svg>
+      </div>
+      <div class="audit-name">clock.arrow.circlepath</div>
+      <div class="audit-usage">历史记录 Tab</div>
+      <div><span class="audit-status sf">SF</span></div>
+      <div class="audit-note">SF Symbols 2.0+</div>
+    </div>
+    <div class="audit-row">
+      <div class="audit-icon-preview">
+        <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M19.43 12.98c.04-.32.07-.64.07-.98 0-.34-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46a.5.5 0 00-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65A.488.488 0 0014 2h-4a.488.488 0 00-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1a.566.566 0 00-.18-.03c-.17 0-.34.09-.43.25l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98 0 .33.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46a.5.5 0 00.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.05.24.25.42.49.42h4c.24 0 .44-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1a.5.5 0 00.61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5a3.5 3.5 0 110-7 3.5 3.5 0 010 7z"/></svg>
+      </div>
+      <div class="audit-name">gearshape.fill</div>
+      <div class="audit-usage">设置 Tab · macOS Sidebar</div>
+      <div><span class="audit-status sf">SF</span></div>
+      <div class="audit-note">SF Symbols 1.0+</div>
+    </div>
+
+    <!-- Scan tools -->
+    <div class="audit-row">
+      <div class="audit-icon-preview">
+        <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M14.7 5.05L9.93 7.5L4.5 7L3 9v8l1.5 2L9.93 18.5l4.77 2.45L21 19v-3l-2.5-1.5V12l2.5-1.5V8l-6.3-2.95z"/></svg>
+      </div>
+      <div class="audit-name">bolt.fill / bolt.slash.fill</div>
+      <div class="audit-usage">扫码主页 · 闪光灯开关</div>
+      <div><span class="audit-status sf">SF</span></div>
+      <div class="audit-note">布尔切换两个 symbol</div>
+    </div>
+    <div class="audit-row">
+      <div class="audit-icon-preview">
+        <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M9 4h6l1.5 2H20a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V8a2 2 0 012-2h3.5L9 4zm3 13.5a4.5 4.5 0 100-9 4.5 4.5 0 000 9z"/></svg>
+      </div>
+      <div class="audit-name">photo.on.rectangle</div>
+      <div class="audit-usage">扫码主页 · 相册入口（iOS）</div>
+      <div><span class="audit-status sf">SF</span></div>
+      <div class="audit-note">PHPickerViewController 入口</div>
+    </div>
+    <div class="audit-row">
+      <div class="audit-icon-preview">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3M14 17h3m3 0h-3m0 0v-3m0 3v3m3-3h-3m0 3h3m-3-3v3"/></svg>
+      </div>
+      <div class="audit-name">qrcode.badge.plus</div>
+      <div class="audit-usage">扫码主页 · 生成入口</div>
+      <div><span class="audit-status custom">⚠ 见下方</span></div>
+      <div class="audit-note">系统无此符号<br>替代：<code>plus.viewfinder</code> 或自定义</div>
+    </div>
+
+    <!-- Detail page actions -->
+    <div class="audit-row">
+      <div class="audit-icon-preview">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a14.5 14.5 0 010 20"/></svg>
+      </div>
+      <div class="audit-name">safari</div>
+      <div class="audit-usage">详情页 · 在 Safari 中打开</div>
+      <div><span class="audit-status sf">SF</span></div>
+      <div class="audit-note">SF Symbols 1.0+</div>
+    </div>
+    <div class="audit-row">
+      <div class="audit-icon-preview">
+        <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M9 5H7c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2h-2v2h2v12H7V7h2V5z"/><path d="M15 1H9c-1.1 0-2 .9-2 2v2h2V3h6v2h2V3c0-1.1-.9-2-2-2z"/></svg>
+      </div>
+      <div class="audit-name">doc.on.doc</div>
+      <div class="audit-usage">详情页 · 复制操作</div>
+      <div><span class="audit-status sf">SF</span></div>
+      <div class="audit-note">SF Symbols 1.0+</div>
+    </div>
+    <div class="audit-row">
+      <div class="audit-icon-preview">
+        <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M16 5l-1.42 1.42-1.59-1.59V16h-1.98V4.83L9.42 6.42 8 5l4-4 4 4z"/><path d="M20 10v11c0 1.1-.9 2-2 2H6c-1.11 0-2-.9-2-2V10c0-1.11.89-2 2-2h3v2H6v11h12V10h-3V8h3c1.1 0 2 .89 2 2z"/></svg>
+      </div>
+      <div class="audit-name">square.and.arrow.up</div>
+      <div class="audit-usage">详情页 · 分享操作</div>
+      <div><span class="audit-status sf">SF</span></div>
+      <div class="audit-note">系统标准分享符号</div>
+    </div>
+    <div class="audit-row">
+      <div class="audit-icon-preview">
+        <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+      </div>
+      <div class="audit-name">trash</div>
+      <div class="audit-usage">详情页 · 删除操作</div>
+      <div><span class="audit-status sf">SF</span></div>
+      <div class="audit-note">破坏性操作标准图标</div>
+    </div>
+
+    <!-- History list icons -->
+    <div class="audit-row">
+      <div class="audit-icon-preview">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a14.5 14.5 0 010 20"/></svg>
+      </div>
+      <div class="audit-name">link / globe</div>
+      <div class="audit-usage">历史列表 · URL 类型记录</div>
+      <div><span class="audit-status sf">SF</span></div>
+      <div class="audit-note">链接：<code>link</code><br>网址：<code>globe</code></div>
+    </div>
+    <div class="audit-row">
+      <div class="audit-icon-preview">
+        <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M3 5h2v14H3zM7 5h1v14H7zM10 5h2v14h-2zM14 5h1v14h-1zM17 5h2v14h-2zM21 5h1v14h-1z"/></svg>
+      </div>
+      <div class="audit-name">barcode</div>
+      <div class="audit-usage">历史列表 · 条形码记录</div>
+      <div><span class="audit-status sf">SF</span></div>
+      <div class="audit-note">SF Symbols 2.0+</div>
+    </div>
+    <div class="audit-row">
+      <div class="audit-icon-preview">
+        <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+      </div>
+      <div class="audit-name">qrcode</div>
+      <div class="audit-usage">历史列表 · QR Code 记录 / 启动图</div>
+      <div><span class="audit-status sf">SF</span></div>
+      <div class="audit-note">SF Symbols 1.0+</div>
+    </div>
+
+    <!-- Settings icons -->
+    <div class="audit-row">
+      <div class="audit-icon-preview">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 12h7v8h6v-8h7L12 2z" stroke="none"/></svg>
+      </div>
+      <div class="audit-name">iphone.radiowaves.left.and.right</div>
+      <div class="audit-usage">设置 · 触感反馈</div>
+      <div><span class="audit-status sf">SF</span></div>
+      <div class="audit-note">SF Symbols 2.0+</div>
+    </div>
+    <div class="audit-row">
+      <div class="audit-icon-preview">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3z" stroke="none"/></svg>
+      </div>
+      <div class="audit-name">speaker.wave.2.fill</div>
+      <div class="audit-usage">设置 · 音效</div>
+      <div><span class="audit-status sf">SF</span></div>
+      <div class="audit-note">SF Symbols 1.0+</div>
+    </div>
+    <div class="audit-row">
+      <div class="audit-icon-preview">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 7v4H5.83l3.58-3.59L8 6l-6 6 6 6 1.41-1.41L5.83 13H21V7h-2z" stroke="none"/></svg>
+      </div>
+      <div class="audit-name">arrow.triangle.2.circlepath</div>
+      <div class="audit-usage">设置 · 连续扫描</div>
+      <div><span class="audit-status sf">SF</span></div>
+      <div class="audit-note">SF Symbols 1.0+</div>
+    </div>
+    <div class="audit-row">
+      <div class="audit-icon-preview">
+        <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><circle cx="12" cy="12" r="4"/></svg>
+      </div>
+      <div class="audit-name">moon.fill / sun.max.fill</div>
+      <div class="audit-usage">设置 · 外观</div>
+      <div><span class="audit-status sf">SF</span></div>
+      <div class="audit-note">深色：<code>moon.fill</code><br>浅色：<code>sun.max.fill</code></div>
+    </div>
+
+    <!-- macOS specific -->
+    <div class="audit-row">
+      <div class="audit-icon-preview">
+        <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+      </div>
+      <div class="audit-name">photo.badge.magnifyingglass</div>
+      <div class="audit-usage">macOS · 图片识别 Sidebar</div>
+      <div><span class="audit-status custom">⚠ iOS 17+</span></div>
+      <div class="audit-note">仅 SF Symbols 5+ 可用<br>macOS 13 替代：<code>doc.viewfinder</code></div>
+    </div>
+    <div class="audit-row">
+      <div class="audit-icon-preview">
+        <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><path d="M17 8l-5-5-5 5"/><path d="M12 3v12"/></svg>
+      </div>
+      <div class="audit-name">square.and.arrow.up.on.square</div>
+      <div class="audit-usage">macOS · 拖拽上传图标</div>
+      <div><span class="audit-status sf">SF</span></div>
+      <div class="audit-note">SF Symbols 3.0+</div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════
+     SECTION 5: NON-SF Custom Icon Specs
+════════════════════════════════════════════════ -->
+<div class="section-header">
+  <div class="section-meta">
+    <span class="section-num">05</span>
+    <span class="section-title">非 SF Symbols 自定义切图规范</span>
+  </div>
+  <div class="section-desc">
+    经过审计，<strong>整套设计中唯一需要自定义切图的图标只有 1 个：「生成二维码」入口</strong>（SF Symbols 中没有完全对应的符号）。其他所有图标都使用系统 SF Symbols。下方提供该自定义图标的完整切图规范，建议导出为 <strong>SVG</strong> 并放入 Xcode Asset Catalog 作为 Symbol Image 使用，可获得与 SF Symbols 一致的字号 / 粗细自动适配能力。
+  </div>
+</div>
+
+<div class="custom-icon-spec">
+
+  <!-- Custom Icon: qrcode + plus badge -->
+  <div class="icon-spec-card">
+    <div class="icon-spec-header">
+      <div class="icon-spec-preview">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+          <rect x="3" y="3" width="7" height="7"/>
+          <rect x="14" y="3" width="7" height="7"/>
+          <rect x="3" y="14" width="7" height="7"/>
+          <path d="M14 14h3M14 17h3m3 0h-3m0 0v-3m0 3v3m3-3h-3m0 3h3m-3-3v3"/>
+        </svg>
+      </div>
+      <div>
+        <div class="icon-spec-name">qrcode.badge.plus</div>
+        <div class="icon-spec-sub">生成二维码入口图标</div>
+      </div>
+    </div>
+
+    <div class="icon-spec-row">
+      <span class="key">使用位置</span>
+      <span class="val">扫码主页 NavigationBar / Mac Sidebar</span>
+    </div>
+    <div class="icon-spec-row">
+      <span class="key">推荐方案</span>
+      <span class="val">Xcode Symbol Image (.svg)</span>
+    </div>
+    <div class="icon-spec-row">
+      <span class="key">设计基准</span>
+      <span class="val">24 × 24 px @ 1x</span>
+    </div>
+    <div class="icon-spec-row">
+      <span class="key">线条粗细</span>
+      <span class="val">2px (Regular)</span>
+    </div>
+    <div class="icon-spec-row">
+      <span class="key">颜色</span>
+      <span class="val">currentColor (动态)</span>
+    </div>
+
+    <div class="icon-export">
+      ⓘ 在 Figma / Sketch 中导出 SVG → Xcode → Asset Catalog → New Symbol Image，可自动适配 9 种字重 + 3 种缩放
+    </div>
+
+    <div class="icon-sizes">
+      <div class="icon-size-pill">SVG · 矢量</div>
+      <div class="icon-size-pill">PDF · Single Scale</div>
+      <div class="icon-size-pill">17pt 默认</div>
+      <div class="icon-size-pill">22pt 工具栏</div>
+    </div>
+  </div>
+
+  <!-- Custom Icon: barcode -->
+  <div class="icon-spec-card">
+    <div class="icon-spec-header">
+      <div class="icon-spec-preview" style="background:rgba(255,159,10,0.15);">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#FF9F0A" stroke-width="2"><path d="M3 5h2v14H3zM7 5h1v14H7zM10 5h2v14h-2zM14 5h1v14h-1zM17 5h2v14h-2zM21 5h1v14h-1z"/></svg>
+      </div>
+      <div>
+        <div class="icon-spec-name">备选 · 自定义条形码</div>
+        <div class="icon-spec-sub">如果 SF barcode 不符合预期</div>
+      </div>
+    </div>
+
+    <div class="icon-spec-row">
+      <span class="key">优先方案</span>
+      <span class="val" style="color:var(--systemGreen);">使用 SF barcode</span>
+    </div>
+    <div class="icon-spec-row">
+      <span class="key">备选方案</span>
+      <span class="val">SVG 自定义</span>
+    </div>
+    <div class="icon-spec-row">
+      <span class="key">设计基准</span>
+      <span class="val">24 × 24 px</span>
+    </div>
+    <div class="icon-spec-row">
+      <span class="key">条数</span>
+      <span class="val">6 条 · 间距 2px</span>
+    </div>
+    <div class="icon-spec-row">
+      <span class="key">条粗细</span>
+      <span class="val">1px / 2px 交替</span>
+    </div>
+
+    <div class="icon-export" style="background:rgba(255,159,10,0.1);border-color:rgba(255,159,10,0.25);color:var(--systemOrange);">
+      ⓘ 默认使用 SF Symbols 的 <code style="color:white;">barcode</code> / <code style="color:white;">barcode.viewfinder</code>，仅在视觉不一致时考虑自定义
+    </div>
+  </div>
+
+  <!-- App Icon -->
+  <div class="icon-spec-card">
+    <div class="icon-spec-header">
+      <div class="icon-spec-preview" style="background:#0A84FF;">
+        <svg viewBox="0 0 24 24" fill="white" stroke="none">
+          <rect x="3" y="3" width="7" height="7"/>
+          <rect x="14" y="3" width="7" height="7"/>
+          <rect x="3" y="14" width="7" height="7"/>
+          <rect x="14" y="14" width="7" height="7"/>
+        </svg>
+      </div>
+      <div>
+        <div class="icon-spec-name">App Icon</div>
+        <div class="icon-spec-sub">应用主图标</div>
+      </div>
+    </div>
+
+    <div class="icon-spec-row">
+      <span class="key">导出尺寸</span>
+      <span class="val">1024 × 1024 px</span>
+    </div>
+    <div class="icon-spec-row">
+      <span class="key">格式</span>
+      <span class="val">PNG · sRGB</span>
+    </div>
+    <div class="icon-spec-row">
+      <span class="key">透明度</span>
+      <span class="val">无 Alpha 通道</span>
+    </div>
+    <div class="icon-spec-row">
+      <span class="key">圆角</span>
+      <span class="val">不要预切圆角</span>
+    </div>
+    <div class="icon-spec-row">
+      <span class="key">内容安全区</span>
+      <span class="val">12% 边距</span>
+    </div>
+
+    <div class="icon-export">
+      ⓘ Xcode Asset Catalog 自动生成所有尺寸 (40 / 60 / 80 / 87 / 120 / 180 等)
+    </div>
+  </div>
+
+</div>
+
+<!-- ════════════════════════════════════════════════
+     SECTION 6: BRAND COLORS
+════════════════════════════════════════════════ -->
+<div class="section-header">
+  <div class="section-meta">
+    <span class="section-num">06</span>
+    <span class="section-title">品牌色 · 系统色对照</span>
+  </div>
+  <div class="section-desc">
+    全部使用 <strong>SwiftUI 系统颜色</strong>，无自定义颜色。深色/浅色模式自动适配，支持 Increase Contrast。代码：<code style="background:rgba(255,255,255,0.05);padding:2px 6px;border-radius:4px;font-family:'DM Mono',monospace;font-size:12px;color:var(--systemBlue);">Color.accentColor / Color(.systemBlue)</code>
+  </div>
+</div>
+
+<div class="brand-explore">
+  <div class="brand-card">
+    <div class="brand-card-title">主品牌色</div>
+    <div class="color-row">
+      <div class="color-chip" style="background:#007AFF;"></div>
+      <div class="color-info">
+        <div class="name" style="color:#fff;">systemBlue (Light)</div>
+        <div class="hex">#007AFF</div>
+      </div>
+    </div>
+    <div class="color-row">
+      <div class="color-chip" style="background:#0A84FF;"></div>
+      <div class="color-info">
+        <div class="name" style="color:#fff;">systemBlue (Dark)</div>
+        <div class="hex">#0A84FF</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="brand-card">
+    <div class="brand-card-title">扫码状态</div>
+    <div class="color-row">
+      <div class="color-chip" style="background:#34C759;"></div>
+      <div class="color-info">
+        <div class="name" style="color:#fff;">systemGreen</div>
+        <div class="hex">扫描成功</div>
+      </div>
+    </div>
+    <div class="color-row">
+      <div class="color-chip" style="background:#FF3B30;"></div>
+      <div class="color-info">
+        <div class="name" style="color:#fff;">systemRed</div>
+        <div class="hex">删除 / 错误</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="brand-card">
+    <div class="brand-card-title">分类标识色</div>
+    <div class="color-row">
+      <div class="color-chip" style="background:#FF9500;"></div>
+      <div class="color-info">
+        <div class="name" style="color:#fff;">systemOrange</div>
+        <div class="hex">生成记录</div>
+      </div>
+    </div>
+    <div class="color-row">
+      <div class="color-chip" style="background:#FFCC00;"></div>
+      <div class="color-info">
+        <div class="name" style="color:#fff;">systemYellow</div>
+        <div class="hex">条形码</div>
+      </div>
+    </div>
+    <div class="color-row">
+      <div class="color-chip" style="background:#AF52DE;"></div>
+      <div class="color-info">
+        <div class="name" style="color:#fff;">systemPurple</div>
+        <div class="hex">PDF417/Aztec</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="brand-card">
+    <div class="brand-card-title">语义化背景</div>
+    <div class="color-row">
+      <div class="color-chip" style="background:#fff;"></div>
+      <div class="color-info">
+        <div class="name" style="color:#fff;">systemBackground</div>
+        <div class="hex">#fff / #000</div>
+      </div>
+    </div>
+    <div class="color-row">
+      <div class="color-chip" style="background:#F2F2F7;"></div>
+      <div class="color-info">
+        <div class="name" style="color:#fff;">secondarySystemGroupedBackground</div>
+        <div class="hex">列表卡片背景</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<div style="text-align:center;padding:60px 40px 80px;color:rgba(235,235,245,0.3);font-size:13px;border-top:1px solid rgba(84,84,88,0.4);margin:0 48px;">
+  <div style="display:flex;align-items:center;justify-content:center;gap:24px;flex-wrap:wrap;margin-bottom:16px;">
+    <span style="display:flex;align-items:center;gap:6px;color:var(--systemBlue);"><span style="width:8px;height:8px;border-radius:50%;background:var(--systemBlue);"></span>Logo · 4 变体</span>
+    <span style="display:flex;align-items:center;gap:6px;color:var(--systemGreen);"><span style="width:8px;height:8px;border-radius:50%;background:var(--systemGreen);"></span>Splash · 3 方案</span>
+    <span style="display:flex;align-items:center;gap:6px;color:var(--systemOrange);"><span style="width:8px;height:8px;border-radius:50%;background:var(--systemOrange);"></span>浅色模式 · 5 页面</span>
+    <span style="display:flex;align-items:center;gap:6px;color:var(--systemPurple);"><span style="width:8px;height:8px;border-radius:50%;background:var(--systemPurple);"></span>SF Symbols · 17 个</span>
+  </div>
+  <div style="font-size:12px;color:rgba(235,235,245,0.3);max-width:600px;margin:0 auto;line-height:1.6;">
+    全部图标使用 SF Symbols · 仅 1 个自定义图标 (qrcode.badge.plus) · 系统色彩自动适配 · App Icon 仅需提供 1024×1024 单张
+  </div>
+  <div style="margin-top:16px;font-size:11px;">QRScan Pro · Brand & Asset Specification v3.1</div>
+</div>
+
+</body>
+</html>
