@@ -44,7 +44,7 @@ struct GenerateConfig: Codable, Equatable {
         foregroundHex: "#000000",
         backgroundHex: "#FFFFFF",
         sizePx: 1024,
-        marginModules: 4,
+        marginModules: 1,
         logoData: nil,
         logoRatio: 0.20,
         dotShape: .square

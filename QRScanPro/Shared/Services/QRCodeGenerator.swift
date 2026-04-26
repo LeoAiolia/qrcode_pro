@@ -97,15 +97,23 @@ struct QRCodeGenerator {
         return QRCodeBitMatrix(modules: matrix)
     }
 
-    /// 完整生成管线：bitMatrix → DotShape → Logo 合成 → PlatformImage。
+    /// 后台友好的生成管线：bitMatrix → DotShape → Logo 合成，输出 CGImage。
     /// 失败抛出 QRCodeGenerationError，调用方负责展示。
-    func render(content: String, config: GenerateConfig) throws -> (image: PlatformImage, matrix: QRCodeBitMatrix, cgImage: CGImage) {
+    func renderCGImage(content: String, config: GenerateConfig) throws -> (matrix: QRCodeBitMatrix, cgImage: CGImage) {
         let matrix = try bitMatrix(content: content, correctionLevel: config.correctionLevel)
         guard let baseImage = DotShapeRenderer.render(matrix: matrix, config: config) else {
             throw QRCodeGenerationError.imageRenderFailed
         }
         let composed = LogoCompositor.composite(qrImage: baseImage, logoData: config.logoData, ratio: config.logoRatio)
-        return (PlatformImage.from(cgImage: composed), matrix, composed)
+        return (matrix, composed)
+    }
+
+    /// 完整生成管线：bitMatrix → DotShape → Logo 合成 → PlatformImage。
+    /// 失败抛出 QRCodeGenerationError，调用方负责展示。
+    func render(content: String, config: GenerateConfig) throws -> (image: PlatformImage, matrix: QRCodeBitMatrix, cgImage: CGImage) {
+        let result = try renderCGImage(content: content, config: config)
+        let composed = result.cgImage
+        return (PlatformImage.from(cgImage: composed), result.matrix, composed)
     }
 }
 
@@ -116,5 +124,21 @@ extension PlatformImage {
         #elseif os(macOS)
         return NSImage(cgImage: cgImage, size: NSSize(width: cgImage.width, height: cgImage.height))
         #endif
+    }
+}
+
+enum QRCodeGeneratorWarmup {
+    @MainActor private static var didStart = false
+
+    @MainActor
+    static func start() {
+        guard !didStart else { return }
+        didStart = true
+
+        Task.detached(priority: .utility) {
+            var config = GenerateConfig.default
+            config.sizePx = 256
+            _ = try? QRCodeGenerator().renderCGImage(content: "https://www.apple.com", config: config)
+        }
     }
 }

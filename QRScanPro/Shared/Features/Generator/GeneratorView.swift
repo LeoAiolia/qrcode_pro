@@ -16,6 +16,10 @@ struct GeneratorView: View {
     @State private var state: GeneratorState
     @State private var statusMessage: String?
     @State private var statusError: Bool = false
+    #if os(iOS)
+    @State private var advancedControlsReady: Bool
+    @State private var didStartInitialGeneration = false
+    #endif
     private let hidesTabBar: Bool
     #if os(iOS)
     @State private var logoPickerItem: PhotosPickerItem?
@@ -24,6 +28,9 @@ struct GeneratorView: View {
     init(initialContent: String? = nil, initialConfig: GenerateConfig? = nil, hidesTabBar: Bool = false) {
         self.hidesTabBar = hidesTabBar
         _state = State(initialValue: GeneratorState(initialContent: initialContent, initialConfig: initialConfig))
+        #if os(iOS)
+        _advancedControlsReady = State(initialValue: hidesTabBar)
+        #endif
     }
 
     var body: some View {
@@ -51,7 +58,7 @@ struct GeneratorView: View {
         #if os(iOS)
         .toolbar(hidesTabBar ? .hidden : .visible, for: .tabBar)
         #endif
-        .task { await state.regenerateImmediately() }
+        .task { await startInitialGeneration() }
         .onChange(of: state.content) { _, _ in state.scheduleRegenerate() }
         .onChange(of: state.config) { _, _ in state.scheduleRegenerate() }
         .overlay(alignment: .top) { statusBanner }
@@ -189,25 +196,27 @@ struct GeneratorView: View {
                 }
             }
 
-            generatorSection("形状与配色") {
-                Picker("码点形状", selection: dotShapeBinding) {
-                    ForEach(QRDotShape.allCases) { shape in
-                        Text(shape.displayName).tag(shape)
+            if advancedControlsReady {
+                generatorSection("形状与配色") {
+                    Picker("码点形状", selection: dotShapeBinding) {
+                        ForEach(QRDotShape.allCases) { shape in
+                            Text(shape.displayName).tag(shape)
+                        }
                     }
+                    ColorPicker("前景色", selection: foregroundBinding, supportsOpacity: false)
+                    ColorPicker("背景色", selection: backgroundBinding, supportsOpacity: false)
+                    Text(String(format: "对比度 %.1f : 1", state.contrastRatio))
+                        .font(AppFont.caption)
+                        .foregroundColor(state.hasContrastWarning ? AppColor.warning : AppColor.textSecondary)
                 }
-                ColorPicker("前景色", selection: foregroundBinding, supportsOpacity: false)
-                ColorPicker("背景色", selection: backgroundBinding, supportsOpacity: false)
-                Text(String(format: "对比度 %.1f : 1", state.contrastRatio))
-                    .font(AppFont.caption)
-                    .foregroundColor(state.hasContrastWarning ? AppColor.warning : AppColor.textSecondary)
-            }
 
-            generatorSection("Logo") {
-                logoControls
+                generatorSection("Logo") {
+                    logoControls
 
-                VStack(alignment: .leading) {
-                    Text(String(format: "Logo 占比 %.0f%%", state.config.logoRatio * 100))
-                    Slider(value: logoRatioBinding, in: 0.10...0.40, step: 0.01)
+                    VStack(alignment: .leading) {
+                        Text(String(format: "Logo 占比 %.0f%%", state.config.logoRatio * 100))
+                        Slider(value: logoRatioBinding, in: 0.10...0.40, step: 0.01)
+                    }
                 }
             }
         }
@@ -302,6 +311,29 @@ struct GeneratorView: View {
         }
     }
     #endif
+
+    // MARK: - Initial load
+
+    private func startInitialGeneration() async {
+        #if os(iOS)
+        guard !didStartInitialGeneration else { return }
+        didStartInitialGeneration = true
+
+        if hidesTabBar {
+            await state.regenerateImmediately()
+            return
+        }
+
+        await Task.yield()
+        try? await Task.sleep(nanoseconds: 120_000_000)
+        await state.regenerateImmediately(priority: .utility)
+
+        try? await Task.sleep(nanoseconds: 120_000_000)
+        advancedControlsReady = true
+        #else
+        await state.regenerateImmediately()
+        #endif
+    }
 
     @ViewBuilder
     private var logoControls: some View {

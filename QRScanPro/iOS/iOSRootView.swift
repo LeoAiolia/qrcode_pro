@@ -76,6 +76,8 @@ struct iOSRootView: View {
         .tint(AppColor.accent)
         .preferredColorScheme(colorScheme(for: settings.appearance))
         .task {
+            QRCodeGeneratorWarmup.start()
+
             let repo = SwiftDataHistoryRepository(context: modelContext)
             do {
                 try repo.applyRetention(settings.historyRetention, now: Date())

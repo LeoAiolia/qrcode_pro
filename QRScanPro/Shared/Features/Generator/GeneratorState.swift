@@ -16,7 +16,7 @@ final class GeneratorState {
     private(set) var isGenerating: Bool = false
 
     private var debounceTask: Task<Void, Never>?
-    private let generator = QRCodeGenerator()
+    private var generationID = UUID()
 
     init(initialContent: String? = nil, initialConfig: GenerateConfig? = nil) {
         self.content = initialContent ?? "https://www.apple.com"
@@ -42,30 +42,48 @@ final class GeneratorState {
         debounceTask = Task { [weak self] in
             try? await Task.sleep(nanoseconds: 300_000_000)
             if Task.isCancelled { return }
-            await self?.regenerate()
+            await self?.regenerate(priority: .userInitiated)
         }
     }
 
-    func regenerateImmediately() async {
+    func regenerateImmediately(priority: TaskPriority = .userInitiated) async {
         debounceTask?.cancel()
-        await regenerate()
+        await regenerate(priority: priority)
     }
 
-    private func regenerate() async {
+    private func regenerate(priority: TaskPriority) async {
+        let currentID = UUID()
+        generationID = currentID
+        let content = content
+        let config = config
+
         isGenerating = true
-        defer { isGenerating = false }
 
         do {
-            let result = try generator.render(content: content, config: config)
-            self.image = result.image
+            let result = try await Task.detached(priority: priority) {
+                let generator = QRCodeGenerator()
+                let output = try generator.renderCGImage(content: content, config: config)
+                try Task.checkCancellation()
+                return output
+            }.value
+
+            guard generationID == currentID else { return }
+            self.image = PlatformImage.from(cgImage: result.cgImage)
             self.bitMatrix = result.matrix
             self.cgImage = result.cgImage
             self.error = nil
+        } catch is CancellationError {
+            guard generationID == currentID else { return }
         } catch {
+            guard generationID == currentID else { return }
             self.image = nil
             self.bitMatrix = nil
             self.cgImage = nil
             self.error = error.localizedDescription
+        }
+
+        if generationID == currentID {
+            isGenerating = false
         }
     }
 }
