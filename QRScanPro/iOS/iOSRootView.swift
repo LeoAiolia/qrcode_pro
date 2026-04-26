@@ -1,7 +1,9 @@
+import SwiftData
 import SwiftUI
 
 struct iOSRootView: View {
     @Environment(SettingsStore.self) private var settings
+    @Environment(\.modelContext) private var modelContext
     @State private var selectedTab: Tab = .scanner
 
     enum Tab: Hashable {
@@ -60,6 +62,14 @@ struct iOSRootView: View {
         }
         .tint(AppColor.accent)
         .preferredColorScheme(colorScheme(for: settings.appearance))
+        .task {
+            let repo = SwiftDataHistoryRepository(context: modelContext)
+            do {
+                try repo.applyRetention(settings.historyRetention, now: Date())
+            } catch {
+                DebugLogger.shared.warning("启动清理失败：\(error.localizedDescription)")
+            }
+        }
     }
 
     private func colorScheme(for appearance: AppAppearance) -> ColorScheme? {

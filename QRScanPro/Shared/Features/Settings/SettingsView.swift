@@ -1,5 +1,9 @@
 import SwiftUI
 
+#if os(macOS)
+import AppKit
+#endif
+
 struct SettingsView: View {
     @Environment(SettingsStore.self) private var settings
     @State private var debugPresented = false
@@ -9,13 +13,13 @@ struct SettingsView: View {
         @Bindable var settings = settings
 
         return List {
+            #if os(iOS)
             Section("码制配置") {
                 ForEach(BarcodeKind.allCases) { kind in
                     Toggle(kind.displayName, isOn: binding(for: kind, on: settings))
                 }
             }
 
-            #if os(iOS)
             if capability.supportsCameraScanning {
                 Section("扫描行为") {
                     Toggle("振动反馈", isOn: $settings.vibrationEnabled)
@@ -26,6 +30,12 @@ struct SettingsView: View {
                             Text(style.title).tag(style)
                         }
                     }
+                }
+            }
+            #else
+            Section("识别 / 生成码制") {
+                ForEach(BarcodeKind.allCases) { kind in
+                    Toggle(kind.displayName, isOn: binding(for: kind, on: settings))
                 }
             }
             #endif
@@ -42,15 +52,19 @@ struct SettingsView: View {
                         Text(retention.title).tag(retention)
                     }
                 }
+            }
 
-                #if os(macOS)
+            #if os(macOS)
+            Section("导出") {
                 Picker("默认导出格式", selection: $settings.defaultExportFormat) {
                     ForEach(ExportFormat.allCases) { format in
                         Text(format.title).tag(format)
                     }
                 }
-                #endif
+
+                exportDirectoryRow(settings: settings)
             }
+            #endif
 
             Section("关于") {
                 HStack {
@@ -91,4 +105,49 @@ struct SettingsView: View {
             }
         )
     }
+
+    #if os(macOS)
+    @ViewBuilder
+    private func exportDirectoryRow(settings: SettingsStore) -> some View {
+        let resolvedURL = settings.defaultExportDirectoryBookmark.flatMap(ExportDirectoryBookmark.resolve)
+
+        HStack {
+            VStack(alignment: .leading, spacing: 2) {
+                Text("默认导出目录")
+                Text(resolvedURL?.path ?? "每次询问")
+                    .font(AppFont.caption)
+                    .foregroundColor(AppColor.textSecondary)
+                    .lineLimit(1)
+                    .truncationMode(.middle)
+            }
+
+            Spacer()
+
+            Button("选择…") {
+                pickDirectory(settings: settings)
+            }
+
+            if settings.defaultExportDirectoryBookmark != nil {
+                Button(role: .destructive) {
+                    settings.defaultExportDirectoryBookmark = nil
+                } label: {
+                    Image(systemName: "xmark.circle")
+                }
+                .buttonStyle(.borderless)
+            }
+        }
+    }
+
+    private func pickDirectory(settings: SettingsStore) {
+        let panel = NSOpenPanel()
+        panel.canChooseDirectories = true
+        panel.canChooseFiles = false
+        panel.allowsMultipleSelection = false
+        panel.prompt = "选择"
+        guard panel.runModal() == .OK, let url = panel.url else { return }
+        if let bookmark = ExportDirectoryBookmark.encode(url) {
+            settings.defaultExportDirectoryBookmark = bookmark
+        }
+    }
+    #endif
 }

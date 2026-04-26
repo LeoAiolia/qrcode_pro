@@ -65,6 +65,8 @@
 		B00000000000000000000124 /* GeneratorState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000024 /* GeneratorState.swift */; };
 		B00000000000000000000125 /* PhotoLibrarySaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000025 /* PhotoLibrarySaver.swift */; };
 		B00000000000000000000126 /* ShareItemsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000026 /* ShareItemsButton.swift */; };
+		B00000000000000000000127 /* ExportDirectoryBookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000027 /* ExportDirectoryBookmark.swift */; };
+		B00000000000000000000227 /* ExportDirectoryBookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000027 /* ExportDirectoryBookmark.swift */; };
 		B00000000000000000000201 /* ScanRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000001 /* ScanRecord.swift */; };
 		B00000000000000000000202 /* GeneratedRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000002 /* GeneratedRecord.swift */; };
 		B00000000000000000000203 /* GenerateConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000003 /* GenerateConfig.swift */; };
@@ -137,6 +139,7 @@
 		B00000000000000000000024 /* GeneratorState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratorState.swift; sourceTree = "<group>"; };
 		B00000000000000000000025 /* PhotoLibrarySaver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoLibrarySaver.swift; sourceTree = "<group>"; };
 		B00000000000000000000026 /* ShareItemsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareItemsButton.swift; sourceTree = "<group>"; };
+		B00000000000000000000027 /* ExportDirectoryBookmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportDirectoryBookmark.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -220,6 +223,7 @@
 				B00000000000000000000017 /* DotShapeRenderer.swift */,
 				B00000000000000000000018 /* LogoCompositor.swift */,
 				B00000000000000000000019 /* ContrastChecker.swift */,
+				B00000000000000000000027 /* ExportDirectoryBookmark.swift */,
 				A00000000000000000000424 /* Exporters */,
 			);
 			path = Services;
@@ -476,6 +480,7 @@
 				B00000000000000000000124 /* GeneratorState.swift in Sources */,
 				B00000000000000000000125 /* PhotoLibrarySaver.swift in Sources */,
 				B00000000000000000000126 /* ShareItemsButton.swift in Sources */,
+				B00000000000000000000127 /* ExportDirectoryBookmark.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -521,6 +526,7 @@
 				B00000000000000000000222 /* PDFExporter.swift in Sources */,
 				B00000000000000000000223 /* CheckerboardBackground.swift in Sources */,
 				B00000000000000000000224 /* GeneratorState.swift in Sources */,
+				B00000000000000000000227 /* ExportDirectoryBookmark.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

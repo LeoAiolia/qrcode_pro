@@ -1,7 +1,9 @@
+import SwiftData
 import SwiftUI
 
 struct MacRootView: View {
     @Environment(SettingsStore.self) private var settings
+    @Environment(\.modelContext) private var modelContext
     @State private var selection: SidebarItem? = .imageRecognition
 
     enum SidebarItem: Hashable, CaseIterable, Identifiable {
@@ -51,6 +53,14 @@ struct MacRootView: View {
             detail(for: selection ?? .imageRecognition)
         }
         .preferredColorScheme(colorScheme(for: settings.appearance))
+        .task {
+            let repo = SwiftDataHistoryRepository(context: modelContext)
+            do {
+                try repo.applyRetention(settings.historyRetention, now: Date())
+            } catch {
+                DebugLogger.shared.warning("启动清理失败：\(error.localizedDescription)")
+            }
+        }
     }
 
     @ViewBuilder

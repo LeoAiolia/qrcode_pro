@@ -389,6 +389,17 @@ struct GeneratorView: View {
         let panel = NSSavePanel()
         panel.allowedContentTypes = [format.contentType]
         panel.nameFieldStringValue = "QRScan-Pro.\(format.suggestedExt)"
+
+        var scopedURL: URL?
+        if let bookmark = settings.defaultExportDirectoryBookmark,
+           let url = ExportDirectoryBookmark.resolve(bookmark) {
+            if url.startAccessingSecurityScopedResource() {
+                scopedURL = url
+                panel.directoryURL = url
+            }
+        }
+        defer { scopedURL?.stopAccessingSecurityScopedResource() }
+
         guard panel.runModal() == .OK, let url = panel.url else { return }
 
         let data: Data?
