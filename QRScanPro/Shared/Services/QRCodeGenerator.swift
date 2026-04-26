@@ -27,49 +27,94 @@ enum QRCodeGenerationError: LocalizedError {
     }
 }
 
+/// QR 模块矩阵：modules[row][col] == true 表示该模块需绘制（黑点）。
+/// 行优先，row=0 是顶部；包含 CIFilter 默认输出的内置 quiet zone。
+struct QRCodeBitMatrix: Equatable {
+    let modules: [[Bool]]
+    var size: Int { modules.count }
+}
+
 struct QRCodeGenerator {
     private let context = CIContext()
 
-    func generate(
-        content: String,
-        correctionLevel: QRErrorCorrectionLevel,
-        size: CGFloat,
-        foregroundColor: CIColor = CIColor(red: 0.07, green: 0.07, blue: 0.07),
-        backgroundColor: CIColor = CIColor(red: 1, green: 1, blue: 1)
-    ) throws -> PlatformImage {
-        let trimmedContent = content.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !trimmedContent.isEmpty else {
+    /// 把内容编码为 QR，并把 CIFilter 的位图输出转成 BitMatrix。
+    func bitMatrix(content: String, correctionLevel: QRErrorCorrectionLevel) throws -> QRCodeBitMatrix {
+        let trimmed = content.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty else {
             throw QRCodeGenerationError.emptyContent
         }
 
-        let generator = CIFilter.qrCodeGenerator()
-        generator.message = Data(trimmedContent.utf8)
-        generator.correctionLevel = correctionLevel.rawValue
+        let filter = CIFilter.qrCodeGenerator()
+        filter.message = Data(trimmed.utf8)
+        filter.correctionLevel = correctionLevel.rawValue
 
-        guard let outputImage = generator.outputImage else {
+        guard let ciImage = filter.outputImage else {
             throw QRCodeGenerationError.filterFailed
         }
-
-        let falseColor = CIFilter.falseColor()
-        falseColor.inputImage = outputImage
-        falseColor.color0 = foregroundColor
-        falseColor.color1 = backgroundColor
-
-        guard let coloredImage = falseColor.outputImage else {
-            throw QRCodeGenerationError.filterFailed
-        }
-
-        let scale = size / coloredImage.extent.width
-        let transformedImage = coloredImage.transformed(by: CGAffineTransform(scaleX: scale, y: scale))
-
-        guard let cgImage = context.createCGImage(transformedImage, from: transformedImage.extent) else {
+        guard let cgImage = context.createCGImage(ciImage, from: ciImage.extent) else {
             throw QRCodeGenerationError.imageRenderFailed
         }
 
+        let width = cgImage.width
+        let height = cgImage.height
+        guard width > 0, height > 0 else {
+            throw QRCodeGenerationError.imageRenderFailed
+        }
+
+        let bytesPerRow = width * 4
+        var pixels = [UInt8](repeating: 0, count: bytesPerRow * height)
+        let space = CGColorSpaceCreateDeviceRGB()
+        guard let bitmapCtx = CGContext(
+            data: &pixels,
+            width: width,
+            height: height,
+            bitsPerComponent: 8,
+            bytesPerRow: bytesPerRow,
+            space: space,
+            bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
+        ) else {
+            throw QRCodeGenerationError.imageRenderFailed
+        }
+
+        // 翻转 y 轴：CIImage 默认 y 向上，绘制后我们按 row=0 取顶部行。
+        bitmapCtx.translateBy(x: 0, y: CGFloat(height))
+        bitmapCtx.scaleBy(x: 1, y: -1)
+        bitmapCtx.draw(cgImage, in: CGRect(x: 0, y: 0, width: width, height: height))
+
+        var matrix = Array(repeating: Array(repeating: false, count: width), count: height)
+        for y in 0..<height {
+            let rowStart = y * bytesPerRow
+            for x in 0..<width {
+                let i = rowStart + x * 4
+                let r = Int(pixels[i])
+                let g = Int(pixels[i + 1])
+                let b = Int(pixels[i + 2])
+                // CIFilter 输出黑色模块 + 白色背景；阈值 384 = 128 * 3。
+                matrix[y][x] = (r + g + b) < 384
+            }
+        }
+
+        return QRCodeBitMatrix(modules: matrix)
+    }
+
+    /// 完整生成管线：bitMatrix → DotShape → Logo 合成 → PlatformImage。
+    /// 失败抛出 QRCodeGenerationError，调用方负责展示。
+    func render(content: String, config: GenerateConfig) throws -> (image: PlatformImage, matrix: QRCodeBitMatrix, cgImage: CGImage) {
+        let matrix = try bitMatrix(content: content, correctionLevel: config.correctionLevel)
+        guard let baseImage = DotShapeRenderer.render(matrix: matrix, config: config) else {
+            throw QRCodeGenerationError.imageRenderFailed
+        }
+        let composed = LogoCompositor.composite(qrImage: baseImage, logoData: config.logoData, ratio: config.logoRatio)
+        return (PlatformImage.from(cgImage: composed), matrix, composed)
+    }
+}
+
+extension PlatformImage {
+    static func from(cgImage: CGImage) -> PlatformImage {
         #if os(iOS)
         return UIImage(cgImage: cgImage)
         #elseif os(macOS)
-        return NSImage(cgImage: cgImage, size: NSSize(width: size, height: size))
+        return NSImage(cgImage: cgImage, size: NSSize(width: cgImage.width, height: cgImage.height))
         #endif
     }
 }

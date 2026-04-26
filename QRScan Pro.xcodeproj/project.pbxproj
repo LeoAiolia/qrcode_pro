@@ -54,6 +54,17 @@
 		B00000000000000000000113 /* ScannerOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000013 /* ScannerOverlay.swift */; };
 		B00000000000000000000114 /* MacImageRecognitionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000014 /* MacImageRecognitionView.swift */; };
 		B00000000000000000000115 /* FileExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000015 /* FileExporter.swift */; };
+		B00000000000000000000116 /* ColorHex.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000016 /* ColorHex.swift */; };
+		B00000000000000000000117 /* DotShapeRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000017 /* DotShapeRenderer.swift */; };
+		B00000000000000000000118 /* LogoCompositor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000018 /* LogoCompositor.swift */; };
+		B00000000000000000000119 /* ContrastChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000019 /* ContrastChecker.swift */; };
+		B00000000000000000000120 /* PNGExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000020 /* PNGExporter.swift */; };
+		B00000000000000000000121 /* SVGExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000021 /* SVGExporter.swift */; };
+		B00000000000000000000122 /* PDFExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000022 /* PDFExporter.swift */; };
+		B00000000000000000000123 /* CheckerboardBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000023 /* CheckerboardBackground.swift */; };
+		B00000000000000000000124 /* GeneratorState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000024 /* GeneratorState.swift */; };
+		B00000000000000000000125 /* PhotoLibrarySaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000025 /* PhotoLibrarySaver.swift */; };
+		B00000000000000000000126 /* ShareItemsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000026 /* ShareItemsButton.swift */; };
 		B00000000000000000000201 /* ScanRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000001 /* ScanRecord.swift */; };
 		B00000000000000000000202 /* GeneratedRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000002 /* GeneratedRecord.swift */; };
 		B00000000000000000000203 /* GenerateConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000003 /* GenerateConfig.swift */; };
@@ -67,6 +78,15 @@
 		B00000000000000000000213 /* ScannerOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000013 /* ScannerOverlay.swift */; };
 		B00000000000000000000214 /* MacImageRecognitionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000014 /* MacImageRecognitionView.swift */; };
 		B00000000000000000000215 /* FileExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000015 /* FileExporter.swift */; };
+		B00000000000000000000216 /* ColorHex.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000016 /* ColorHex.swift */; };
+		B00000000000000000000217 /* DotShapeRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000017 /* DotShapeRenderer.swift */; };
+		B00000000000000000000218 /* LogoCompositor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000018 /* LogoCompositor.swift */; };
+		B00000000000000000000219 /* ContrastChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000019 /* ContrastChecker.swift */; };
+		B00000000000000000000220 /* PNGExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000020 /* PNGExporter.swift */; };
+		B00000000000000000000221 /* SVGExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000021 /* SVGExporter.swift */; };
+		B00000000000000000000222 /* PDFExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000022 /* PDFExporter.swift */; };
+		B00000000000000000000223 /* CheckerboardBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000023 /* CheckerboardBackground.swift */; };
+		B00000000000000000000224 /* GeneratorState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000024 /* GeneratorState.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -106,6 +126,17 @@
 		B00000000000000000000013 /* ScannerOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerOverlay.swift; sourceTree = "<group>"; };
 		B00000000000000000000014 /* MacImageRecognitionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacImageRecognitionView.swift; sourceTree = "<group>"; };
 		B00000000000000000000015 /* FileExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileExporter.swift; sourceTree = "<group>"; };
+		B00000000000000000000016 /* ColorHex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorHex.swift; sourceTree = "<group>"; };
+		B00000000000000000000017 /* DotShapeRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DotShapeRenderer.swift; sourceTree = "<group>"; };
+		B00000000000000000000018 /* LogoCompositor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoCompositor.swift; sourceTree = "<group>"; };
+		B00000000000000000000019 /* ContrastChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContrastChecker.swift; sourceTree = "<group>"; };
+		B00000000000000000000020 /* PNGExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PNGExporter.swift; sourceTree = "<group>"; };
+		B00000000000000000000021 /* SVGExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SVGExporter.swift; sourceTree = "<group>"; };
+		B00000000000000000000022 /* PDFExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFExporter.swift; sourceTree = "<group>"; };
+		B00000000000000000000023 /* CheckerboardBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckerboardBackground.swift; sourceTree = "<group>"; };
+		B00000000000000000000024 /* GeneratorState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratorState.swift; sourceTree = "<group>"; };
+		B00000000000000000000025 /* PhotoLibrarySaver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoLibrarySaver.swift; sourceTree = "<group>"; };
+		B00000000000000000000026 /* ShareItemsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareItemsButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -186,8 +217,22 @@
 				B00000000000000000000005 /* SettingsStore.swift */,
 				B00000000000000000000006 /* HistoryRepository.swift */,
 				B00000000000000000000015 /* FileExporter.swift */,
+				B00000000000000000000017 /* DotShapeRenderer.swift */,
+				B00000000000000000000018 /* LogoCompositor.swift */,
+				B00000000000000000000019 /* ContrastChecker.swift */,
+				A00000000000000000000424 /* Exporters */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		A00000000000000000000424 /* Exporters */ = {
+			isa = PBXGroup;
+			children = (
+				B00000000000000000000020 /* PNGExporter.swift */,
+				B00000000000000000000021 /* SVGExporter.swift */,
+				B00000000000000000000022 /* PDFExporter.swift */,
+			);
+			path = Exporters;
 			sourceTree = "<group>";
 		};
 		A00000000000000000000414 /* UI */ = {
@@ -198,6 +243,8 @@
 				A00000000000000000000013 /* PlatformImageView.swift */,
 				B00000000000000000000007 /* DesignTokens.swift */,
 				B00000000000000000000008 /* PlaceholderScreen.swift */,
+				B00000000000000000000016 /* ColorHex.swift */,
+				B00000000000000000000023 /* CheckerboardBackground.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -238,6 +285,7 @@
 			isa = PBXGroup;
 			children = (
 				A00000000000000000000017 /* GeneratorView.swift */,
+				B00000000000000000000024 /* GeneratorState.swift */,
 			);
 			path = Generator;
 			sourceTree = "<group>";
@@ -266,6 +314,8 @@
 				A00000000000000000000021 /* ClipboardService.swift */,
 				A00000000000000000000024 /* LiveScannerContainer.swift */,
 				B00000000000000000000011 /* HapticFeedback.swift */,
+				B00000000000000000000025 /* PhotoLibrarySaver.swift */,
+				B00000000000000000000026 /* ShareItemsButton.swift */,
 			);
 			path = iOS;
 			sourceTree = "<group>";
@@ -415,6 +465,17 @@
 				B00000000000000000000113 /* ScannerOverlay.swift in Sources */,
 				B00000000000000000000114 /* MacImageRecognitionView.swift in Sources */,
 				B00000000000000000000115 /* FileExporter.swift in Sources */,
+				B00000000000000000000116 /* ColorHex.swift in Sources */,
+				B00000000000000000000117 /* DotShapeRenderer.swift in Sources */,
+				B00000000000000000000118 /* LogoCompositor.swift in Sources */,
+				B00000000000000000000119 /* ContrastChecker.swift in Sources */,
+				B00000000000000000000120 /* PNGExporter.swift in Sources */,
+				B00000000000000000000121 /* SVGExporter.swift in Sources */,
+				B00000000000000000000122 /* PDFExporter.swift in Sources */,
+				B00000000000000000000123 /* CheckerboardBackground.swift in Sources */,
+				B00000000000000000000124 /* GeneratorState.swift in Sources */,
+				B00000000000000000000125 /* PhotoLibrarySaver.swift in Sources */,
+				B00000000000000000000126 /* ShareItemsButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -451,6 +512,15 @@
 				B00000000000000000000213 /* ScannerOverlay.swift in Sources */,
 				B00000000000000000000214 /* MacImageRecognitionView.swift in Sources */,
 				B00000000000000000000215 /* FileExporter.swift in Sources */,
+				B00000000000000000000216 /* ColorHex.swift in Sources */,
+				B00000000000000000000217 /* DotShapeRenderer.swift in Sources */,
+				B00000000000000000000218 /* LogoCompositor.swift in Sources */,
+				B00000000000000000000219 /* ContrastChecker.swift in Sources */,
+				B00000000000000000000220 /* PNGExporter.swift in Sources */,
+				B00000000000000000000221 /* SVGExporter.swift in Sources */,
+				B00000000000000000000222 /* PDFExporter.swift in Sources */,
+				B00000000000000000000223 /* CheckerboardBackground.swift in Sources */,
+				B00000000000000000000224 /* GeneratorState.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -575,6 +645,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "QRScan Pro";
 				INFOPLIST_KEY_NSCameraUsageDescription = "用于扫描二维码和条形码";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "用于把生成的二维码保存到相册";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "用于选择图片识别二维码或条形码";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -604,6 +675,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "QRScan Pro";
 				INFOPLIST_KEY_NSCameraUsageDescription = "用于扫描二维码和条形码";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "用于把生成的二维码保存到相册";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "用于选择图片识别二维码或条形码";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
