@@ -1,5 +1,6 @@
 import Foundation
 
+/// 应用支持的码制；不再保留 .unknown，识别器遇到不支持的码制直接丢弃。
 enum BarcodeKind: String, Codable, CaseIterable, Identifiable {
     case qr
     case ean13
@@ -10,20 +11,8 @@ enum BarcodeKind: String, Codable, CaseIterable, Identifiable {
     case pdf417
     case aztec
     case dataMatrix
-    case unknown
 
     var id: String { rawValue }
-
-    static var configurableKinds: [BarcodeKind] {
-        allCases.filter { kind in
-            switch kind {
-            case .unknown:
-                return false
-            case .qr, .ean13, .ean8, .upce, .code128, .code39, .pdf417, .aztec, .dataMatrix:
-                return true
-            }
-        }
-    }
 
     var displayName: String {
         switch self {
@@ -45,16 +34,26 @@ enum BarcodeKind: String, Codable, CaseIterable, Identifiable {
             return "Aztec"
         case .dataMatrix:
             return "Data Matrix"
-        case .unknown:
-            return "未知码制"
+        }
+    }
+
+    /// 二维码族（vs 一维条形码），用于历史筛选。
+    var isMatrixCode: Bool {
+        switch self {
+        case .qr, .pdf417, .aztec, .dataMatrix:
+            return true
+        case .ean13, .ean8, .upce, .code128, .code39:
+            return false
         }
     }
 }
 
-enum ScanSource: String, Codable {
+/// 扫码来源；生成结果已独立到 GeneratedRecord，不再混入此处。
+enum ScanSource: String, Codable, CaseIterable, Identifiable {
     case camera
     case image
-    case generated
+
+    var id: String { rawValue }
 
     var displayName: String {
         switch self {
@@ -62,52 +61,20 @@ enum ScanSource: String, Codable {
             return "相机"
         case .image:
             return "图片"
-        case .generated:
-            return "生成"
         }
     }
 }
 
-struct ScanResult: Identifiable, Codable, Hashable {
-    let id: UUID
+/// 识别器（相机 / 图片）输出的原始结果；视图层负责包装成 ScanRecord 并入库。
+struct RecognizedCode: Equatable {
     let value: String
     let kind: BarcodeKind
     let source: ScanSource
-    let createdAt: Date
-
-    init(
-        id: UUID = UUID(),
-        value: String,
-        kind: BarcodeKind,
-        source: ScanSource,
-        createdAt: Date = Date()
-    ) {
-        self.id = id
-        self.value = value
-        self.kind = kind
-        self.source = source
-        self.createdAt = createdAt
-    }
-
-    var url: URL? {
-        guard let url = URL(string: value), let scheme = url.scheme?.lowercased() else {
-            return nil
-        }
-
-        switch scheme {
-        case "http", "https":
-            return url
-        default:
-            return nil
-        }
-    }
 }
 
 enum HistoryFilter: String, CaseIterable, Identifiable {
     case all
-    case qr
-    case barcode
-    case image
+    case scan
     case generated
     case today
 
@@ -117,12 +84,8 @@ enum HistoryFilter: String, CaseIterable, Identifiable {
         switch self {
         case .all:
             return "全部"
-        case .qr:
-            return "二维码"
-        case .barcode:
-            return "条形码"
-        case .image:
-            return "图片"
+        case .scan:
+            return "扫码"
         case .generated:
             return "生成"
         case .today:

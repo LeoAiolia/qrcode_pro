@@ -43,11 +43,16 @@ enum DebugLogLevel: String {
     }
 }
 
+@MainActor
 final class DebugLogger: ObservableObject {
+    static let shared = DebugLogger()
+
     @Published private(set) var entries: [DebugLogEntry] = []
 
     private let logger = Logger(subsystem: "com.yuxiaor.qrscnpro", category: "app")
     private let maxEntries = 300
+
+    private init() {}
 
     func info(_ message: String) {
         append(level: .info, message: message)

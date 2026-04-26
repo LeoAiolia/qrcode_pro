@@ -1,0 +1,75 @@
+import SwiftUI
+
+struct iOSRootView: View {
+    @Environment(SettingsStore.self) private var settings
+    @State private var selectedTab: Tab = .scanner
+
+    enum Tab: Hashable {
+        case scanner
+        case history
+        case settings
+
+        var title: String {
+            switch self {
+            case .scanner:
+                return "扫码"
+            case .history:
+                return "历史"
+            case .settings:
+                return "设置"
+            }
+        }
+
+        var systemImage: String {
+            switch self {
+            case .scanner:
+                return "qrcode.viewfinder"
+            case .history:
+                return "clock"
+            case .settings:
+                return "gearshape"
+            }
+        }
+    }
+
+    var body: some View {
+        TabView(selection: $selectedTab) {
+            NavigationStack {
+                ScannerView()
+            }
+            .tabItem {
+                Label(Tab.scanner.title, systemImage: Tab.scanner.systemImage)
+            }
+            .tag(Tab.scanner)
+
+            NavigationStack {
+                HistoryView()
+            }
+            .tabItem {
+                Label(Tab.history.title, systemImage: Tab.history.systemImage)
+            }
+            .tag(Tab.history)
+
+            NavigationStack {
+                SettingsView()
+            }
+            .tabItem {
+                Label(Tab.settings.title, systemImage: Tab.settings.systemImage)
+            }
+            .tag(Tab.settings)
+        }
+        .tint(AppColor.accent)
+        .preferredColorScheme(colorScheme(for: settings.appearance))
+    }
+
+    private func colorScheme(for appearance: AppAppearance) -> ColorScheme? {
+        switch appearance {
+        case .system:
+            return nil
+        case .light:
+            return .light
+        case .dark:
+            return .dark
+        }
+    }
+}

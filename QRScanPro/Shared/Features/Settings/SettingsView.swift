@@ -1,40 +1,50 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @EnvironmentObject private var store: AppStore
+    @Environment(SettingsStore.self) private var settings
     @State private var debugPresented = false
     private let capability = PlatformCapability()
 
     var body: some View {
-        List {
+        @Bindable var settings = settings
+
+        return List {
             Section("码制配置") {
-                ForEach(BarcodeKind.configurableKinds) { kind in
-                    Toggle(kind.displayName, isOn: binding(for: kind))
+                ForEach(BarcodeKind.allCases) { kind in
+                    Toggle(kind.displayName, isOn: binding(for: kind, on: settings))
                 }
             }
 
             #if os(iOS)
             if capability.supportsCameraScanning {
                 Section("扫描行为") {
-                    Toggle("振动反馈", isOn: $store.settings.vibrationEnabled)
-                    Toggle("音效反馈", isOn: $store.settings.soundEnabled)
-                    Toggle("连续扫描", isOn: $store.settings.continuousScanEnabled)
+                    Toggle("振动反馈", isOn: $settings.vibrationEnabled)
+                    Toggle("音效反馈", isOn: $settings.soundEnabled)
+                    Toggle("连续扫描", isOn: $settings.continuousScanEnabled)
                 }
             }
             #endif
 
             Section("通用") {
-                Picker("外观", selection: $store.settings.appearance) {
+                Picker("外观", selection: $settings.appearance) {
                     ForEach(AppAppearance.allCases) { appearance in
                         Text(appearance.title).tag(appearance)
                     }
                 }
 
-                Picker("历史保留时长", selection: $store.settings.historyRetention) {
+                Picker("历史保留时长", selection: $settings.historyRetention) {
                     ForEach(HistoryRetention.allCases) { retention in
                         Text(retention.title).tag(retention)
                     }
                 }
+
+                #if os(macOS)
+                Picker("默认导出格式", selection: $settings.defaultExportFormat) {
+                    ForEach(ExportFormat.allCases) { format in
+                        Text(format.title).tag(format)
+                    }
+                }
+                #endif
             }
 
             Section("关于") {
@@ -42,7 +52,7 @@ struct SettingsView: View {
                     Text("版本")
                     Spacer()
                     Text("1.0.0")
-                        .foregroundColor(AppTheme.textSecondary)
+                        .foregroundColor(AppColor.textSecondary)
                 }
 
                 #if DEBUG
@@ -55,25 +65,23 @@ struct SettingsView: View {
             }
         }
         .hideScrollBackgroundWhenAvailable()
-        .background(AppTheme.background.ignoresSafeArea())
+        .background(AppColor.background.ignoresSafeArea())
         .navigationTitle("设置")
         .sheet(isPresented: $debugPresented) {
-            NavigationView {
+            NavigationStack {
                 DebugLogView()
             }
         }
     }
 
-    private func binding(for kind: BarcodeKind) -> Binding<Bool> {
+    private func binding(for kind: BarcodeKind, on settings: SettingsStore) -> Binding<Bool> {
         Binding(
-            get: {
-                store.settings.enabledKinds.contains(kind)
-            },
+            get: { settings.enabledKinds.contains(kind) },
             set: { isEnabled in
                 if isEnabled {
-                    store.settings.enabledKinds.insert(kind)
+                    settings.enabledKinds.insert(kind)
                 } else {
-                    store.settings.enabledKinds.remove(kind)
+                    settings.enabledKinds.remove(kind)
                 }
             }
         )

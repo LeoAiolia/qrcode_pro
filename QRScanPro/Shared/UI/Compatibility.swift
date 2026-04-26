@@ -1,12 +1,8 @@
 import SwiftUI
 
+// 基线已升至 iOS 16 / macOS 13，scrollContentBackground 不再需要 #available 包装。
 extension View {
-    @ViewBuilder
     func hideScrollBackgroundWhenAvailable() -> some View {
-        if #available(iOS 16.0, macOS 13.0, *) {
-            scrollContentBackground(.hidden)
-        } else {
-            self
-        }
+        scrollContentBackground(.hidden)
     }
 }

@@ -1,20 +1,21 @@
 import SwiftUI
 
+// 旧名称保留为门面，全部转发到 DesignTokens，方便逐步迁移。
 enum AppTheme {
-    static let accent = Color(red: 0.43, green: 0.91, blue: 0.72)
-    static let background = Color(red: 0.05, green: 0.06, blue: 0.07)
-    static let surface = Color(red: 0.10, green: 0.11, blue: 0.13)
-    static let surfaceRaised = Color(red: 0.14, green: 0.15, blue: 0.17)
-    static let textSecondary = Color.white.opacity(0.68)
-    static let warning = Color(red: 0.98, green: 0.75, blue: 0.23)
-    static let danger = Color(red: 1.0, green: 0.38, blue: 0.38)
+    static var accent: Color { AppColor.accent }
+    static var background: Color { AppColor.background }
+    static var surface: Color { AppColor.surface }
+    static var surfaceRaised: Color { AppColor.surfaceRaised }
+    static var textSecondary: Color { AppColor.textSecondary }
+    static var warning: Color { AppColor.warning }
+    static var danger: Color { AppColor.danger }
 }
 
 struct CardBackground: ViewModifier {
     func body(content: Content) -> some View {
         content
-            .background(AppTheme.surface)
-            .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+            .background(AppColor.surface)
+            .clipShape(RoundedRectangle(cornerRadius: Radius.m, style: .continuous))
     }
 }
 

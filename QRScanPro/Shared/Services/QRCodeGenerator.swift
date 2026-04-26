@@ -10,15 +10,6 @@ import AppKit
 typealias PlatformImage = NSImage
 #endif
 
-enum QRErrorCorrectionLevel: String, CaseIterable, Identifiable {
-    case low = "L"
-    case medium = "M"
-    case quartile = "Q"
-    case high = "H"
-
-    var id: String { rawValue }
-}
-
 enum QRCodeGenerationError: LocalizedError {
     case emptyContent
     case filterFailed

@@ -1,41 +1,41 @@
 import SwiftUI
 
 struct DebugLogView: View {
-    @EnvironmentObject private var store: AppStore
+    @ObservedObject private var logger = DebugLogger.shared
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
         List {
-            if store.logger.entries.isEmpty {
+            if logger.entries.isEmpty {
                 Text("暂无日志")
-                    .foregroundColor(AppTheme.textSecondary)
-                    .listRowBackground(AppTheme.surface)
+                    .foregroundColor(AppColor.textSecondary)
+                    .listRowBackground(AppColor.surface)
             } else {
-                ForEach(store.logger.entries) { entry in
+                ForEach(logger.entries) { entry in
                     VStack(alignment: .leading, spacing: 6) {
                         HStack {
                             Text(entry.level.title)
-                                .font(.caption.bold())
+                                .font(AppFont.caption.bold())
                                 .foregroundColor(color(for: entry.level))
 
                             Spacer()
 
                             Text(entry.date.formatted(date: .omitted, time: .standard))
-                                .font(.caption)
-                                .foregroundColor(AppTheme.textSecondary)
+                                .font(AppFont.caption)
+                                .foregroundColor(AppColor.textSecondary)
                         }
 
                         Text(entry.message)
-                            .font(.footnote.monospaced())
-                            .foregroundColor(.white)
+                            .font(AppFont.mono)
+                            .foregroundColor(AppColor.textPrimary)
                     }
-                    .padding(.vertical, 4)
-                    .listRowBackground(AppTheme.surface)
+                    .padding(.vertical, Spacing.xs)
+                    .listRowBackground(AppColor.surface)
                 }
             }
         }
         .hideScrollBackgroundWhenAvailable()
-        .background(AppTheme.background.ignoresSafeArea())
+        .background(AppColor.background.ignoresSafeArea())
         .navigationTitle("调试日志")
         .toolbar {
             ToolbarItem(placement: .cancellationAction) {
@@ -46,7 +46,7 @@ struct DebugLogView: View {
 
             ToolbarItem(placement: .primaryAction) {
                 Button("清空") {
-                    store.logger.clear()
+                    logger.clear()
                 }
             }
         }
@@ -55,11 +55,11 @@ struct DebugLogView: View {
     private func color(for level: DebugLogLevel) -> Color {
         switch level {
         case .info:
-            return AppTheme.accent
+            return AppColor.accent
         case .warning:
-            return AppTheme.warning
+            return AppColor.warning
         case .error:
-            return AppTheme.danger
+            return AppColor.danger
         }
     }
 }

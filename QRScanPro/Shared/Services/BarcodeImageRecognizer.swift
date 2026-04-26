@@ -23,42 +23,44 @@ enum ImageRecognitionError: LocalizedError {
 }
 
 struct BarcodeImageRecognizer {
-    func recognize(cgImage: CGImage, allowedKinds: Set<BarcodeKind>) async throws -> ScanResult {
-        let allowedSymbologies = allowedKinds.compactMap { kind in
-            kind.visionSymbology
+    /// 单码识别：取首个匹配 allowedKinds 的结果。
+    func recognize(cgImage: CGImage, allowedKinds: Set<BarcodeKind>) async throws -> RecognizedCode {
+        let codes = try await recognizeAll(cgImage: cgImage, allowedKinds: allowedKinds)
+        guard let first = codes.first else {
+            throw ImageRecognitionError.noBarcode
         }
+        return first
+    }
 
+    /// 多码识别：返回图片中所有命中 allowedKinds 的结果，供 macOS 批量识别使用。
+    func recognizeAll(cgImage: CGImage, allowedKinds: Set<BarcodeKind>) async throws -> [RecognizedCode] {
+        let allowedSymbologies = allowedKinds.compactMap { $0.visionSymbology }
         guard !allowedSymbologies.isEmpty else {
             throw ImageRecognitionError.noEnabledKind
         }
 
-        return try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<ScanResult, Error>) in
+        return try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<[RecognizedCode], Error>) in
             let request = VNDetectBarcodesRequest { request, error in
                 if let error {
                     continuation.resume(throwing: ImageRecognitionError.requestFailed(error.localizedDescription))
                     return
                 }
 
-                guard
-                    let observations = request.results as? [VNBarcodeObservation],
-                    let observation = observations.first,
-                    let value = observation.payloadStringValue
-                else {
-                    continuation.resume(throwing: ImageRecognitionError.noBarcode)
-                    return
+                let observations = (request.results as? [VNBarcodeObservation]) ?? []
+                let codes: [RecognizedCode] = observations.compactMap { observation in
+                    guard
+                        let value = observation.payloadStringValue,
+                        let kind = BarcodeKind(symbology: observation.symbology)
+                    else {
+                        return nil
+                    }
+                    return RecognizedCode(value: value, kind: kind, source: .image)
                 }
-
-                let result = ScanResult(
-                    value: value,
-                    kind: BarcodeKind(symbology: observation.symbology),
-                    source: .image
-                )
-                continuation.resume(returning: result)
+                continuation.resume(returning: codes)
             }
             request.symbologies = allowedSymbologies
 
             let handler = VNImageRequestHandler(cgImage: cgImage, options: [:])
-
             do {
                 try handler.perform([request])
             } catch {
@@ -89,12 +91,11 @@ extension BarcodeKind {
             return .aztec
         case .dataMatrix:
             return .dataMatrix
-        case .unknown:
-            return nil
         }
     }
 
-    init(symbology: VNBarcodeSymbology) {
+    /// 不支持的码制返回 nil；调用方决定是丢弃还是上报。
+    init?(symbology: VNBarcodeSymbology) {
         switch symbology {
         case .qr:
             self = .qr
@@ -115,7 +116,7 @@ extension BarcodeKind {
         case .dataMatrix:
             self = .dataMatrix
         default:
-            self = .unknown
+            return nil
         }
     }
 }

@@ -4,7 +4,7 @@ import UIKit
 import Vision
 
 struct LiveScannerContainer: UIViewControllerRepresentable {
-    let onResult: (ScanResult) -> Void
+    let onResult: (RecognizedCode) -> Void
     let onError: (String) -> Void
 
     func makeUIViewController(context: Context) -> ScannerViewController {
@@ -15,13 +15,13 @@ struct LiveScannerContainer: UIViewControllerRepresentable {
 }
 
 final class ScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
-    private let onResult: (ScanResult) -> Void
+    private let onResult: (RecognizedCode) -> Void
     private let onError: (String) -> Void
     private let session = AVCaptureSession()
     private var previewLayer: AVCaptureVideoPreviewLayer?
     private var isHandlingResult = false
 
-    init(onResult: @escaping (ScanResult) -> Void, onError: @escaping (String) -> Void) {
+    init(onResult: @escaping (RecognizedCode) -> Void, onError: @escaping (String) -> Void) {
         self.onResult = onResult
         self.onError = onError
         super.init(nibName: nil, bundle: nil)
@@ -70,13 +70,14 @@ final class ScannerViewController: UIViewController, AVCaptureMetadataOutputObje
 
         guard
             let metadata = metadataObjects.compactMap({ $0 as? AVMetadataMachineReadableCodeObject }).first,
-            let value = metadata.stringValue
+            let value = metadata.stringValue,
+            let kind = BarcodeKind(metadataType: metadata.type)
         else {
             return
         }
 
         isHandlingResult = true
-        let result = ScanResult(value: value, kind: BarcodeKind(metadataType: metadata.type), source: .camera)
+        let result = RecognizedCode(value: value, kind: kind, source: .camera)
 
         DispatchQueue.main.async {
             self.onResult(result)
@@ -185,7 +186,7 @@ enum ScannerMetadata {
 }
 
 extension BarcodeKind {
-    init(metadataType: AVMetadataObject.ObjectType) {
+    init?(metadataType: AVMetadataObject.ObjectType) {
         switch metadataType {
         case .qr:
             self = .qr
@@ -206,7 +207,7 @@ extension BarcodeKind {
         case .dataMatrix:
             self = .dataMatrix
         default:
-            self = .unknown
+            return nil
         }
     }
 }
