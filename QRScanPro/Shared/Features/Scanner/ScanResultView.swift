@@ -6,6 +6,9 @@ struct ScanResultView: View {
     @Environment(\.dismiss) private var dismiss
 
     let record: ScanRecord
+    #if os(iOS)
+    @State private var safariDestination: SafariDestination?
+    #endif
 
     var body: some View {
         ScrollView {
@@ -26,6 +29,11 @@ struct ScanResultView: View {
         .navigationTitle("扫描结果")
         #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar(.hidden, for: .tabBar)
+        .fullScreenCover(item: $safariDestination) { destination in
+            InAppBrowserView(url: destination.url)
+                .ignoresSafeArea()
+        }
         #endif
     }
 
@@ -66,10 +74,10 @@ struct ScanResultView: View {
     @ViewBuilder
     private func urlCard(_ url: URL) -> some View {
         #if os(iOS)
-        NavigationLink {
-            InAppBrowserView(url: url)
+        Button {
+            safariDestination = SafariDestination(url: url)
         } label: {
-            urlRow(url, accessory: "chevron.right")
+            urlRow(url, accessory: "safari")
         }
         .buttonStyle(.plain)
         #else
@@ -120,9 +128,9 @@ struct ScanResultView: View {
             #if os(iOS)
             if let url = record.url {
                 Button {
-                    UIApplication.shared.open(url)
+                    safariDestination = SafariDestination(url: url)
                 } label: {
-                    Label("在浏览器中打开", systemImage: "safari")
+                    Label("打开网页", systemImage: "safari")
                         .frame(maxWidth: .infinity)
                 }
                 .buttonStyle(.bordered)
@@ -141,3 +149,10 @@ struct ScanResultView: View {
         }
     }
 }
+
+#if os(iOS)
+private struct SafariDestination: Identifiable {
+    let id = UUID()
+    let url: URL
+}
+#endif

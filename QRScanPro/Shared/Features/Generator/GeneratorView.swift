@@ -46,6 +46,9 @@ struct GeneratorView: View {
             #endif
         }
         .navigationTitle("生成二维码")
+        #if os(iOS)
+        .toolbar(.hidden, for: .tabBar)
+        #endif
         .task { await state.regenerateImmediately() }
         .onChange(of: state.content) { _, _ in state.scheduleRegenerate() }
         .onChange(of: state.config) { _, _ in state.scheduleRegenerate() }
