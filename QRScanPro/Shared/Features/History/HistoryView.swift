@@ -288,15 +288,6 @@ struct HistoryView: View {
         ToolbarItem(placement: .topBarTrailing) {
             EditButton()
         }
-        ToolbarItem(placement: .topBarLeading) {
-            if !currentSelection.isEmpty {
-                Button(role: .destructive) {
-                    deleteSelection()
-                } label: {
-                    Label("删除选中(\(currentSelection.count))", systemImage: "trash")
-                }
-            }
-        }
         #else
         ToolbarItem {
             if !currentSelection.isEmpty {

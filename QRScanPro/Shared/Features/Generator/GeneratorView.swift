@@ -96,6 +96,9 @@ struct GeneratorView: View {
             .aspectRatio(1, contentMode: .fit)
 
             warnings
+            #if os(macOS)
+            saveToHistoryButton
+            #endif
             exportButtons
         }
         .padding(Spacing.l)
