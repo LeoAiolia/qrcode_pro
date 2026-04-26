@@ -51,6 +51,36 @@ enum HistoryRetention: String, Codable, CaseIterable, Identifiable {
     }
 }
 
+enum DateDisplayStyle: String, Codable, CaseIterable, Identifiable {
+    case numericMinute
+
+    var id: String { rawValue }
+
+    var title: String {
+        switch self {
+        case .numericMinute:
+            return "2026-03-01 10:29"
+        }
+    }
+}
+
+enum AppDateFormatter {
+    static func string(from date: Date, style: DateDisplayStyle = .numericMinute) -> String {
+        switch style {
+        case .numericMinute:
+            return numericMinuteFormatter.string(from: date)
+        }
+    }
+
+    private static let numericMinuteFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.calendar = Calendar(identifier: .gregorian)
+        formatter.locale = Locale(identifier: "zh_CN_POSIX")
+        formatter.dateFormat = "yyyy-MM-dd HH:mm"
+        return formatter
+    }()
+}
+
 enum ExportFormat: String, Codable, CaseIterable, Identifiable {
     case png
     case svg

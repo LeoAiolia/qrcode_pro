@@ -5,7 +5,7 @@ import SwiftUI
 struct ScannerOverlay: View {
     let isContinuous: Bool
 
-    @State private var scanLineOffset: CGFloat = 0
+    @State private var scanLineAtBottom = false
 
     var body: some View {
         GeometryReader { geo in
@@ -22,15 +22,8 @@ struct ScannerOverlay: View {
                 CornerBrackets(rect: frame, color: AppColor.accent)
                     .allowsHitTesting(false)
 
-                // 扫描线
-                Rectangle()
-                    .fill(LinearGradient(
-                        colors: [AppColor.accent.opacity(0.0), AppColor.accent, AppColor.accent.opacity(0.0)],
-                        startPoint: .leading,
-                        endPoint: .trailing
-                    ))
-                    .frame(width: frame.width, height: 2)
-                    .position(x: frame.midX, y: frame.minY + scanLineOffset)
+                // 扫描线限制在扫描框内部，避免动画范围与方框高度脱节。
+                scanLine(in: frame)
                     .allowsHitTesting(false)
 
                 // 顶部提示
@@ -55,12 +48,30 @@ struct ScannerOverlay: View {
                 .allowsHitTesting(false)
             }
             .onAppear {
-                scanLineOffset = 0
+                scanLineAtBottom = false
                 withAnimation(.easeInOut(duration: 1.6).repeatForever(autoreverses: true)) {
-                    scanLineOffset = frame.height
+                    scanLineAtBottom = true
                 }
             }
         }
+    }
+
+    private func scanLine(in frame: CGRect) -> some View {
+        let lineHeight: CGFloat = 2
+
+        return ZStack(alignment: .top) {
+            Rectangle()
+                .fill(LinearGradient(
+                    colors: [AppColor.accent.opacity(0.0), AppColor.accent, AppColor.accent.opacity(0.0)],
+                    startPoint: .leading,
+                    endPoint: .trailing
+                ))
+                .frame(width: frame.width, height: lineHeight)
+                .offset(y: scanLineAtBottom ? max(frame.height - lineHeight, 0) : 0)
+        }
+        .frame(width: frame.width, height: frame.height, alignment: .top)
+        .position(x: frame.midX, y: frame.midY)
+        .clipped()
     }
 
     private func frameRect(in size: CGSize) -> CGRect {

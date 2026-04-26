@@ -420,7 +420,7 @@ private struct ScanRow: View {
                     .font(AppFont.body)
                     .foregroundColor(AppColor.textPrimary)
                     .lineLimit(1)
-                Text("\(record.kind.displayName) · \(record.source.displayName) · \(record.createdAt.formatted(date: .abbreviated, time: .shortened))")
+                Text("\(record.kind.displayName) · \(record.source.displayName) · \(AppDateFormatter.string(from: record.createdAt))")
                     .font(AppFont.caption)
                     .foregroundColor(AppColor.textSecondary)
             }
@@ -444,7 +444,7 @@ private struct GeneratedRow: View {
                     .font(AppFont.body)
                     .foregroundColor(AppColor.textPrimary)
                     .lineLimit(1)
-                Text("\(record.config.sizePx) px · \(record.config.dotShape.displayName) · \(record.createdAt.formatted(date: .abbreviated, time: .shortened))")
+                Text("\(record.config.sizePx) px · \(record.config.dotShape.displayName) · \(AppDateFormatter.string(from: record.createdAt))")
                     .font(AppFont.caption)
                     .foregroundColor(AppColor.textSecondary)
             }

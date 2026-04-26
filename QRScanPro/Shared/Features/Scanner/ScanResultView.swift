@@ -41,7 +41,7 @@ struct ScanResultView: View {
         HStack(spacing: Spacing.s) {
             tag(record.kind.displayName, color: AppColor.accent)
             tag(record.source.displayName, color: AppColor.textSecondary)
-            tag(record.createdAt.formatted(date: .abbreviated, time: .shortened), color: AppColor.textSecondary)
+            tag(AppDateFormatter.string(from: record.createdAt), color: AppColor.textSecondary)
         }
         .font(AppFont.caption)
     }
