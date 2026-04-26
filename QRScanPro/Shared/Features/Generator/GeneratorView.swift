@@ -16,11 +16,13 @@ struct GeneratorView: View {
     @State private var state: GeneratorState
     @State private var statusMessage: String?
     @State private var statusError: Bool = false
+    private let hidesTabBar: Bool
     #if os(iOS)
     @State private var logoPickerItem: PhotosPickerItem?
     #endif
 
-    init(initialContent: String? = nil, initialConfig: GenerateConfig? = nil) {
+    init(initialContent: String? = nil, initialConfig: GenerateConfig? = nil, hidesTabBar: Bool = false) {
+        self.hidesTabBar = hidesTabBar
         _state = State(initialValue: GeneratorState(initialContent: initialContent, initialConfig: initialConfig))
     }
 
@@ -47,7 +49,7 @@ struct GeneratorView: View {
         }
         .navigationTitle("生成二维码")
         #if os(iOS)
-        .toolbar(.hidden, for: .tabBar)
+        .toolbar(hidesTabBar ? .hidden : .visible, for: .tabBar)
         #endif
         .task { await state.regenerateImmediately() }
         .onChange(of: state.content) { _, _ in state.scheduleRegenerate() }

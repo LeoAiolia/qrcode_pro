@@ -8,6 +8,7 @@ struct iOSRootView: View {
 
     enum Tab: Hashable {
         case scanner
+        case generator
         case history
         case settings
 
@@ -15,6 +16,8 @@ struct iOSRootView: View {
             switch self {
             case .scanner:
                 return "扫码"
+            case .generator:
+                return "生成"
             case .history:
                 return "历史"
             case .settings:
@@ -26,6 +29,8 @@ struct iOSRootView: View {
             switch self {
             case .scanner:
                 return "qrcode.viewfinder"
+            case .generator:
+                return "qrcode"
             case .history:
                 return "clock"
             case .settings:
@@ -43,6 +48,14 @@ struct iOSRootView: View {
                 Label(Tab.scanner.title, systemImage: Tab.scanner.systemImage)
             }
             .tag(Tab.scanner)
+
+            NavigationStack {
+                GeneratorView()
+            }
+            .tabItem {
+                Label(Tab.generator.title, systemImage: Tab.generator.systemImage)
+            }
+            .tag(Tab.generator)
 
             NavigationStack {
                 HistoryView()

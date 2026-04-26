@@ -213,7 +213,7 @@ struct HistoryView: View {
                     ScanResultView(record: record)
                 }
                 .navigationDestination(for: GeneratedRecord.self) { record in
-                    GeneratorView(initialContent: record.content, initialConfig: record.config)
+                    GeneratorView(initialContent: record.content, initialConfig: record.config, hidesTabBar: true)
                 }
             }
         }
@@ -262,7 +262,7 @@ struct HistoryView: View {
                     }
                 }
                 .navigationDestination(for: GeneratedRecord.self) { record in
-                    GeneratorView(initialContent: record.content, initialConfig: record.config)
+                    GeneratorView(initialContent: record.content, initialConfig: record.config, hidesTabBar: true)
                 }
             }
         }

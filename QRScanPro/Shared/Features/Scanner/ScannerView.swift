@@ -12,7 +12,6 @@ struct ScannerView: View {
 
     @State private var isTorchOn = false
     @State private var pickerPresented = false
-    @State private var generatorPresented = false
     @State private var pushedRecord: ScanRecord?
     @State private var errorMessage: String?
     @State private var toastMessage: String?
@@ -73,9 +72,6 @@ struct ScannerView: View {
         .navigationDestination(item: $pushedRecord) { record in
             ScanResultView(record: record)
         }
-        .navigationDestination(isPresented: $generatorPresented) {
-            GeneratorView()
-        }
         .sheet(isPresented: $pickerPresented) {
             PhotoPicker { result in
                 switch result {
@@ -103,11 +99,6 @@ struct ScannerView: View {
                 pickerPresented = true
             }
             .accessibilityLabel("从相册选择图片识别")
-
-            controlButton(systemImage: "qrcode", label: "生成") {
-                generatorPresented = true
-            }
-            .accessibilityLabel("生成二维码")
 
             if capability.supportsTorch {
                 controlButton(
