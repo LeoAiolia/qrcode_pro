@@ -1,9 +1,11 @@
 import AVFoundation
 import SwiftUI
 import UIKit
-import Vision
 
+/// 相机预览容器；只负责 AVCaptureSession + previewLayer，不绘制 overlay。
+/// 扫描框 / 闪光灯按钮 / 提示文案由 SwiftUI 层叠加。
 struct LiveScannerContainer: UIViewControllerRepresentable {
+    @Binding var isTorchOn: Bool
     let onResult: (RecognizedCode) -> Void
     let onError: (String) -> Void
 
@@ -11,7 +13,13 @@ struct LiveScannerContainer: UIViewControllerRepresentable {
         ScannerViewController(onResult: onResult, onError: onError)
     }
 
-    func updateUIViewController(_ uiViewController: ScannerViewController, context: Context) {}
+    func updateUIViewController(_ uiViewController: ScannerViewController, context: Context) {
+        uiViewController.setTorch(on: isTorchOn)
+    }
+
+    static func dismantleUIViewController(_ uiViewController: ScannerViewController, coordinator: ()) {
+        uiViewController.setTorch(on: false)
+    }
 }
 
 final class ScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
@@ -56,7 +64,28 @@ final class ScannerViewController: UIViewController, AVCaptureMetadataOutputObje
         if session.isRunning {
             session.stopRunning()
         }
-        turnTorchOff()
+        setTorch(on: false)
+    }
+
+    func setTorch(on: Bool) {
+        guard let device = AVCaptureDevice.default(for: .video), device.hasTorch else {
+            return
+        }
+        let target: AVCaptureDevice.TorchMode = on ? .on : .off
+        guard device.torchMode != target else { return }
+
+        do {
+            try device.lockForConfiguration()
+            device.torchMode = target
+            device.unlockForConfiguration()
+        } catch {
+            onError("闪光灯切换失败：\(error.localizedDescription)")
+        }
+    }
+
+    /// 让 ScannerView 接管去重逻辑后，由外部解锁继续扫描。
+    func resumeAcceptingResults() {
+        isHandlingResult = false
     }
 
     func metadataOutput(
@@ -83,7 +112,7 @@ final class ScannerViewController: UIViewController, AVCaptureMetadataOutputObje
             self.onResult(result)
         }
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
             self.isHandlingResult = false
         }
     }
@@ -98,12 +127,12 @@ final class ScannerViewController: UIViewController, AVCaptureMetadataOutputObje
                     if isGranted {
                         self?.buildSession()
                     } else {
-                        self?.onError("相机权限未授权")
+                        self?.onError("相机权限未授权，请在「设置」中开启相机权限。")
                     }
                 }
             }
         case .denied, .restricted:
-            onError("相机权限未授权")
+            onError("相机权限未授权，请在「设置」中开启相机权限。")
         @unknown default:
             onError("相机权限状态未知")
         }
@@ -135,38 +164,8 @@ final class ScannerViewController: UIViewController, AVCaptureMetadataOutputObje
             previewLayer.frame = view.bounds
             view.layer.insertSublayer(previewLayer, at: 0)
             self.previewLayer = previewLayer
-
-            addOverlay()
         } catch {
             onError("相机初始化失败：\(error.localizedDescription)")
-        }
-    }
-
-    private func addOverlay() {
-        let label = UILabel()
-        label.text = "将二维码放入框内自动识别"
-        label.textColor = .white
-        label.font = .preferredFont(forTextStyle: .subheadline)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(label)
-
-        NSLayoutConstraint.activate([
-            label.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            label.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -28)
-        ])
-    }
-
-    private func turnTorchOff() {
-        guard let device = AVCaptureDevice.default(for: .video), device.hasTorch else {
-            return
-        }
-
-        do {
-            try device.lockForConfiguration()
-            device.torchMode = .off
-            device.unlockForConfiguration()
-        } catch {
-            onError("闪光灯关闭失败：\(error.localizedDescription)")
         }
     }
 }

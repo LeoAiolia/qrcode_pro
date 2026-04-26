@@ -57,7 +57,7 @@ struct MacRootView: View {
     private func detail(for item: SidebarItem) -> some View {
         switch item {
         case .imageRecognition:
-            ScannerView()
+            MacImageRecognitionView()
         case .generator:
             GeneratorView()
         case .history:

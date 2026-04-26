@@ -70,6 +70,18 @@ struct RecognizedCode: Equatable {
     let value: String
     let kind: BarcodeKind
     let source: ScanSource
+
+    var url: URL? {
+        guard let url = URL(string: value), let scheme = url.scheme?.lowercased() else {
+            return nil
+        }
+        switch scheme {
+        case "http", "https":
+            return url
+        default:
+            return nil
+        }
+    }
 }
 
 enum HistoryFilter: String, CaseIterable, Identifiable {

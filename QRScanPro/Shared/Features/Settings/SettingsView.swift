@@ -21,6 +21,11 @@ struct SettingsView: View {
                     Toggle("振动反馈", isOn: $settings.vibrationEnabled)
                     Toggle("音效反馈", isOn: $settings.soundEnabled)
                     Toggle("连续扫描", isOn: $settings.continuousScanEnabled)
+                    Picker("扫描框", selection: $settings.scanFrameStyle) {
+                        ForEach(ScanFrameStyle.allCases) { style in
+                            Text(style.title).tag(style)
+                        }
+                    }
                 }
             }
             #endif
