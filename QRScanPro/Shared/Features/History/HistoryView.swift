@@ -56,6 +56,7 @@ enum HistorySourceFilter: String, CaseIterable, Identifiable {
 }
 
 private enum HistorySegment: String, CaseIterable, Identifiable {
+    case all
     case scan
     case generated
 
@@ -63,6 +64,7 @@ private enum HistorySegment: String, CaseIterable, Identifiable {
 
     var title: String {
         switch self {
+        case .all: return "全部"
         case .scan: return "扫码"
         case .generated: return "生成"
         }
@@ -73,7 +75,8 @@ struct HistoryView: View {
     @Environment(\.modelContext) private var modelContext
 
     #if os(iOS)
-    @State private var segment: HistorySegment = .scan
+    @State private var segment: HistorySegment = .all
+    @State private var historySelection = Set<UUID>()
     #endif
 
     @State private var query: String = ""
@@ -92,7 +95,7 @@ struct HistoryView: View {
     var body: some View {
         VStack(spacing: 0) {
             #if os(iOS)
-            Picker("分段", selection: $segment) {
+            Picker("历史类型", selection: $segment) {
                 ForEach(HistorySegment.allCases) { item in
                     Text(item.title).tag(item)
                 }
@@ -100,9 +103,10 @@ struct HistoryView: View {
             .pickerStyle(.segmented)
             .padding(.horizontal, Spacing.l)
             .padding(.top, Spacing.s)
-            #endif
-
+            .padding(.bottom, Spacing.s)
+            #else
             filterBar
+            #endif
 
             list
         }
@@ -159,16 +163,62 @@ struct HistoryView: View {
     @ViewBuilder
     private var list: some View {
         #if os(iOS)
-        switch segment {
-        case .scan:
-            scanList
-        case .generated:
-            generatedList
-        }
+        iosHistoryList
         #else
         generatedList
         #endif
     }
+
+    #if os(iOS)
+    private var iosHistoryList: some View {
+        let scans = visibleScans
+        let generated = visibleGenerated
+
+        return Group {
+            if scans.isEmpty && generated.isEmpty {
+                emptyState(message: "暂无历史记录")
+            } else {
+                List(selection: $historySelection) {
+                    if !scans.isEmpty {
+                        Section("扫码记录 · \(scans.count)") {
+                            ForEach(scans) { record in
+                                NavigationLink(value: record) {
+                                    ScanRow(record: record)
+                                }
+                                .tag(record.id)
+                            }
+                            .onDelete { offsets in
+                                offsets.map { scans[$0] }.forEach(deleteScan)
+                            }
+                        }
+                    }
+
+                    if !generated.isEmpty {
+                        Section("生成记录 · \(generated.count)") {
+                            ForEach(generated) { record in
+                                NavigationLink(value: record) {
+                                    GeneratedRow(record: record)
+                                }
+                                .tag(record.id)
+                            }
+                            .onDelete { offsets in
+                                offsets.map { generated[$0] }.forEach(deleteGenerated)
+                            }
+                        }
+                    }
+                }
+                .listStyle(.insetGrouped)
+                .scrollContentBackground(.hidden)
+                .navigationDestination(for: ScanRecord.self) { record in
+                    ScanResultView(record: record)
+                }
+                .navigationDestination(for: GeneratedRecord.self) { record in
+                    GeneratorView(initialContent: record.content, initialConfig: record.config)
+                }
+            }
+        }
+    }
+    #endif
 
     private var scanList: some View {
         let items = filteredScans
@@ -275,7 +325,7 @@ struct HistoryView: View {
 
     private var currentSelection: Set<UUID> {
         #if os(iOS)
-        return segment == .scan ? scanSelection : generatedSelection
+        return historySelection
         #else
         return generatedSelection
         #endif
@@ -285,23 +335,37 @@ struct HistoryView: View {
 
     private var filteredScans: [ScanRecord] {
         let trimmed = query.trimmingCharacters(in: .whitespacesAndNewlines)
-        let cal = Calendar.current
         return scans.filter { record in
-            kindFilter.matches(record.kind)
-                && sourceFilter.matches(record.source)
-                && (!todayOnly || cal.isDateInToday(record.createdAt))
-                && (trimmed.isEmpty || record.value.localizedCaseInsensitiveContains(trimmed))
+            trimmed.isEmpty || record.value.localizedCaseInsensitiveContains(trimmed)
         }
     }
 
     private var filteredGenerated: [GeneratedRecord] {
         let trimmed = query.trimmingCharacters(in: .whitespacesAndNewlines)
-        let cal = Calendar.current
         return generated.filter { record in
-            (!todayOnly || cal.isDateInToday(record.createdAt))
-                && (trimmed.isEmpty || record.content.localizedCaseInsensitiveContains(trimmed))
+            trimmed.isEmpty || record.content.localizedCaseInsensitiveContains(trimmed)
         }
     }
+
+    #if os(iOS)
+    private var visibleScans: [ScanRecord] {
+        switch segment {
+        case .all, .scan:
+            return filteredScans
+        case .generated:
+            return []
+        }
+    }
+
+    private var visibleGenerated: [GeneratedRecord] {
+        switch segment {
+        case .all, .generated:
+            return filteredGenerated
+        case .scan:
+            return []
+        }
+    }
+    #endif
 
     // MARK: - Mutations
 
@@ -317,13 +381,9 @@ struct HistoryView: View {
 
     private func deleteSelection() {
         #if os(iOS)
-        if segment == .scan {
-            scans.filter { scanSelection.contains($0.id) }.forEach(deleteScan)
-            scanSelection.removeAll()
-        } else {
-            generated.filter { generatedSelection.contains($0.id) }.forEach(deleteGenerated)
-            generatedSelection.removeAll()
-        }
+        scans.filter { historySelection.contains($0.id) }.forEach(deleteScan)
+        generated.filter { historySelection.contains($0.id) }.forEach(deleteGenerated)
+        historySelection.removeAll()
         #else
         generated.filter { generatedSelection.contains($0.id) }.forEach(deleteGenerated)
         generatedSelection.removeAll()
