@@ -5,8 +5,6 @@ import SwiftUI
 struct ScannerOverlay: View {
     let isContinuous: Bool
 
-    @State private var scanLineAtBottom = false
-
     var body: some View {
         GeometryReader { geo in
             let frame = frameRect(in: geo.size)
@@ -23,8 +21,10 @@ struct ScannerOverlay: View {
                     .allowsHitTesting(false)
 
                 // 扫描线限制在扫描框内部，避免动画范围与方框高度脱节。
-                scanLine(in: frame)
-                    .allowsHitTesting(false)
+                TimelineView(.animation) { timeline in
+                    scanLine(in: frame, progress: scanProgress(at: timeline.date))
+                }
+                .allowsHitTesting(false)
 
                 // 顶部提示
                 VStack {
@@ -47,17 +47,12 @@ struct ScannerOverlay: View {
                 .frame(width: geo.size.width, height: geo.size.height)
                 .allowsHitTesting(false)
             }
-            .onAppear {
-                scanLineAtBottom = false
-                withAnimation(.easeInOut(duration: 1.6).repeatForever(autoreverses: true)) {
-                    scanLineAtBottom = true
-                }
-            }
         }
     }
 
-    private func scanLine(in frame: CGRect) -> some View {
+    private func scanLine(in frame: CGRect, progress: CGFloat) -> some View {
         let lineHeight: CGFloat = 2
+        let clampedProgress = min(max(progress, 0), 1)
 
         return ZStack(alignment: .top) {
             Rectangle()
@@ -67,11 +62,20 @@ struct ScannerOverlay: View {
                     endPoint: .trailing
                 ))
                 .frame(width: frame.width, height: lineHeight)
-                .offset(y: scanLineAtBottom ? max(frame.height - lineHeight, 0) : 0)
+                .offset(y: max(frame.height - lineHeight, 0) * clampedProgress)
         }
         .frame(width: frame.width, height: frame.height, alignment: .top)
         .position(x: frame.midX, y: frame.midY)
         .clipped()
+    }
+
+    private func scanProgress(at date: Date) -> CGFloat {
+        let oneWayDuration: TimeInterval = 1.6
+        let period = oneWayDuration * 2
+        let elapsed = date.timeIntervalSinceReferenceDate.truncatingRemainder(dividingBy: period)
+        let normalized = elapsed / period
+        let progress = normalized < 0.5 ? normalized * 2 : (1 - normalized) * 2
+        return CGFloat(progress)
     }
 
     private func frameRect(in size: CGSize) -> CGRect {
