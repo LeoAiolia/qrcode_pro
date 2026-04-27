@@ -441,6 +441,7 @@ package_mac() {
     rm -rf "$staging_dir"
     mkdir -p "$staging_dir"
     ditto "$app_path" "$staging_dir/$APP_NAME.app"
+    ln -s /Applications "$staging_dir/Applications"
 
     hdiutil create \
         -volname "$APP_NAME $version" \
