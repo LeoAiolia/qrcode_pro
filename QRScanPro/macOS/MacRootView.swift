@@ -4,11 +4,11 @@ import SwiftUI
 struct MacRootView: View {
     @Environment(SettingsStore.self) private var settings
     @Environment(\.modelContext) private var modelContext
-    @State private var selection: SidebarItem? = .imageRecognition
+    @State private var selection: SidebarItem? = .generator
 
     enum SidebarItem: Hashable, CaseIterable, Identifiable {
-        case imageRecognition
         case generator
+        case imageRecognition
         case history
         case settings
 
@@ -66,10 +66,10 @@ struct MacRootView: View {
     @ViewBuilder
     private func detail(for item: SidebarItem) -> some View {
         switch item {
-        case .imageRecognition:
-            MacImageRecognitionView()
         case .generator:
             GeneratorView()
+        case .imageRecognition:
+            MacImageRecognitionView()
         case .history:
             HistoryView()
         case .settings:

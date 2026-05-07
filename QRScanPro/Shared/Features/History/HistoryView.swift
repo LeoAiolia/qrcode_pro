@@ -165,7 +165,9 @@ struct HistoryView: View {
         #if os(iOS)
         iosHistoryList
         #else
-        generatedList
+        NavigationStack {
+            generatedList
+        }
         #endif
     }
 

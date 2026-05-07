@@ -19,7 +19,7 @@ final class GeneratorState {
     private var generationID = UUID()
 
     init(initialContent: String? = nil, initialConfig: GenerateConfig? = nil) {
-        self.content = initialContent ?? "https://www.apple.com"
+        self.content = initialContent ?? ""
         self.config = initialConfig ?? .default
     }
 
@@ -52,6 +52,15 @@ final class GeneratorState {
     }
 
     private func regenerate(priority: TaskPriority) async {
+        guard !content.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+            image = nil
+            bitMatrix = nil
+            cgImage = nil
+            error = nil
+            isGenerating = false
+            return
+        }
+
         let currentID = UUID()
         generationID = currentID
         let content = content

@@ -88,7 +88,16 @@ struct GeneratorView: View {
                         .foregroundColor(AppColor.warning)
                         .padding()
                 } else {
-                    Text("等待生成…")
+                    let emptyHint: String = {
+                        #if os(macOS)
+                        return "请在左侧输入内容"
+                        #else
+                        return "请在下方输入内容"
+                        #endif
+                    }()
+                    Text(state.content.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+                         ? emptyHint
+                         : "等待生成…")
                         .font(AppFont.footnote)
                         .foregroundColor(AppColor.textSecondary)
                 }
