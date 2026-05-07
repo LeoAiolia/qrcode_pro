@@ -33,6 +33,13 @@ struct GeneratorView: View {
         #endif
     }
 
+    #if os(macOS)
+    init(persistedState: GeneratorState) {
+        self.hidesTabBar = false
+        _state = State(initialValue: persistedState)
+    }
+    #endif
+
     var body: some View {
         Group {
             #if os(macOS)
@@ -301,8 +308,8 @@ struct GeneratorView: View {
                     .padding(.horizontal, 5)
                     .padding(.vertical, 8)
                     #else
-                    .padding(.horizontal, 4)
-                    .padding(.vertical, 4)
+                    .padding(.leading, 4)
+                    .padding(.top, 0)
                     #endif
                     .allowsHitTesting(false)
             }
@@ -357,6 +364,7 @@ struct GeneratorView: View {
         try? await Task.sleep(nanoseconds: 120_000_000)
         advancedControlsReady = true
         #else
+        guard state.image == nil else { return }
         await state.regenerateImmediately()
         #endif
     }

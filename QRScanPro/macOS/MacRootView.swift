@@ -5,6 +5,7 @@ struct MacRootView: View {
     @Environment(SettingsStore.self) private var settings
     @Environment(\.modelContext) private var modelContext
     @State private var selection: SidebarItem? = .generator
+    @State private var generatorState = GeneratorState()
 
     enum SidebarItem: Hashable, CaseIterable, Identifiable {
         case generator
@@ -67,7 +68,7 @@ struct MacRootView: View {
     private func detail(for item: SidebarItem) -> some View {
         switch item {
         case .generator:
-            GeneratorView()
+            GeneratorView(persistedState: generatorState)
         case .imageRecognition:
             MacImageRecognitionView()
         case .history:
