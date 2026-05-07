@@ -47,7 +47,6 @@ struct GeneratorView: View {
                 VStack(spacing: Spacing.l) {
                     previewPane
                     paramsForm
-                    saveToHistoryButton
                 }
                 .padding(Spacing.l)
             }
@@ -150,21 +149,31 @@ struct GeneratorView: View {
                 .buttonStyle(.borderedProminent)
 
                 Button {
-                    if let data = PNGExporter.data(from: cgImage) {
-                        UIPasteboard.general.image = UIImage(data: data)
-                        showStatus("已复制 PNG 到剪贴板", isError: false)
-                    }
+                    saveToHistory()
                 } label: {
-                    Label("复制图片", systemImage: "doc.on.doc")
+                    Label("保存历史", systemImage: "clock.arrow.circlepath")
                         .frame(maxWidth: .infinity)
                 }
                 .buttonStyle(.bordered)
 
-                ShareItemsButton(items: [image]) {
-                    Label("系统分享…", systemImage: "square.and.arrow.up")
-                        .frame(maxWidth: .infinity)
+                HStack(spacing: Spacing.s) {
+                    Button {
+                        if let data = PNGExporter.data(from: cgImage) {
+                            UIPasteboard.general.image = UIImage(data: data)
+                            showStatus("已复制 PNG 到剪贴板", isError: false)
+                        }
+                    } label: {
+                        Label("复制", systemImage: "doc.on.doc")
+                            .frame(maxWidth: .infinity)
+                    }
+                    .buttonStyle(.bordered)
+
+                    ShareItemsButton(items: [image]) {
+                        Label("分享", systemImage: "square.and.arrow.up")
+                            .frame(maxWidth: .infinity)
+                    }
+                    .buttonStyle(.bordered)
                 }
-                .buttonStyle(.bordered)
             }
             #else
             HStack(spacing: Spacing.s) {
