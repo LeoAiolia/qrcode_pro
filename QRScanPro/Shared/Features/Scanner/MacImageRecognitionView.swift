@@ -84,7 +84,7 @@ struct MacImageRecognitionView: View {
                 Text("拖入图片或点击右上角选择，本地完成多码识别。")
                     .font(AppFont.body)
                     .foregroundColor(AppColor.textPrimary)
-                Text("当次会话内的结果不会写入历史。")
+                Text("识别成功的结果将自动写入扫码历史。")
                     .font(AppFont.caption)
                     .foregroundColor(AppColor.textSecondary)
             }
@@ -221,6 +221,13 @@ struct MacImageRecognitionView: View {
             }
 
             await MainActor.run {
+                for entry in newEntries {
+                    guard let code = entry.code else { continue }
+                    let record = ScanRecord(value: code.value, kind: code.kind, source: .image)
+                    modelContext.insert(record)
+                }
+                try? modelContext.save()
+
                 sessionResults.insert(contentsOf: newEntries, at: 0)
                 isRecognizing = false
             }

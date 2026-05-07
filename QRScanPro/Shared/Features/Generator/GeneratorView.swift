@@ -297,8 +297,13 @@ struct GeneratorView: View {
                 Text("输入文本、网址、Wi-Fi 信息等")
                     .font(AppFont.body)
                     .foregroundColor(AppColor.textSecondary)
+                    #if os(iOS)
                     .padding(.horizontal, 5)
                     .padding(.vertical, 8)
+                    #else
+                    .padding(.horizontal, 4)
+                    .padding(.vertical, 4)
+                    #endif
                     .allowsHitTesting(false)
             }
 
