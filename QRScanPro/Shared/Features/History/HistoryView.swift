@@ -55,18 +55,21 @@ enum HistorySourceFilter: String, CaseIterable, Identifiable {
     }
 }
 
-private enum HistorySegment: String, CaseIterable, Identifiable {
-    case all
-    case scan
-    case generated
+private enum HistoryEntry: Identifiable {
+    case scan(ScanRecord)
+    case generated(GeneratedRecord)
 
-    var id: String { rawValue }
-
-    var title: String {
+    var id: UUID {
         switch self {
-        case .all: return "全部"
-        case .scan: return "扫码"
-        case .generated: return "生成"
+        case .scan(let r): return r.id
+        case .generated(let r): return r.id
+        }
+    }
+
+    var createdAt: Date {
+        switch self {
+        case .scan(let r): return r.createdAt
+        case .generated(let r): return r.createdAt
         }
     }
 }
@@ -75,7 +78,6 @@ struct HistoryView: View {
     @Environment(\.modelContext) private var modelContext
 
     #if os(iOS)
-    @State private var segment: HistorySegment = .all
     @State private var historySelection = Set<UUID>()
     #endif
 
@@ -94,17 +96,7 @@ struct HistoryView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            #if os(iOS)
-            Picker("历史类型", selection: $segment) {
-                ForEach(HistorySegment.allCases) { item in
-                    Text(item.title).tag(item)
-                }
-            }
-            .pickerStyle(.segmented)
-            .padding(.horizontal, Spacing.l)
-            .padding(.top, Spacing.s)
-            .padding(.bottom, Spacing.s)
-            #else
+                #if os(macOS)
             filterBar
             #endif
 
@@ -120,36 +112,7 @@ struct HistoryView: View {
 
     @ViewBuilder
     private var filterBar: some View {
-        let showSource: Bool = {
-            #if os(iOS)
-            return segment == .scan
-            #else
-            return false
-            #endif
-        }()
-        let showKind: Bool = {
-            #if os(iOS)
-            return segment == .scan
-            #else
-            return false
-            #endif
-        }()
-
         VStack(spacing: Spacing.s) {
-            if showKind {
-                Picker("码制", selection: $kindFilter) {
-                    ForEach(HistoryKindFilter.allCases) { Text($0.title).tag($0) }
-                }
-                .pickerStyle(.segmented)
-            }
-
-            if showSource {
-                Picker("来源", selection: $sourceFilter) {
-                    ForEach(HistorySourceFilter.allCases) { Text($0.title).tag($0) }
-                }
-                .pickerStyle(.segmented)
-            }
-
             Toggle("仅今天", isOn: $todayOnly)
                 .toggleStyle(.switch)
                 .font(AppFont.footnote)
@@ -166,51 +129,129 @@ struct HistoryView: View {
         iosHistoryList
         #else
         NavigationStack {
-            generatedList
+            macHistoryList
         }
         #endif
     }
 
+    // MARK: - Shared grouping
+
+    private var mergedEntries: [HistoryEntry] {
+        let trimmed = query.trimmingCharacters(in: .whitespacesAndNewlines)
+        let scanEntries = scans
+            .filter { trimmed.isEmpty || $0.value.localizedCaseInsensitiveContains(trimmed) }
+            .map { HistoryEntry.scan($0) }
+        let generatedEntries = generated
+            .filter { trimmed.isEmpty || $0.content.localizedCaseInsensitiveContains(trimmed) }
+            .map { HistoryEntry.generated($0) }
+        return (scanEntries + generatedEntries).sorted { $0.createdAt > $1.createdAt }
+    }
+
+    private var groupedEntries: [(String, [HistoryEntry])] {
+        let calendar = Calendar.current
+        let now = Date()
+        let todayStart = calendar.startOfDay(for: now)
+        let yesterdayStart = calendar.date(byAdding: .day, value: -1, to: todayStart)!
+        let thisYear = calendar.component(.year, from: now)
+
+        var dayMap: [Date: [HistoryEntry]] = [:]
+        for entry in mergedEntries {
+            let day = calendar.startOfDay(for: entry.createdAt)
+            dayMap[day, default: []].append(entry)
+        }
+
+        return dayMap.keys.sorted(by: >).map { day in
+            let title: String
+            if day == todayStart {
+                title = "今天"
+            } else if day == yesterdayStart {
+                title = "昨天"
+            } else {
+                let fmt = DateFormatter()
+                fmt.locale = Locale(identifier: "zh_CN")
+                fmt.dateFormat = calendar.component(.year, from: day) == thisYear ? "M月d日" : "yyyy年M月d日"
+                title = fmt.string(from: day)
+            }
+            return (title, dayMap[day]!)
+        }
+    }
+
+    @ViewBuilder
+    private func entryRow(_ entry: HistoryEntry) -> some View {
+        switch entry {
+        case .scan(let record):
+            NavigationLink(value: record) {
+                ScanRow(record: record)
+            }
+            .tag(record.id)
+        case .generated(let record):
+            NavigationLink(value: record) {
+                GeneratedRow(record: record)
+            }
+            .tag(record.id)
+        }
+    }
+
     #if os(iOS)
     private var iosHistoryList: some View {
-        let scans = visibleScans
-        let generated = visibleGenerated
-
+        let groups = groupedEntries
         return Group {
-            if scans.isEmpty && generated.isEmpty {
+            if groups.isEmpty {
                 emptyState(message: "暂无历史记录")
             } else {
                 List(selection: $historySelection) {
-                    if !scans.isEmpty {
-                        Section("扫码记录 · \(scans.count)") {
-                            ForEach(scans) { record in
-                                NavigationLink(value: record) {
-                                    ScanRow(record: record)
-                                }
-                                .tag(record.id)
+                    ForEach(groups, id: \.0) { title, entries in
+                        Section(title) {
+                            ForEach(entries) { entry in
+                                entryRow(entry)
                             }
                             .onDelete { offsets in
-                                offsets.map { scans[$0] }.forEach(deleteScan)
-                            }
-                        }
-                    }
-
-                    if !generated.isEmpty {
-                        Section("生成记录 · \(generated.count)") {
-                            ForEach(generated) { record in
-                                NavigationLink(value: record) {
-                                    GeneratedRow(record: record)
+                                offsets.map { entries[$0] }.forEach { entry in
+                                    switch entry {
+                                    case .scan(let r): deleteScan(r)
+                                    case .generated(let r): deleteGenerated(r)
+                                    }
                                 }
-                                .tag(record.id)
-                            }
-                            .onDelete { offsets in
-                                offsets.map { generated[$0] }.forEach(deleteGenerated)
                             }
                         }
                     }
                 }
                 .listStyle(.insetGrouped)
                 .scrollContentBackground(.hidden)
+                .navigationDestination(for: ScanRecord.self) { record in
+                    ScanResultView(record: record)
+                }
+                .navigationDestination(for: GeneratedRecord.self) { record in
+                    GeneratorView(initialContent: record.content, initialConfig: record.config, hidesTabBar: true)
+                }
+            }
+        }
+    }
+    #else
+    private var macHistoryList: some View {
+        let groups = groupedEntries
+        return Group {
+            if groups.isEmpty {
+                emptyState(message: "暂无历史记录")
+            } else {
+                List(selection: $generatedSelection) {
+                    ForEach(groups, id: \.0) { title, entries in
+                        Section(title) {
+                            ForEach(entries) { entry in
+                                entryRow(entry)
+                            }
+                            .onDelete { offsets in
+                                offsets.map { entries[$0] }.forEach { entry in
+                                    switch entry {
+                                    case .scan(let r): deleteScan(r)
+                                    case .generated(let r): deleteGenerated(r)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                .navigationTitle("历史记录")
                 .navigationDestination(for: ScanRecord.self) { record in
                     ScanResultView(record: record)
                 }
@@ -340,25 +381,6 @@ struct HistoryView: View {
         }
     }
 
-    #if os(iOS)
-    private var visibleScans: [ScanRecord] {
-        switch segment {
-        case .all, .scan:
-            return filteredScans
-        case .generated:
-            return []
-        }
-    }
-
-    private var visibleGenerated: [GeneratedRecord] {
-        switch segment {
-        case .all, .generated:
-            return filteredGenerated
-        case .scan:
-            return []
-        }
-    }
-    #endif
 
     // MARK: - Mutations
 
@@ -378,6 +400,7 @@ struct HistoryView: View {
         generated.filter { historySelection.contains($0.id) }.forEach(deleteGenerated)
         historySelection.removeAll()
         #else
+        scans.filter { generatedSelection.contains($0.id) }.forEach(deleteScan)
         generated.filter { generatedSelection.contains($0.id) }.forEach(deleteGenerated)
         generatedSelection.removeAll()
         #endif
@@ -412,7 +435,8 @@ private struct ScanRow: View {
                 Text(record.value)
                     .font(AppFont.body)
                     .foregroundColor(AppColor.textPrimary)
-                    .lineLimit(1)
+                    .lineLimit(2)
+                    .truncationMode(.tail)
                 Text("\(record.kind.displayName) · \(record.source.displayName) · \(AppDateFormatter.string(from: record.createdAt))")
                     .font(AppFont.caption)
                     .foregroundColor(AppColor.textSecondary)
@@ -440,7 +464,8 @@ private struct GeneratedRow: View {
                 Text(record.content)
                     .font(AppFont.body)
                     .foregroundColor(AppColor.textPrimary)
-                    .lineLimit(1)
+                    .lineLimit(2)
+                    .truncationMode(.tail)
                 Text("\(record.config.sizePx) px · \(record.config.dotShape.displayName) · \(AppDateFormatter.string(from: record.createdAt))")
                     .font(AppFont.caption)
                     .foregroundColor(AppColor.textSecondary)

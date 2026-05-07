@@ -6,6 +6,7 @@ struct MacRootView: View {
     @Environment(\.modelContext) private var modelContext
     @State private var selection: SidebarItem? = .generator
     @State private var generatorState = GeneratorState()
+    @State private var imageRecognitionState = MacImageRecognitionState()
 
     enum SidebarItem: Hashable, CaseIterable, Identifiable {
         case generator
@@ -22,7 +23,7 @@ struct MacRootView: View {
             case .generator:
                 return "生成"
             case .history:
-                return "生成历史"
+                return "历史记录"
             case .settings:
                 return "设置"
             }
@@ -51,7 +52,7 @@ struct MacRootView: View {
             .navigationTitle("QRScan Pro")
             .frame(minWidth: 180)
         } detail: {
-            detail(for: selection ?? .imageRecognition)
+            detail(for: selection ?? .generator)
         }
         .preferredColorScheme(colorScheme(for: settings.appearance))
         .task {
@@ -70,7 +71,7 @@ struct MacRootView: View {
         case .generator:
             GeneratorView(persistedState: generatorState)
         case .imageRecognition:
-            MacImageRecognitionView()
+            MacImageRecognitionView(state: imageRecognitionState)
         case .history:
             HistoryView()
         case .settings:
