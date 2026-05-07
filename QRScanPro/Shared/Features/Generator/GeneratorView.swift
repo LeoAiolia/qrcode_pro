@@ -226,6 +226,9 @@ struct GeneratorView: View {
 
             if advancedControlsReady {
                 generatorSection("形状与配色") {
+                    Text("码点形状")
+                        .font(AppFont.caption)
+                        .foregroundColor(AppColor.textSecondary)
                     Picker("码点形状", selection: dotShapeBinding) {
                         ForEach(QRDotShape.allCases) { shape in
                             Text(shape.displayName).tag(shape)
