@@ -4,6 +4,7 @@ import SwiftUI
 @main
 struct QRScanProApp: App {
     @State private var settings = SettingsStore()
+    @State private var splashVisible = true
     private let container: ModelContainer = {
         do {
             return try ModelContainer(for: ScanRecord.self, GeneratedRecord.self)
@@ -14,8 +15,15 @@ struct QRScanProApp: App {
 
     var body: some Scene {
         WindowGroup {
-            iOSRootView()
-                .environment(settings)
+            ZStack {
+                iOSRootView()
+                    .environment(settings)
+                if splashVisible {
+                    SplashView(isVisible: $splashVisible)
+                        .transition(.opacity)
+                }
+            }
+            .animation(.easeOut(duration: 0.35), value: splashVisible)
         }
         .modelContainer(container)
     }
