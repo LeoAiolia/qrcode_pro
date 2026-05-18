@@ -226,13 +226,16 @@ struct GeneratorView: View {
 
             if advancedControlsReady {
                 generatorSection("形状与配色") {
-                    Text("码点形状")
-                        .font(AppFont.caption)
-                        .foregroundColor(AppColor.textSecondary)
-                    Picker("码点形状", selection: dotShapeBinding) {
-                        ForEach(QRDotShape.allCases) { shape in
-                            Text(shape.displayName).tag(shape)
+                    HStack {
+                        Text("码点形状")
+                            .foregroundColor(AppColor.textPrimary)
+                        Spacer()
+                        Picker("", selection: dotShapeBinding) {
+                            ForEach(QRDotShape.allCases) { shape in
+                                Text(shape.displayName).tag(shape)
+                            }
                         }
+                        .pickerStyle(.menu)
                     }
                     ColorPicker("前景色", selection: foregroundBinding, supportsOpacity: false)
                     ColorPicker("背景色", selection: backgroundBinding, supportsOpacity: false)
