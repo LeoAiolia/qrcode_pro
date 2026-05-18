@@ -78,9 +78,13 @@ struct HistoryView: View {
     @Environment(\.modelContext) private var modelContext
 
     #if os(iOS)
+    @State private var editMode: EditMode = .inactive
     @State private var historySelection = Set<UUID>()
+    @State private var deleteSelectionConfirm = false
+    @State private var selectionToDelete = Set<UUID>()
     #endif
 
+    @State private var clearAllConfirm = false
     @State private var query: String = ""
     @State private var kindFilter: HistoryKindFilter = .all
     @State private var sourceFilter: HistorySourceFilter = .all
@@ -106,6 +110,16 @@ struct HistoryView: View {
         .navigationTitle("历史记录")
         .toolbar { toolbarContent }
         .searchable(text: $query, prompt: "搜索内容")
+        #if os(iOS)
+        .alert("删除 \(selectionToDelete.count) 条记录？", isPresented: $deleteSelectionConfirm) {
+            Button("删除", role: .destructive) { deleteSelection() }
+            Button("取消", role: .cancel) { selectionToDelete.removeAll() }
+        }
+        #endif
+        .alert("清空全部历史记录？", isPresented: $clearAllConfirm) {
+            Button("清空全部", role: .destructive) { clearAll() }
+            Button("取消", role: .cancel) {}
+        }
     }
 
     // MARK: - Filter
@@ -205,17 +219,10 @@ struct HistoryView: View {
                             ForEach(entries) { entry in
                                 entryRow(entry)
                             }
-                            .onDelete { offsets in
-                                offsets.map { entries[$0] }.forEach { entry in
-                                    switch entry {
-                                    case .scan(let r): deleteScan(r)
-                                    case .generated(let r): deleteGenerated(r)
-                                    }
-                                }
-                            }
                         }
                     }
                 }
+                .environment(\.editMode, $editMode)
                 .listStyle(.insetGrouped)
                 .scrollContentBackground(.hidden)
                 .navigationDestination(for: ScanRecord.self) { record in
@@ -329,7 +336,26 @@ struct HistoryView: View {
     private var toolbarContent: some ToolbarContent {
         #if os(iOS)
         ToolbarItem(placement: .topBarTrailing) {
-            EditButton()
+            Button(editMode == .active ? "完成" : "编辑") {
+                withAnimation {
+                    if editMode == .active {
+                        editMode = .inactive
+                        historySelection.removeAll()
+                    } else {
+                        editMode = .active
+                    }
+                }
+            }
+        }
+        ToolbarItem(placement: .topBarLeading) {
+            if editMode == .active && !historySelection.isEmpty {
+                Button(role: .destructive) {
+                    selectionToDelete = historySelection
+                    deleteSelectionConfirm = true
+                } label: {
+                    Text("删除(\(historySelection.count))")
+                }
+            }
         }
         #else
         ToolbarItem {
@@ -346,7 +372,7 @@ struct HistoryView: View {
         ToolbarItem(placement: .automatic) {
             Menu {
                 Button(role: .destructive) {
-                    clearAll()
+                    clearAllConfirm = true
                 } label: {
                     Label("清空全部", systemImage: "trash")
                 }
@@ -396,9 +422,10 @@ struct HistoryView: View {
 
     private func deleteSelection() {
         #if os(iOS)
-        scans.filter { historySelection.contains($0.id) }.forEach(deleteScan)
-        generated.filter { historySelection.contains($0.id) }.forEach(deleteGenerated)
+        scans.filter { selectionToDelete.contains($0.id) }.forEach(deleteScan)
+        generated.filter { selectionToDelete.contains($0.id) }.forEach(deleteGenerated)
         historySelection.removeAll()
+        selectionToDelete.removeAll()
         #else
         scans.filter { generatedSelection.contains($0.id) }.forEach(deleteScan)
         generated.filter { generatedSelection.contains($0.id) }.forEach(deleteGenerated)
