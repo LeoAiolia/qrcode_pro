@@ -429,7 +429,7 @@ private struct ScanRow: View {
                 .foregroundColor(AppColor.accent)
                 .frame(width: 36, height: 36)
                 .background(AppColor.accent.opacity(0.12))
-                .clipShape(RoundedRectangle(cornerRadius: Radius.m))
+                .clipShape(RoundedRectangle(cornerRadius: Radius.l, style: .continuous))
 
             VStack(alignment: .leading, spacing: 4) {
                 Text(record.value)
@@ -458,7 +458,7 @@ private struct GeneratedRow: View {
                     RoundedRectangle(cornerRadius: Radius.m, style: .continuous)
                         .stroke(AppColor.separator.opacity(0.45), lineWidth: 0.5)
                 }
-                .clipShape(RoundedRectangle(cornerRadius: Radius.m))
+                .clipShape(RoundedRectangle(cornerRadius: Radius.l, style: .continuous))
 
             VStack(alignment: .leading, spacing: 4) {
                 Text(record.content)

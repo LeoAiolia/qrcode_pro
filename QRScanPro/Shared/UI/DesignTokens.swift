@@ -26,12 +26,14 @@ enum Radius {
 }
 
 enum AppFont {
-    static let largeTitle: Font = .system(size: 34, weight: .bold)
-    static let title: Font = .system(size: 22, weight: .semibold)
-    static let headline: Font = .system(size: 17, weight: .semibold)
-    static let body: Font = .system(size: 15, weight: .regular)
-    static let footnote: Font = .system(size: 13, weight: .regular)
-    static let caption: Font = .system(size: 12, weight: .regular)
+    static let largeTitle: Font = .largeTitle
+    static let title: Font = .title2
+    static let headline: Font = .headline
+    static let body: Font = .body
+    static let callout: Font = .callout
+    static let subheadline: Font = .subheadline
+    static let footnote: Font = .footnote
+    static let caption: Font = .caption
     static let mono: Font = .system(size: 14, weight: .regular, design: .monospaced)
 }
 

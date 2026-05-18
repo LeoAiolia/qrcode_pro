@@ -14,17 +14,41 @@ struct SettingsView: View {
 
         return List {
             #if os(iOS)
-            Section("码制配置") {
+            Section("码制") {
                 ForEach(BarcodeKind.allCases) { kind in
-                    Toggle(kind.displayName, isOn: binding(for: kind, on: settings))
+                    Toggle(isOn: binding(for: kind, on: settings)) {
+                        Label {
+                            Text(kind.displayName)
+                        } icon: {
+                            SettingIcon(systemName: kind.settingsIcon, tint: kind.settingsTint)
+                        }
+                    }
                 }
             }
 
             if capability.supportsCameraScanning {
-                Section("扫描行为") {
-                    Toggle("振动反馈", isOn: $settings.vibrationEnabled)
-                    Toggle("音效反馈", isOn: $settings.soundEnabled)
-                    Toggle("连续扫描", isOn: $settings.continuousScanEnabled)
+                Section("扫描") {
+                    Toggle(isOn: $settings.vibrationEnabled) {
+                        Label {
+                            Text("振动反馈")
+                        } icon: {
+                            SettingIcon(systemName: "iphone.radiowaves.left.and.right", tint: .green)
+                        }
+                    }
+                    Toggle(isOn: $settings.soundEnabled) {
+                        Label {
+                            Text("音效反馈")
+                        } icon: {
+                            SettingIcon(systemName: "speaker.wave.2.fill", tint: .purple)
+                        }
+                    }
+                    Toggle(isOn: $settings.continuousScanEnabled) {
+                        Label {
+                            Text("连续扫描")
+                        } icon: {
+                            SettingIcon(systemName: "infinity", tint: .orange)
+                        }
+                    }
                 }
             }
             #else
@@ -36,15 +60,27 @@ struct SettingsView: View {
             #endif
 
             Section("通用") {
-                Picker("外观", selection: $settings.appearance) {
+                Picker(selection: $settings.appearance) {
                     ForEach(AppAppearance.allCases) { appearance in
                         Text(appearance.title).tag(appearance)
                     }
+                } label: {
+                    Label {
+                        Text("外观")
+                    } icon: {
+                        SettingIcon(systemName: "circle.lefthalf.filled", tint: .blue)
+                    }
                 }
 
-                Picker("历史保留时长", selection: $settings.historyRetention) {
+                Picker(selection: $settings.historyRetention) {
                     ForEach(HistoryRetention.allCases) { retention in
                         Text(retention.title).tag(retention)
+                    }
+                } label: {
+                    Label {
+                        Text("历史保留时长")
+                    } icon: {
+                        SettingIcon(systemName: "clock.fill", tint: .orange)
                     }
                 }
             }
@@ -63,17 +99,26 @@ struct SettingsView: View {
 
             Section("关于") {
                 HStack {
-                    Text("版本")
+                    Label {
+                        Text("版本")
+                    } icon: {
+                        SettingIcon(systemName: "info.circle.fill", tint: .blue)
+                    }
                     Spacer()
                     Text(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "—")
                         .foregroundColor(AppColor.textSecondary)
+                        .font(.system(.body, design: .monospaced))
                 }
 
                 #if DEBUG
                 Button {
                     debugPresented = true
                 } label: {
-                    Label("调试日志", systemImage: "ladybug")
+                    Label {
+                        Text("调试日志")
+                    } icon: {
+                        SettingIcon(systemName: "ladybug.fill", tint: .red)
+                    }
                 }
                 #endif
             }
@@ -145,4 +190,51 @@ struct SettingsView: View {
         }
     }
     #endif
+}
+
+// MARK: - Setting Icon
+
+private struct SettingIcon: View {
+    let systemName: String
+    let tint: Color
+
+    var body: some View {
+        Image(systemName: systemName)
+            .font(.system(size: 13, weight: .medium))
+            .foregroundColor(.white)
+            .frame(width: 28, height: 28)
+            .background(tint, in: RoundedRectangle(cornerRadius: 6, style: .continuous))
+    }
+}
+
+// MARK: - BarcodeKind + Settings icon
+
+private extension BarcodeKind {
+    var settingsIcon: String {
+        switch self {
+        case .qr:
+            return "qrcode"
+        case .pdf417, .aztec, .dataMatrix:
+            return "qrcode"
+        case .ean13, .ean8, .upce, .code128, .code39:
+            return "barcode"
+        }
+    }
+
+    var settingsTint: Color {
+        switch self {
+        case .qr:
+            return .blue
+        case .pdf417:
+            return .purple
+        case .aztec:
+            return .indigo
+        case .dataMatrix:
+            return Color(red: 0.2, green: 0.5, blue: 0.8)
+        case .ean13, .ean8:
+            return .green
+        case .upce, .code128, .code39:
+            return Color(red: 0.3, green: 0.6, blue: 0.3)
+        }
+    }
 }

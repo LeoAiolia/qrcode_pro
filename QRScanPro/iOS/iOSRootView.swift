@@ -30,11 +30,11 @@ struct iOSRootView: View {
             case .scanner:
                 return "qrcode.viewfinder"
             case .generator:
-                return "qrcode"
+                return "plus.viewfinder"
             case .history:
-                return "clock"
+                return "clock.arrow.circlepath"
             case .settings:
-                return "gearshape"
+                return "gearshape.fill"
             }
         }
     }

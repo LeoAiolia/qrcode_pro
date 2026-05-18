@@ -48,11 +48,11 @@ struct ScanResultView: View {
 
     private func tag(_ text: String, color: Color) -> some View {
         Text(text)
-            .padding(.horizontal, Spacing.m)
+            .padding(.horizontal, Spacing.s + 2)
             .padding(.vertical, Spacing.xs)
-            .background(color.opacity(0.18))
+            .background(color.opacity(0.15))
             .foregroundColor(color)
-            .clipShape(Capsule())
+            .clipShape(RoundedRectangle(cornerRadius: Radius.s, style: .continuous))
     }
 
     private var rawValueCard: some View {

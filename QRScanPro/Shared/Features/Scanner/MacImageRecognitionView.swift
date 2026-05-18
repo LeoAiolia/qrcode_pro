@@ -371,7 +371,7 @@ private struct ResultRow: View {
             .foregroundColor(isSuccess ? AppColor.accent : AppColor.textTertiary)
             .frame(width: 44, height: 44)
             .background(isSuccess ? AppColor.accent.opacity(0.12) : AppColor.surfaceRaised)
-            .clipShape(RoundedRectangle(cornerRadius: Radius.m, style: .continuous))
+            .clipShape(RoundedRectangle(cornerRadius: Radius.l, style: .continuous))
     }
 
     private var content: some View {

@@ -64,3 +64,4 @@ fastlane/Preview.html
 fastlane/screenshots/**/*.png
 fastlane/test_output
 .claude
+design/Run_Design_System

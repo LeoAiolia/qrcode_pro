@@ -16,10 +16,10 @@ struct CardBackground: ViewModifier {
         content
             .background(AppColor.surface)
             .overlay {
-                RoundedRectangle(cornerRadius: Radius.m, style: .continuous)
+                RoundedRectangle(cornerRadius: Radius.l, style: .continuous)
                     .stroke(AppColor.separator.opacity(0.35), lineWidth: 0.5)
             }
-            .clipShape(RoundedRectangle(cornerRadius: Radius.m, style: .continuous))
+            .clipShape(RoundedRectangle(cornerRadius: Radius.l, style: .continuous))
     }
 }
 
