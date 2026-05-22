@@ -123,6 +123,9 @@ struct SettingsView: View {
                 #endif
             }
         }
+        #if os(macOS)
+        .labelStyle(SettingLabelStyle())
+        #endif
         .hideScrollBackgroundWhenAvailable()
         .background(AppColor.background.ignoresSafeArea())
         .navigationTitle("设置")
@@ -200,12 +203,34 @@ private struct SettingIcon: View {
 
     var body: some View {
         Image(systemName: systemName)
-            .font(.system(size: 13, weight: .medium))
+            .font(.system(size: Self.iconFontSize, weight: .medium))
             .foregroundColor(.white)
-            .frame(width: 28, height: 28)
-            .background(tint, in: RoundedRectangle(cornerRadius: 6, style: .continuous))
+            .frame(width: Self.size, height: Self.size)
+            .background(tint, in: RoundedRectangle(cornerRadius: Self.cornerRadius, style: .continuous))
+    }
+
+    #if os(macOS)
+    private static let size: CGFloat = 20
+    private static let iconFontSize: CGFloat = 11
+    private static let cornerRadius: CGFloat = 5
+    #else
+    private static let size: CGFloat = 28
+    private static let iconFontSize: CGFloat = 13
+    private static let cornerRadius: CGFloat = 6
+    #endif
+}
+
+#if os(macOS)
+/// macOS 上 Label 默认图标-标题间距过小，统一用此样式显式补间距。
+private struct SettingLabelStyle: LabelStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        HStack(spacing: 8) {
+            configuration.icon
+            configuration.title
+        }
     }
 }
+#endif
 
 // MARK: - BarcodeKind + Settings icon
 
