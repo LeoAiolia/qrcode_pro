@@ -3,7 +3,7 @@ import SwiftUI
 
 struct iOSRootView: View {
     @Environment(SettingsStore.self) private var settings
-    @Environment(\.modelContext) private var modelContext
+    @Environment(SwiftDataHistoryRepository.self) private var historyRepository
     @State private var selectedTab: Tab = .scanner
 
     enum Tab: Hashable {
@@ -78,9 +78,8 @@ struct iOSRootView: View {
         .task {
             QRCodeGeneratorWarmup.start()
 
-            let repo = SwiftDataHistoryRepository(context: modelContext)
             do {
-                try repo.applyRetention(settings.historyRetention, now: Date())
+                try historyRepository.applyRetention(settings.historyRetention, now: Date())
             } catch {
                 DebugLogger.shared.warning("启动清理失败：\(error.localizedDescription)")
             }

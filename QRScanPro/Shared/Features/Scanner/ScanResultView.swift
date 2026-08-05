@@ -2,7 +2,7 @@ import SwiftData
 import SwiftUI
 
 struct ScanResultView: View {
-    @Environment(\.modelContext) private var modelContext
+    @Environment(SwiftDataHistoryRepository.self) private var historyRepository
     @Environment(\.dismiss) private var dismiss
 
     let record: ScanRecord
@@ -138,9 +138,12 @@ struct ScanResultView: View {
             #endif
 
             Button(role: .destructive) {
-                modelContext.delete(record)
-                try? modelContext.save()
-                dismiss()
+                do {
+                    try historyRepository.deleteScan(record)
+                    dismiss()
+                } catch {
+                    DebugLogger.shared.error("删除记录失败：\(error.localizedDescription)")
+                }
             } label: {
                 Label("删除记录", systemImage: "trash")
                     .frame(maxWidth: .infinity)

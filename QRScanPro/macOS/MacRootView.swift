@@ -3,7 +3,7 @@ import SwiftUI
 
 struct MacRootView: View {
     @Environment(SettingsStore.self) private var settings
-    @Environment(\.modelContext) private var modelContext
+    @Environment(SwiftDataHistoryRepository.self) private var historyRepository
     @State private var selection: SidebarItem? = .generator
     @State private var generatorState = GeneratorState()
     @State private var imageRecognitionState = MacImageRecognitionState()
@@ -56,9 +56,8 @@ struct MacRootView: View {
         }
         .preferredColorScheme(colorScheme(for: settings.appearance))
         .task {
-            let repo = SwiftDataHistoryRepository(context: modelContext)
             do {
-                try repo.applyRetention(settings.historyRetention, now: Date())
+                try historyRepository.applyRetention(settings.historyRetention, now: Date())
             } catch {
                 DebugLogger.shared.warning("启动清理失败：\(error.localizedDescription)")
             }

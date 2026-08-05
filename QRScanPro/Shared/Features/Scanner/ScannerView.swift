@@ -7,7 +7,7 @@ import PhotosUI
 /// 全屏扫码主页：相机预览铺底，SwiftUI 叠加扫描框 / 闪光灯 / 相册 / 连续模式 Toast。
 struct ScannerView: View {
     @Environment(SettingsStore.self) private var settings
-    @Environment(\.modelContext) private var modelContext
+    @Environment(SwiftDataHistoryRepository.self) private var historyRepository
     @Environment(\.scenePhase) private var scenePhase
 
     @State private var isTorchOn = false
@@ -171,8 +171,7 @@ struct ScannerView: View {
 
         let record = ScanRecord(value: result.value, kind: result.kind, source: result.source)
         do {
-            modelContext.insert(record)
-            try modelContext.save()
+            try historyRepository.addScan(record)
         } catch {
             errorMessage = "扫描结果保存失败：\(error.localizedDescription)"
             return

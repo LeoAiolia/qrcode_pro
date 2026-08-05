@@ -75,7 +75,7 @@ private enum HistoryEntry: Identifiable {
 }
 
 struct HistoryView: View {
-    @Environment(\.modelContext) private var modelContext
+    @Environment(SwiftDataHistoryRepository.self) private var historyRepository
 
     #if os(iOS)
     @State private var editMode: EditMode = .inactive
@@ -345,33 +345,46 @@ struct HistoryView: View {
     // MARK: - Mutations
 
     private func deleteScan(_ record: ScanRecord) {
-        modelContext.delete(record)
-        try? modelContext.save()
+        do {
+            try historyRepository.deleteScan(record)
+        } catch {
+            DebugLogger.shared.error("删除扫码记录失败：\(error.localizedDescription)")
+        }
     }
 
     private func deleteGenerated(_ record: GeneratedRecord) {
-        modelContext.delete(record)
-        try? modelContext.save()
+        do {
+            try historyRepository.deleteGenerated(record)
+        } catch {
+            DebugLogger.shared.error("删除生成记录失败：\(error.localizedDescription)")
+        }
     }
 
     private func deleteSelection() {
         #if os(iOS)
-        scans.filter { selectionToDelete.contains($0.id) }.forEach(deleteScan)
-        generated.filter { selectionToDelete.contains($0.id) }.forEach(deleteGenerated)
+        let scansToDelete = scans.filter { selectionToDelete.contains($0.id) }
+        let generatedToDelete = generated.filter { selectionToDelete.contains($0.id) }
+        #else
+        let scansToDelete = scans.filter { generatedSelection.contains($0.id) }
+        let generatedToDelete = generated.filter { generatedSelection.contains($0.id) }
+        #endif
+        do {
+            try historyRepository.deleteScans(scansToDelete)
+            try historyRepository.deleteGenerated(generatedToDelete)
+        } catch {
+            DebugLogger.shared.error("批量删除历史失败：\(error.localizedDescription)")
+        }
+        #if os(iOS)
         historySelection.removeAll()
         selectionToDelete.removeAll()
         #else
-        scans.filter { generatedSelection.contains($0.id) }.forEach(deleteScan)
-        generated.filter { generatedSelection.contains($0.id) }.forEach(deleteGenerated)
         generatedSelection.removeAll()
         #endif
     }
 
     private func clearAll() {
         do {
-            try modelContext.delete(model: ScanRecord.self)
-            try modelContext.delete(model: GeneratedRecord.self)
-            try modelContext.save()
+            try historyRepository.clearAll()
         } catch {
             DebugLogger.shared.error("清空历史失败：\(error.localizedDescription)")
         }

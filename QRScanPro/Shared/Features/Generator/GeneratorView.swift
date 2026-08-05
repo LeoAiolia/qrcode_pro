@@ -10,7 +10,7 @@ import UniformTypeIdentifiers
 #endif
 
 struct GeneratorView: View {
-    @Environment(\.modelContext) private var modelContext
+    @Environment(SwiftDataHistoryRepository.self) private var historyRepository
     @Environment(SettingsStore.self) private var settings
 
     @State private var state: GeneratorState
@@ -427,9 +427,8 @@ struct GeneratorView: View {
             config: state.config,
             thumbnailData: thumbnail
         )
-        modelContext.insert(record)
         do {
-            try modelContext.save()
+            try historyRepository.addGenerated(record)
             showStatus("已加入生成历史", isError: false)
         } catch {
             showStatus("保存到历史失败：\(error.localizedDescription)", isError: true)

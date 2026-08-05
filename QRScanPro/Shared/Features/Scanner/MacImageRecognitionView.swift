@@ -33,7 +33,7 @@ struct RecognitionEntry: Identifiable {
 
 struct MacImageRecognitionView: View {
     @Environment(SettingsStore.self) private var settings
-    @Environment(\.modelContext) private var modelContext
+    @Environment(SwiftDataHistoryRepository.self) private var historyRepository
     @Bindable var state: MacImageRecognitionState
 
     private let recognizer = BarcodeImageRecognizer()
@@ -180,12 +180,15 @@ struct MacImageRecognitionView: View {
             }
 
             await MainActor.run {
-                for entry in newEntries {
-                    guard let code = entry.code else { continue }
-                    let record = ScanRecord(value: code.value, kind: code.kind, source: .image)
-                    modelContext.insert(record)
+                let records = newEntries.compactMap { entry -> ScanRecord? in
+                    guard let code = entry.code else { return nil }
+                    return ScanRecord(value: code.value, kind: code.kind, source: .image)
                 }
-                try? modelContext.save()
+                do {
+                    try historyRepository.addScans(records)
+                } catch {
+                    DebugLogger.shared.error("图片识别入库失败：\(error.localizedDescription)")
+                }
 
                 state.results = newEntries
                 state.isRecognizing = false
