@@ -83,25 +83,3 @@ struct RecognizedCode: Equatable {
         }
     }
 }
-
-enum HistoryFilter: String, CaseIterable, Identifiable {
-    case all
-    case scan
-    case generated
-    case today
-
-    var id: String { rawValue }
-
-    var title: String {
-        switch self {
-        case .all:
-            return "全部"
-        case .scan:
-            return "扫码"
-        case .generated:
-            return "生成"
-        case .today:
-            return "今天"
-        }
-    }
-}

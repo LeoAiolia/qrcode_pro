@@ -89,7 +89,6 @@ struct HistoryView: View {
     @State private var kindFilter: HistoryKindFilter = .all
     @State private var sourceFilter: HistorySourceFilter = .all
     @State private var todayOnly: Bool = false
-    @State private var scanSelection = Set<UUID>()
     @State private var generatedSelection = Set<UUID>()
 
     @Query(sort: [SortDescriptor(\ScanRecord.createdAt, order: .reverse)])
@@ -270,54 +269,6 @@ struct HistoryView: View {
     }
     #endif
 
-    private var scanList: some View {
-        let items = filteredScans
-        return Group {
-            if items.isEmpty {
-                emptyState(message: "暂无扫码记录")
-            } else {
-                List(selection: $scanSelection) {
-                    ForEach(items) { record in
-                        NavigationLink(value: record) {
-                            ScanRow(record: record)
-                        }
-                        .tag(record.id)
-                    }
-                    .onDelete { offsets in
-                        offsets.map { items[$0] }.forEach(deleteScan)
-                    }
-                }
-                .navigationDestination(for: ScanRecord.self) { record in
-                    ScanResultView(record: record)
-                }
-            }
-        }
-    }
-
-    private var generatedList: some View {
-        let items = filteredGenerated
-        return Group {
-            if items.isEmpty {
-                emptyState(message: "暂无生成记录")
-            } else {
-                List(selection: $generatedSelection) {
-                    ForEach(items) { record in
-                        NavigationLink(value: record) {
-                            GeneratedRow(record: record)
-                        }
-                        .tag(record.id)
-                    }
-                    .onDelete { offsets in
-                        offsets.map { items[$0] }.forEach(deleteGenerated)
-                    }
-                }
-                .navigationDestination(for: GeneratedRecord.self) { record in
-                    GeneratorView(initialContent: record.content, initialConfig: record.config, hidesTabBar: true)
-                }
-            }
-        }
-    }
-
     private func emptyState(message: String) -> some View {
         VStack(spacing: Spacing.m) {
             Image(systemName: "tray")
@@ -390,23 +341,6 @@ struct HistoryView: View {
         return generatedSelection
         #endif
     }
-
-    // MARK: - Filtering
-
-    private var filteredScans: [ScanRecord] {
-        let trimmed = query.trimmingCharacters(in: .whitespacesAndNewlines)
-        return scans.filter { record in
-            trimmed.isEmpty || record.value.localizedCaseInsensitiveContains(trimmed)
-        }
-    }
-
-    private var filteredGenerated: [GeneratedRecord] {
-        let trimmed = query.trimmingCharacters(in: .whitespacesAndNewlines)
-        return generated.filter { record in
-            trimmed.isEmpty || record.content.localizedCaseInsensitiveContains(trimmed)
-        }
-    }
-
 
     // MARK: - Mutations
 

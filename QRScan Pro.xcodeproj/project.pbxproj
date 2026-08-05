@@ -43,11 +43,9 @@
 		B00000000000000000000101 /* ScanRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000001 /* ScanRecord.swift */; };
 		B00000000000000000000102 /* GeneratedRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000002 /* GeneratedRecord.swift */; };
 		B00000000000000000000103 /* GenerateConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000003 /* GenerateConfig.swift */; };
-		B00000000000000000000104 /* HistoryItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000004 /* HistoryItem.swift */; };
 		B00000000000000000000105 /* SettingsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000005 /* SettingsStore.swift */; };
 		B00000000000000000000106 /* HistoryRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000006 /* HistoryRepository.swift */; };
 		B00000000000000000000107 /* DesignTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000007 /* DesignTokens.swift */; };
-		B00000000000000000000108 /* PlaceholderScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000008 /* PlaceholderScreen.swift */; };
 		B00000000000000000000109 /* iOSRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000009 /* iOSRootView.swift */; };
 		B00000000000000000000111 /* HapticFeedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000011 /* HapticFeedback.swift */; };
 		B00000000000000000000112 /* InAppBrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000012 /* InAppBrowserView.swift */; };
@@ -74,11 +72,9 @@
 		B00000000000000000000201 /* ScanRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000001 /* ScanRecord.swift */; };
 		B00000000000000000000202 /* GeneratedRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000002 /* GeneratedRecord.swift */; };
 		B00000000000000000000203 /* GenerateConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000003 /* GenerateConfig.swift */; };
-		B00000000000000000000204 /* HistoryItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000004 /* HistoryItem.swift */; };
 		B00000000000000000000205 /* SettingsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000005 /* SettingsStore.swift */; };
 		B00000000000000000000206 /* HistoryRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000006 /* HistoryRepository.swift */; };
 		B00000000000000000000207 /* DesignTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000007 /* DesignTokens.swift */; };
-		B00000000000000000000208 /* PlaceholderScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000008 /* PlaceholderScreen.swift */; };
 		B00000000000000000000210 /* MacRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000010 /* MacRootView.swift */; };
 		B00000000000000000000212 /* InAppBrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000012 /* InAppBrowserView.swift */; };
 		B00000000000000000000213 /* ScannerOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000013 /* ScannerOverlay.swift */; };
@@ -121,11 +117,9 @@
 		B00000000000000000000001 /* ScanRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanRecord.swift; sourceTree = "<group>"; };
 		B00000000000000000000002 /* GeneratedRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratedRecord.swift; sourceTree = "<group>"; };
 		B00000000000000000000003 /* GenerateConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerateConfig.swift; sourceTree = "<group>"; };
-		B00000000000000000000004 /* HistoryItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryItem.swift; sourceTree = "<group>"; };
 		B00000000000000000000005 /* SettingsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsStore.swift; sourceTree = "<group>"; };
 		B00000000000000000000006 /* HistoryRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryRepository.swift; sourceTree = "<group>"; };
 		B00000000000000000000007 /* DesignTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignTokens.swift; sourceTree = "<group>"; };
-		B00000000000000000000008 /* PlaceholderScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderScreen.swift; sourceTree = "<group>"; };
 		B00000000000000000000009 /* iOSRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSRootView.swift; sourceTree = "<group>"; };
 		B00000000000000000000010 /* MacRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacRootView.swift; sourceTree = "<group>"; };
 		B00000000000000000000011 /* HapticFeedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticFeedback.swift; sourceTree = "<group>"; };
@@ -216,7 +210,6 @@
 				B00000000000000000000001 /* ScanRecord.swift */,
 				B00000000000000000000002 /* GeneratedRecord.swift */,
 				B00000000000000000000003 /* GenerateConfig.swift */,
-				B00000000000000000000004 /* HistoryItem.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -247,7 +240,6 @@
 				A00000000000000000000012 /* Compatibility.swift */,
 				A00000000000000000000013 /* PlatformImageView.swift */,
 				B00000000000000000000007 /* DesignTokens.swift */,
-				B00000000000000000000008 /* PlaceholderScreen.swift */,
 				B00000000000000000000016 /* ColorHex.swift */,
 				B00000000000000000000023 /* CheckerboardBackground.swift */,
 			);
@@ -479,11 +471,9 @@
 				B00000000000000000000101 /* ScanRecord.swift in Sources */,
 				B00000000000000000000102 /* GeneratedRecord.swift in Sources */,
 				B00000000000000000000103 /* GenerateConfig.swift in Sources */,
-				B00000000000000000000104 /* HistoryItem.swift in Sources */,
 				B00000000000000000000105 /* SettingsStore.swift in Sources */,
 				B00000000000000000000106 /* HistoryRepository.swift in Sources */,
 				B00000000000000000000107 /* DesignTokens.swift in Sources */,
-				B00000000000000000000108 /* PlaceholderScreen.swift in Sources */,
 				B00000000000000000000109 /* iOSRootView.swift in Sources */,
 				B00000000000000000000111 /* HapticFeedback.swift in Sources */,
 				B00000000000000000000112 /* InAppBrowserView.swift in Sources */,
@@ -529,11 +519,9 @@
 				B00000000000000000000201 /* ScanRecord.swift in Sources */,
 				B00000000000000000000202 /* GeneratedRecord.swift in Sources */,
 				B00000000000000000000203 /* GenerateConfig.swift in Sources */,
-				B00000000000000000000204 /* HistoryItem.swift in Sources */,
 				B00000000000000000000205 /* SettingsStore.swift in Sources */,
 				B00000000000000000000206 /* HistoryRepository.swift in Sources */,
 				B00000000000000000000207 /* DesignTokens.swift in Sources */,
-				B00000000000000000000208 /* PlaceholderScreen.swift in Sources */,
 				B00000000000000000000210 /* MacRootView.swift in Sources */,
 				B00000000000000000000212 /* InAppBrowserView.swift in Sources */,
 				B00000000000000000000213 /* ScannerOverlay.swift in Sources */,

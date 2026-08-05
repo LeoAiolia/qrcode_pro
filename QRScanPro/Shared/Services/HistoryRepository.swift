@@ -87,39 +87,3 @@ final class SwiftDataHistoryRepository: HistoryRepository {
         }
     }
 }
-
-/// Preview / 调试用的内存实现。
-@MainActor
-final class InMemoryHistoryRepository: HistoryRepository {
-    private(set) var scans: [ScanRecord] = []
-    private(set) var generated: [GeneratedRecord] = []
-
-    func addScan(_ record: ScanRecord) throws {
-        scans.insert(record, at: 0)
-    }
-
-    func addGenerated(_ record: GeneratedRecord) throws {
-        generated.insert(record, at: 0)
-    }
-
-    func deleteScan(_ record: ScanRecord) throws {
-        scans.removeAll { $0.id == record.id }
-    }
-
-    func deleteGenerated(_ record: GeneratedRecord) throws {
-        generated.removeAll { $0.id == record.id }
-    }
-
-    func clearAll() throws {
-        scans.removeAll()
-        generated.removeAll()
-    }
-
-    func applyRetention(_ retention: HistoryRetention, now: Date) throws {
-        guard let cutoff = retention.cutoffDate(now: now) else {
-            return
-        }
-        scans.removeAll { $0.createdAt < cutoff }
-        generated.removeAll { $0.createdAt < cutoff }
-    }
-}

@@ -274,14 +274,4 @@ private struct PhotoPicker: UIViewControllerRepresentable {
     }
 }
 
-#else
-
-/// macOS 不直接使用 ScannerView，由 MacImageRecognitionView 接管图片识别。
-struct ScannerView: View {
-    @State private var state = MacImageRecognitionState()
-    var body: some View {
-        MacImageRecognitionView(state: state)
-    }
-}
-
 #endif
