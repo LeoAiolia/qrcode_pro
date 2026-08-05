@@ -93,11 +93,3 @@ xcodebuild -project "QRScan Pro.xcodeproj" -scheme "QRScan Pro Mac" \
   -configuration Debug \
   -derivedDataPath /tmp/QRScanProDerivedData CODE_SIGNING_ALLOWED=NO build
 ```
-
-## 已知 TODO（v1.0 之后）
-
-- iCloud 同步与跨设备历史合并。
-- 商业化订阅 / 高级生成模板。
-- Mac Catalyst 形态选型评估。
-- VoiceOver 主路径完整 5 条录屏走查（人工任务）。
-- 真机 Archive 预演（需登录开发者账号）。
