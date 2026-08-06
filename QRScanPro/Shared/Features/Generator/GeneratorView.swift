@@ -57,6 +57,7 @@ struct GeneratorView: View {
                 }
                 .padding(Spacing.l)
             }
+            .scrollDismissesKeyboard(.immediately)
             .background(AppColor.background.ignoresSafeArea())
             #endif
         }

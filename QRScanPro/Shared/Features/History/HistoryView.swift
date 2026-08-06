@@ -224,6 +224,7 @@ struct HistoryView: View {
                 .environment(\.editMode, $editMode)
                 .listStyle(.insetGrouped)
                 .scrollContentBackground(.hidden)
+                .scrollDismissesKeyboard(.immediately)
                 .navigationDestination(for: ScanRecord.self) { record in
                     ScanResultView(record: record)
                 }
