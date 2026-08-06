@@ -7,7 +7,10 @@ import AppKit
 struct SettingsView: View {
     @Environment(SettingsStore.self) private var settings
     @State private var debugPresented = false
+    @State private var privacyPolicyPresented = false
     private let capability = PlatformCapability()
+
+    private let privacyPolicyURL = URL(string: "https://leoaiolia.github.io/qrcode_pro/privacy-policy.html")
 
     var body: some View {
         @Bindable var settings = settings
@@ -110,6 +113,16 @@ struct SettingsView: View {
                         .font(.system(.body, design: .monospaced))
                 }
 
+                Button {
+                    openPrivacyPolicy()
+                } label: {
+                    Label {
+                        Text("隐私政策")
+                    } icon: {
+                        SettingIcon(systemName: "hand.raised.fill", tint: .purple)
+                    }
+                }
+
                 #if DEBUG
                 Button {
                     debugPresented = true
@@ -134,6 +147,23 @@ struct SettingsView: View {
                 DebugLogView()
             }
         }
+        #if os(iOS)
+        .sheet(isPresented: $privacyPolicyPresented) {
+            if let url = privacyPolicyURL {
+                InAppBrowserView(url: url)
+            }
+        }
+        #endif
+    }
+
+    private func openPrivacyPolicy() {
+        #if os(iOS)
+        privacyPolicyPresented = true
+        #else
+        if let url = privacyPolicyURL {
+            NSWorkspace.shared.open(url)
+        }
+        #endif
     }
 
     private func binding(for kind: BarcodeKind, on settings: SettingsStore) -> Binding<Bool> {
