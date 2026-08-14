@@ -12,6 +12,7 @@ import UniformTypeIdentifiers
 struct GeneratorView: View {
     @Environment(SwiftDataHistoryRepository.self) private var historyRepository
     @Environment(SettingsStore.self) private var settings
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
 
     @State private var state: GeneratorState
     @State private var statusMessage: String?
@@ -21,6 +22,9 @@ struct GeneratorView: View {
     @State private var didStartInitialGeneration = false
     #endif
     private let hidesTabBar: Bool
+
+    /// iPad 宽布局下预览列的最大宽度，保证二维码显示区不超过该值，避免占满屏幕。
+    private static let regularPreviewMaxWidth: CGFloat = 400
     #if os(iOS)
     @State private var logoPickerItem: PhotosPickerItem?
     #endif
@@ -51,11 +55,22 @@ struct GeneratorView: View {
             }
             #else
             ScrollView {
-                VStack(spacing: Spacing.l) {
-                    previewPane
-                    paramsForm
+                if horizontalSizeClass == .regular {
+                    // iPad 宽布局：左侧预览（限宽），右侧参数表单
+                    HStack(alignment: .top, spacing: Spacing.l) {
+                        previewPane
+                            .frame(maxWidth: Self.regularPreviewMaxWidth)
+                        paramsForm
+                            .frame(maxWidth: .infinity)
+                    }
+                    .padding(Spacing.l)
+                } else {
+                    VStack(spacing: Spacing.l) {
+                        previewPane
+                        paramsForm
+                    }
+                    .padding(Spacing.l)
                 }
-                .padding(Spacing.l)
             }
             .scrollDismissesKeyboard(.immediately)
             .background(AppColor.background.ignoresSafeArea())
