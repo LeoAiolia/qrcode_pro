@@ -2,6 +2,10 @@ import CoreGraphics
 import Foundation
 import Vision
 
+#if targetEnvironment(simulator)
+import CoreImage
+#endif
+
 enum ImageRecognitionError: LocalizedError {
     case noBarcode
     case noEnabledKind
@@ -39,6 +43,45 @@ struct BarcodeImageRecognizer {
             throw ImageRecognitionError.noEnabledKind
         }
 
+        do {
+            return try await detectWithVision(cgImage: cgImage, symbologies: allowedSymbologies)
+        } catch {
+            #if targetEnvironment(simulator)
+            // 模拟器上 Vision 条码检测走 ML 推理管线，创建 inference context 会失败
+            //（com.apple.Vision Code=9 / VNErrorNotImplemented），此处降级到纯 CPU 的
+            // CIDetector 识别 QR，保证模拟器可调试；真机行为不受影响。
+            if allowedKinds.contains(.qr) {
+                await DebugLogger.shared.warning("Vision 识别失败，模拟器降级 CIDetector：\(error.localizedDescription)")
+                return detectQRCodesWithCoreImage(cgImage: cgImage)
+            }
+            #endif
+            throw error
+        }
+    }
+
+    #if targetEnvironment(simulator)
+    /// 模拟器专用兜底：CIDetector 仅支持 QR 码。
+    private func detectQRCodesWithCoreImage(cgImage: CGImage) -> [RecognizedCode] {
+        guard let detector = CIDetector(
+            ofType: CIDetectorTypeQRCode,
+            context: nil,
+            options: [CIDetectorAccuracy: CIDetectorAccuracyHigh]
+        ) else {
+            return []
+        }
+
+        let features = detector.features(in: CIImage(cgImage: cgImage), options: nil)
+        return features.compactMap { feature in
+            guard let qrFeature = feature as? CIQRCodeFeature,
+                  let message = qrFeature.messageString else {
+                return nil
+            }
+            return RecognizedCode(value: message, kind: .qr, source: .image)
+        }
+    }
+    #endif
+
+    private func detectWithVision(cgImage: CGImage, symbologies: [VNBarcodeSymbology]) async throws -> [RecognizedCode] {
         return try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<[RecognizedCode], Error>) in
             // Vision 的 completion handler 与 perform 的抛错路径可能被重复触发
             //（尤其处理大图/异常图片失败时），需保证 continuation 只 resume 一次，
@@ -73,7 +116,7 @@ struct BarcodeImageRecognizer {
                 }
                 resumeOnce(with: .success(codes))
             }
-            request.symbologies = allowedSymbologies
+            request.symbologies = symbologies
 
             let handler = VNImageRequestHandler(cgImage: cgImage, options: [:])
             do {
