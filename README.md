@@ -7,7 +7,7 @@ SwiftUI 多平台扫码与二维码生成应用。
 - Xcode 工程：`QRScan Pro.xcodeproj`
 - iOS / iPadOS scheme：`QRScan Pro iOS`
 - macOS scheme：`QRScan Pro Mac`
-- Bundle ID：`com.yuxiaor.qrscnpro`
+- Bundle ID：`com.pz.qrscanpro`
 - iOS 最低版本：iOS 17.0（SwiftData / @Observable 要求）
 - macOS 最低版本：macOS 14.0
 

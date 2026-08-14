@@ -49,7 +49,7 @@ final class DebugLogger: ObservableObject {
 
     @Published private(set) var entries: [DebugLogEntry] = []
 
-    private let logger = Logger(subsystem: "com.yuxiaor.qrscnpro", category: "app")
+    private let logger = Logger(subsystem: "com.pz.qrscanpro", category: "app")
     private let maxEntries = 300
 
     private init() {}

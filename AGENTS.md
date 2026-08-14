@@ -3,7 +3,7 @@
 ## Project Overview
 
 SwiftUI multiplatform QR scanning and generation app.
-- Bundle ID: `com.yuxiaor.qrscnpro`
+- Bundle ID: `com.pz.qrscanpro`
 - Minimum OS: iOS 17.0 / macOS 14.0
 - Schemes: `QRScan Pro iOS` (iOS/iPadOS), `QRScan Pro Mac` (macOS)
 - Language mode: Swift 5 (Xcode project setting `SWIFT_VERSION = 5.0`)
