@@ -40,9 +40,24 @@ struct BarcodeImageRecognizer {
         }
 
         return try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<[RecognizedCode], Error>) in
+            // Vision 的 completion handler 与 perform 的抛错路径可能被重复触发
+            //（尤其处理大图/异常图片失败时），需保证 continuation 只 resume 一次，
+            // 否则 Swift 运行时抛 “resume a continuation twice” 致命错误导致崩溃。
+            var didResume = false
+            func resumeOnce(with result: Result<[RecognizedCode], Error>) {
+                guard !didResume else { return }
+                didResume = true
+                switch result {
+                case .success(let codes):
+                    continuation.resume(returning: codes)
+                case .failure(let error):
+                    continuation.resume(throwing: error)
+                }
+            }
+
             let request = VNDetectBarcodesRequest { request, error in
                 if let error {
-                    continuation.resume(throwing: ImageRecognitionError.requestFailed(error.localizedDescription))
+                    resumeOnce(with: .failure(ImageRecognitionError.requestFailed(error.localizedDescription)))
                     return
                 }
 
@@ -56,7 +71,7 @@ struct BarcodeImageRecognizer {
                     }
                     return RecognizedCode(value: value, kind: kind, source: .image)
                 }
-                continuation.resume(returning: codes)
+                resumeOnce(with: .success(codes))
             }
             request.symbologies = allowedSymbologies
 
@@ -64,7 +79,7 @@ struct BarcodeImageRecognizer {
             do {
                 try handler.perform([request])
             } catch {
-                continuation.resume(throwing: ImageRecognitionError.requestFailed(error.localizedDescription))
+                resumeOnce(with: .failure(ImageRecognitionError.requestFailed(error.localizedDescription)))
             }
         }
     }
