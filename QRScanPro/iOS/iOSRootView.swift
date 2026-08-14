@@ -4,13 +4,16 @@ import SwiftUI
 struct iOSRootView: View {
     @Environment(SettingsStore.self) private var settings
     @Environment(SwiftDataHistoryRepository.self) private var historyRepository
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @State private var selectedTab: Tab = .scanner
 
-    enum Tab: Hashable {
+    enum Tab: Hashable, CaseIterable, Identifiable {
         case scanner
         case generator
         case history
         case settings
+
+        var id: Self { self }
 
         var title: String {
             switch self {
@@ -40,38 +43,12 @@ struct iOSRootView: View {
     }
 
     var body: some View {
-        TabView(selection: $selectedTab) {
-            NavigationStack {
-                ScannerView()
+        Group {
+            if horizontalSizeClass == .regular {
+                splitView
+            } else {
+                tabView
             }
-            .tabItem {
-                Label(Tab.scanner.title, systemImage: Tab.scanner.systemImage)
-            }
-            .tag(Tab.scanner)
-
-            NavigationStack {
-                GeneratorView()
-            }
-            .tabItem {
-                Label(Tab.generator.title, systemImage: Tab.generator.systemImage)
-            }
-            .tag(Tab.generator)
-
-            NavigationStack {
-                HistoryView()
-            }
-            .tabItem {
-                Label(Tab.history.title, systemImage: Tab.history.systemImage)
-            }
-            .tag(Tab.history)
-
-            NavigationStack {
-                SettingsView()
-            }
-            .tabItem {
-                Label(Tab.settings.title, systemImage: Tab.settings.systemImage)
-            }
-            .tag(Tab.settings)
         }
         .tint(AppColor.accent)
         .preferredColorScheme(colorScheme(for: settings.appearance))
@@ -83,6 +60,65 @@ struct iOSRootView: View {
             } catch {
                 DebugLogger.shared.warning("启动清理失败：\(error.localizedDescription)")
             }
+        }
+    }
+
+    // MARK: - iPhone / 紧凑窗口：底部 Tab
+
+    private var tabView: some View {
+        TabView(selection: $selectedTab) {
+            ForEach(Tab.allCases) { tab in
+                NavigationStack {
+                    detail(for: tab)
+                }
+                .tabItem {
+                    Label(tab.title, systemImage: tab.systemImage)
+                }
+                .tag(tab)
+            }
+        }
+    }
+
+    // MARK: - iPad / 宽窗口：左侧边栏 + 右侧详情
+
+    private var splitView: some View {
+        NavigationSplitView {
+            List(Tab.allCases, selection: sidebarSelection) { tab in
+                Label(tab.title, systemImage: tab.systemImage)
+                    .tag(tab)
+            }
+            .navigationTitle("QRScan Pro")
+        } detail: {
+            NavigationStack {
+                detail(for: selectedTab)
+            }
+            .id(selectedTab)
+        }
+    }
+
+    /// 侧边栏单选要求 Optional 绑定；映射到非空的 selectedTab，保证 Tab / 分屏两种布局共享同一份选中状态。
+    private var sidebarSelection: Binding<Tab?> {
+        Binding(
+            get: { selectedTab },
+            set: { newValue in
+                if let newValue {
+                    selectedTab = newValue
+                }
+            }
+        )
+    }
+
+    @ViewBuilder
+    private func detail(for tab: Tab) -> some View {
+        switch tab {
+        case .scanner:
+            ScannerView()
+        case .generator:
+            GeneratorView()
+        case .history:
+            HistoryView()
+        case .settings:
+            SettingsView()
         }
     }
 
