@@ -10,6 +10,9 @@ struct SettingsView: View {
     @State private var privacyPolicyPresented = false
     private let capability = PlatformCapability()
 
+    /// 控制“调试日志”入口是否显示；默认不显示，需要调试时改为 true（仅 Debug 构建生效）。
+    private static let showsDebugLogEntry = false
+
     private let privacyPolicyURL = URL(string: "https://leoaiolia.github.io/qrcode_pro/privacy-policy.html")
 
     var body: some View {
@@ -116,22 +119,34 @@ struct SettingsView: View {
                 Button {
                     openPrivacyPolicy()
                 } label: {
-                    Label {
-                        Text("隐私政策")
-                    } icon: {
-                        SettingIcon(systemName: "hand.raised.fill", tint: .purple)
+                    HStack {
+                        Label {
+                            Text("隐私政策")
+                        } icon: {
+                            SettingIcon(systemName: "hand.raised.fill", tint: .purple)
+                        }
+                        Spacer()
                     }
+                    .contentShape(Rectangle())
                 }
+                .settingsRowActionStyle()
 
                 #if DEBUG
-                Button {
-                    debugPresented = true
-                } label: {
-                    Label {
-                        Text("调试日志")
-                    } icon: {
-                        SettingIcon(systemName: "ladybug.fill", tint: .red)
+                if Self.showsDebugLogEntry {
+                    Button {
+                        debugPresented = true
+                    } label: {
+                        HStack {
+                            Label {
+                                Text("调试日志")
+                            } icon: {
+                                SettingIcon(systemName: "ladybug.fill", tint: .red)
+                            }
+                            Spacer()
+                        }
+                        .contentShape(Rectangle())
                     }
+                    .settingsRowActionStyle()
                 }
                 #endif
             }
@@ -226,6 +241,20 @@ struct SettingsView: View {
 }
 
 // MARK: - Setting Icon
+
+private extension View {
+    /// macOS List 中 Button 默认样式带 NSButton 内边距，会使行首图标右偏；
+    /// 改用 plain 样式与普通行对齐。iOS 保持系统默认按钮外观。
+    @ViewBuilder
+    func settingsRowActionStyle() -> some View {
+        #if os(macOS)
+        self.buttonStyle(.plain)
+            .foregroundStyle(AppColor.textPrimary)
+        #else
+        self
+        #endif
+    }
+}
 
 private struct SettingIcon: View {
     let systemName: String
