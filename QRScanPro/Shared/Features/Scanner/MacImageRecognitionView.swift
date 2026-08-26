@@ -8,6 +8,7 @@ import UniformTypeIdentifiers
 
 enum MacImageRecognitionRoute: Hashable {
     case results
+    case scanResult(ScanRecord)
 }
 
 // MARK: - State
@@ -27,6 +28,8 @@ struct RecognitionEntry: Identifiable {
     let id = UUID()
     let fileName: String
     let code: RecognizedCode?
+    /// 成功识别的条目入库后的记录引用，用于跳转扫描结果页
+    var record: ScanRecord?
 }
 
 // MARK: - Main View
@@ -41,8 +44,13 @@ struct MacImageRecognitionView: View {
     var body: some View {
         NavigationStack(path: $state.path) {
             dropZonePage
-                .navigationDestination(for: MacImageRecognitionRoute.self) { _ in
-                    RecognitionResultsView(state: state)
+                .navigationDestination(for: MacImageRecognitionRoute.self) { route in
+                    switch route {
+                    case .results:
+                        RecognitionResultsView(state: state)
+                    case .scanResult(let record):
+                        ScanResultView(record: record)
+                    }
                 }
         }
     }
@@ -180,9 +188,13 @@ struct MacImageRecognitionView: View {
             }
 
             await MainActor.run {
-                let records = newEntries.compactMap { entry -> ScanRecord? in
-                    guard let code = entry.code else { return nil }
-                    return ScanRecord(value: code.value, kind: code.kind, source: .image)
+                // 入库并回填引用，成功条目据此可跳转扫描结果页（与历史记录一致）
+                var records: [ScanRecord] = []
+                for index in newEntries.indices {
+                    guard let code = newEntries[index].code else { continue }
+                    let record = ScanRecord(value: code.value, kind: code.kind, source: .image)
+                    newEntries[index].record = record
+                    records.append(record)
                 }
                 do {
                     try historyRepository.addScans(records)
@@ -248,19 +260,32 @@ private struct RecognitionResultsView: View {
     private var resultList: some View {
         List {
             ForEach(state.results) { entry in
-                ResultRow(entry: entry) {
-                    if let value = entry.code?.value {
-                        ClipboardService.copy(value)
-                        showToast("已复制")
-                    }
-                } openURL: {
-                    if let url = entry.code?.url {
-                        NSWorkspace.shared.open(url)
-                    }
-                }
+                row(for: entry)
             }
         }
         .listStyle(.inset)
+    }
+
+    @ViewBuilder
+    private func row(for entry: RecognitionEntry) -> some View {
+        let row = ResultRow(entry: entry) {
+            if let value = entry.code?.value {
+                ClipboardService.copy(value)
+                showToast("已复制")
+            }
+        } openURL: {
+            if let url = entry.code?.url {
+                NSWorkspace.shared.open(url)
+            }
+        }
+
+        if let record = entry.record, !record.isDeleted {
+            NavigationLink(value: MacImageRecognitionRoute.scanResult(record)) {
+                row
+            }
+        } else {
+            row
+        }
     }
 
     // MARK: Toolbar
