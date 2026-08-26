@@ -47,11 +47,16 @@ struct GeneratorView: View {
     var body: some View {
         Group {
             #if os(macOS)
-            HSplitView {
+            // HSplitView(NSSplitView) 会按子视图 ideal 宽度排布并可超出容器，
+            // 与外层 NavigationSplitView 约束冲突导致侧边栏文字漂移；改用 HStack 自适应分配。
+            HStack(spacing: 0) {
                 paramsForm
-                    .frame(minWidth: 320, idealWidth: 360)
+                    .frame(minWidth: 280)
+                    .frame(maxWidth: .infinity)
+                Divider()
                 previewPane
-                    .frame(minWidth: 360)
+                    .frame(minWidth: 200)
+                    .frame(maxWidth: Self.regularPreviewMaxWidth)
             }
             #else
             ScrollView {

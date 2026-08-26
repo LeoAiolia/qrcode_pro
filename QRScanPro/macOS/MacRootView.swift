@@ -50,7 +50,7 @@ struct MacRootView: View {
                     .tag(Optional(item))
             }
             .navigationTitle("QRScan Pro")
-            .frame(minWidth: 180)
+            .navigationSplitViewColumnWidth(min: 180, ideal: 220, max: 360)
         } detail: {
             detail(for: selection ?? .generator)
         }
