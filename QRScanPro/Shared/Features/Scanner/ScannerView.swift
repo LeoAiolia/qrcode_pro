@@ -82,6 +82,12 @@ struct ScannerView: View {
                 }
             }
         }
+        .onChange(of: pickerPresented) { _, presented in
+            // 再次打开相册选择器时清掉旧错误，让用户从干净状态开始。
+            if presented {
+                errorMessage = nil
+            }
+        }
         .onChange(of: scenePhase) { _, newPhase in
             if newPhase != .active {
                 isTorchOn = false
@@ -190,6 +196,8 @@ struct ScannerView: View {
     }
 
     private func recognizeImage(_ cgImage: CGImage) async {
+        // 每次新的识别开始即清掉上一条错误提示，避免旧错误常驻遮蔽后续成功结果。
+        errorMessage = nil
         do {
             let code = try await recognizer.recognize(
                 cgImage: cgImage,
