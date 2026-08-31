@@ -478,6 +478,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		A00000000000000000000801 /* Set Build Number (git commit count) */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -496,6 +497,7 @@
 		};
 		A00000000000000000000802 /* Set Build Number (git commit count) */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);

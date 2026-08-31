@@ -91,12 +91,6 @@ struct SettingsView: View {
                         SettingIcon(systemName: "globe", tint: .blue)
                     }
                 }
-                // 系统控件（取色器 / 权限弹窗等）文案要重启才切换，App 界面即时切换。
-                if settings.language != .system {
-                    Text("系统弹窗语言将在重启 App 后生效")
-                        .font(AppFont.caption)
-                        .foregroundColor(AppColor.textSecondary)
-                }
 
                 Picker(selection: $settings.appearance) {
                     ForEach(AppAppearance.allCases) { appearance in

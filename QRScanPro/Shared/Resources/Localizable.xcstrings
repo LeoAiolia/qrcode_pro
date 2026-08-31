@@ -1,6 +1,29 @@
 {
   "sourceLanguage" : "zh-Hans",
   "strings" : {
+    "" : {
+
+    },
+    "%@ · %@ · %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ · %2$@ · %3$@"
+          }
+        }
+      }
+    },
+    "%lld px · %@ · %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld px · %2$@ · %3$@"
+          }
+        }
+      }
+    },
     "%lld 张未识别" : {
       "localizations" : {
         "en" : {
@@ -68,28 +91,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Logo ratio too large"
-          }
-        }
-      }
-    },
-    "扫码可能失败，建议降低到" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Scanning may fail. Reduce to"
-          }
-        }
-      }
-    },
-    "以内" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "or less"
           }
         }
       }
@@ -173,6 +174,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Choose from Photos"
+          }
+        }
+      }
+    },
+    "以内" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "or less"
           }
         }
       }
@@ -385,16 +397,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Low contrast"
-          }
-        }
-      }
-    },
-    "建议 ≥ 3.0，扫码可能失败" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "≥ 3.0 recommended. Scanning may fail."
           }
         }
       }
@@ -740,6 +742,16 @@
         }
       }
     },
+    "建议 ≥ 3.0，扫码可能失败" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "≥ 3.0 recommended. Scanning may fail."
+          }
+        }
+      }
+    },
     "开灯" : {
       "localizations" : {
         "en" : {
@@ -837,6 +849,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Scan · Recognize · Generate"
+          }
+        }
+      }
+    },
+    "扫码可能失败，建议降低到" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scanning may fail. Reduce to"
           }
         }
       }
@@ -1243,16 +1266,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Simplified Chinese"
-          }
-        }
-      }
-    },
-    "系统弹窗语言将在重启 App 后生效" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "System dialogs will switch after restarting the app"
           }
         }
       }
