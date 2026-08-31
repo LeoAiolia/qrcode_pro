@@ -69,6 +69,13 @@
 		B00000000000000000000131 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000031 /* Assets.xcassets */; };
 		B00000000000000000000132 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000032 /* PrivacyInfo.xcprivacy */; };
 		B00000000000000000000133 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000033 /* PrivacyInfo.xcprivacy */; };
+		B00000000000000000000134 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000035 /* Localizable.xcstrings */; };
+		B00000000000000000000135 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000035 /* Localizable.xcstrings */; };
+		B00000000000000000000136 /* L10n.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000036 /* L10n.swift */; };
+		B00000000000000000000137 /* L10n.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000036 /* L10n.swift */; };
+		B00000000000000000000138 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000426 /* InfoPlist.strings */; };
+		B00000000000000000000139 /* LanguageBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000038 /* LanguageBundle.swift */; };
+		B00000000000000000000140 /* LanguageBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000038 /* LanguageBundle.swift */; };
 		B00000000000000000000201 /* ScanRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000001 /* ScanRecord.swift */; };
 		B00000000000000000000202 /* GeneratedRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000002 /* GeneratedRecord.swift */; };
 		B00000000000000000000203 /* GenerateConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000003 /* GenerateConfig.swift */; };
@@ -90,11 +97,6 @@
 		B00000000000000000000223 /* CheckerboardBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000023 /* CheckerboardBackground.swift */; };
 		B00000000000000000000224 /* GeneratorState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000024 /* GeneratorState.swift */; };
 		B00000000000000000000227 /* ExportDirectoryBookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000027 /* ExportDirectoryBookmark.swift */; };
-		B00000000000000000000134 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000035 /* Localizable.xcstrings */; };
-		B00000000000000000000135 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000035 /* Localizable.xcstrings */; };
-		B00000000000000000000136 /* L10n.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000036 /* L10n.swift */; };
-		B00000000000000000000137 /* L10n.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000036 /* L10n.swift */; };
-		B00000000000000000000138 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000426 /* InfoPlist.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -153,6 +155,7 @@
 		B00000000000000000000035 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		B00000000000000000000036 /* L10n.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = L10n.swift; sourceTree = "<group>"; };
 		B00000000000000000000037 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		B00000000000000000000038 /* LanguageBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageBundle.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -207,7 +210,7 @@
 				A00000000000000000000413 /* Services */,
 				A00000000000000000000414 /* UI */,
 				A00000000000000000000415 /* Features */,
-			A00000000000000000000425 /* Resources */,
+				A00000000000000000000425 /* Resources */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -237,7 +240,8 @@
 				B00000000000000000000018 /* LogoCompositor.swift */,
 				B00000000000000000000019 /* ContrastChecker.swift */,
 				B00000000000000000000027 /* ExportDirectoryBookmark.swift */,
-			B00000000000000000000036 /* L10n.swift */,
+				B00000000000000000000036 /* L10n.swift */,
+				B00000000000000000000038 /* LanguageBundle.swift */,
 				A00000000000000000000424 /* Exporters */,
 			);
 			path = Services;
@@ -326,7 +330,7 @@
 				B00000000000000000000028 /* SplashView.swift */,
 				B00000000000000000000030 /* Assets.xcassets */,
 				B00000000000000000000032 /* PrivacyInfo.xcprivacy */,
-			A00000000000000000000426 /* InfoPlist.strings */,
+				A00000000000000000000426 /* InfoPlist.strings */,
 			);
 			path = iOS;
 			sourceTree = "<group>";
@@ -417,7 +421,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 2640;
-				LastUpgradeCheck = 2640;
+				LastUpgradeCheck = 2660;
 				TargetAttributes = {
 					A00000000000000000000501 = {
 						CreatedOnToolsVersion = 26.4;
@@ -432,10 +436,10 @@
 			developmentRegion = "zh-Hans";
 			hasScannedForEncodings = 0;
 			knownRegions = (
-			Base,
-			"zh-Hans",
-			en,
-		);
+				Base,
+				"zh-Hans",
+				en,
+			);
 			mainGroup = A00000000000000000000400;
 			productRefGroup = A00000000000000000000401 /* Products */;
 			projectDirPath = "";
@@ -454,8 +458,8 @@
 			files = (
 				B00000000000000000000130 /* Assets.xcassets in Resources */,
 				B00000000000000000000132 /* PrivacyInfo.xcprivacy in Resources */,
-			B00000000000000000000134 /* Localizable.xcstrings in Resources */,
-			B00000000000000000000138 /* InfoPlist.strings in Resources */,
+				B00000000000000000000134 /* Localizable.xcstrings in Resources */,
+				B00000000000000000000138 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -465,7 +469,7 @@
 			files = (
 				B00000000000000000000131 /* Assets.xcassets in Resources */,
 				B00000000000000000000133 /* PrivacyInfo.xcprivacy in Resources */,
-			B00000000000000000000135 /* Localizable.xcstrings in Resources */,
+				B00000000000000000000135 /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -557,7 +561,8 @@
 				B00000000000000000000126 /* ShareItemsButton.swift in Sources */,
 				B00000000000000000000127 /* ExportDirectoryBookmark.swift in Sources */,
 				B00000000000000000000128 /* SplashView.swift in Sources */,
-			B00000000000000000000136 /* L10n.swift in Sources */,
+				B00000000000000000000136 /* L10n.swift in Sources */,
+				B00000000000000000000139 /* LanguageBundle.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -602,7 +607,8 @@
 				B00000000000000000000223 /* CheckerboardBackground.swift in Sources */,
 				B00000000000000000000224 /* GeneratorState.swift in Sources */,
 				B00000000000000000000227 /* ExportDirectoryBookmark.swift in Sources */,
-			B00000000000000000000137 /* L10n.swift in Sources */,
+				B00000000000000000000137 /* L10n.swift in Sources */,
+				B00000000000000000000140 /* LanguageBundle.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -625,6 +631,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				BUILD_NUMBER_SCRIPT_AUTO = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -650,8 +657,12 @@
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = F5H94SFL3P;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
@@ -673,6 +684,7 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -683,6 +695,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				BUILD_NUMBER_SCRIPT_AUTO = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -708,8 +721,12 @@
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = F5H94SFL3P;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
@@ -724,6 +741,7 @@
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 			};
 			name = Release;
@@ -737,7 +755,6 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
-				DEVELOPMENT_TEAM = F5H94SFL3P;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = QRScanPro/iOS/Info.plist;
@@ -775,7 +792,6 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
-				DEVELOPMENT_TEAM = F5H94SFL3P;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = QRScanPro/iOS/Info.plist;
@@ -812,7 +828,7 @@
 				CODE_SIGN_ENTITLEMENTS = QRScanPro/macOS/QRScanProMac.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = F5H94SFL3P;
+				DEAD_CODE_STRIPPING = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -838,7 +854,7 @@
 				CODE_SIGN_ENTITLEMENTS = QRScanPro/macOS/QRScanProMac.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = F5H94SFL3P;
+				DEAD_CODE_STRIPPING = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;

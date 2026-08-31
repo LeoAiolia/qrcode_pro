@@ -28,7 +28,7 @@ struct ScanResultView: View {
             .padding(Spacing.l)
         }
         .background(AppColor.background.ignoresSafeArea())
-        .navigationTitle("扫描结果")
+        .navigationTitle(L10n.t("扫描结果"))
         #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar(.hidden, for: .tabBar)

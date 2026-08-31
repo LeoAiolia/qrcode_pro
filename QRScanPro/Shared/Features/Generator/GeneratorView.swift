@@ -83,7 +83,9 @@ struct GeneratorView: View {
             .background(AppColor.background.ignoresSafeArea())
             #endif
         }
-        .navigationTitle("生成二维码")
+        // 用 String 重载直接给出当前语言文案：导航栏对 LocalizedStringKey 的解析
+        // 在 UIKit 桥接层不随 environment locale 即时刷新（重启才更新），改为随 body 重算取值。
+        .navigationTitle(L10n.t("生成二维码"))
         #if os(iOS)
         .toolbar(hidesTabBar ? .hidden : .visible, for: .tabBar)
         #endif
@@ -146,10 +148,18 @@ struct GeneratorView: View {
     @ViewBuilder
     private var warnings: some View {
         if state.hasContrastWarning {
-            warningRow(String(format: L10n.t("前后景对比度过低（%.1f : 1，建议 ≥ 3.0），扫码可能失败"), state.contrastRatio))
+            // 数值部分用 FormatStyle 格式化（避免 % 格式串在部分语言下的百分号差异警告），
+            // 再拼进模板。
+            let ratio = state.contrastRatio.formatted(.number.precision(.fractionLength(1)))
+            warningRow(L10n.t("前后景对比度过低") + "（\(ratio) : 1，" + L10n.t("建议 ≥ 3.0，扫码可能失败") + "）")
         }
         if state.hasLogoRatioWarning {
-            warningRow(L10n.t("Logo 占比过大（> 30%），扫码可能失败，建议降低到 20% 以内"))
+            // 阈值数字用 FormatStyle 格式化（同上，避免 % 格式串的本地化警告）。
+            let upper = 30.formatted(.number)
+            let lower = 20.formatted(.number)
+            warningRow(
+                L10n.t("Logo 占比过大") + "（> \(upper)%，" + L10n.t("扫码可能失败，建议降低到") + " \(lower)% " + L10n.t("以内") + "）"
+            )
         }
     }
 
@@ -260,9 +270,15 @@ struct GeneratorView: View {
                         }
                         .pickerStyle(.menu)
                     }
-                    ColorPicker("前景色", selection: foregroundBinding, supportsOpacity: false)
-                    ColorPicker("背景色", selection: backgroundBinding, supportsOpacity: false)
-                    Text(String(format: L10n.t("对比度 %.1f : 1"), state.contrastRatio))
+                    // 取色器整体（含弹框内部文案）跟随 App 语言：弹框由 UIKit 渲染，
+                    // 不吃根节点注入的 locale，需在此处单独覆盖。
+                    ColorPicker(L10n.t("前景色"), selection: foregroundBinding, supportsOpacity: false)
+                        .environment(\.locale, settings.resolvedLocale)
+                    ColorPicker(L10n.t("背景色"), selection: backgroundBinding, supportsOpacity: false)
+                        .environment(\.locale, settings.resolvedLocale)
+                    // 前缀走本地化；数值用 FormatStyle 格式化（消除 % 格式串的本地化警告）。
+                    let ratio = state.contrastRatio.formatted(.number.precision(.fractionLength(1)))
+                    Text(L10n.t("对比度") + " " + ratio + " : 1")
                         .font(AppFont.caption)
                         .foregroundColor(state.hasContrastWarning ? AppColor.warning : AppColor.textSecondary)
                 }
@@ -271,7 +287,7 @@ struct GeneratorView: View {
                     logoControls
 
                     VStack(alignment: .leading) {
-                        Text(String(format: L10n.t("Logo 占比 %.0f%%"), state.config.logoRatio * 100))
+                        Text(L10n.t("Logo 占比") + " " + (state.config.logoRatio * 100).formatted(.number.precision(.fractionLength(0))) + "%")
                         Slider(value: logoRatioBinding, in: 0.10...0.40, step: 0.01)
                     }
                 }
@@ -306,9 +322,14 @@ struct GeneratorView: View {
                         Text(LocalizedStringKey(shape.displayName)).tag(shape)
                     }
                 }
-                ColorPicker("前景色", selection: foregroundBinding, supportsOpacity: false)
-                ColorPicker("背景色", selection: backgroundBinding, supportsOpacity: false)
-                Text(String(format: L10n.t("对比度 %.1f : 1"), state.contrastRatio))
+                // 同上：取色弹框（UIKit 渲染）需单独覆盖 locale。
+                ColorPicker(L10n.t("前景色"), selection: foregroundBinding, supportsOpacity: false)
+                    .environment(\.locale, settings.resolvedLocale)
+                ColorPicker(L10n.t("背景色"), selection: backgroundBinding, supportsOpacity: false)
+                    .environment(\.locale, settings.resolvedLocale)
+                // 同上：前缀走本地化，数值用 FormatStyle 格式化。
+                let contrastRatio = state.contrastRatio.formatted(.number.precision(.fractionLength(1)))
+                Text(L10n.t("对比度") + " " + contrastRatio + " : 1")
                     .font(AppFont.caption)
                     .foregroundColor(state.hasContrastWarning ? AppColor.warning : AppColor.textSecondary)
             }
@@ -317,7 +338,7 @@ struct GeneratorView: View {
                 logoControls
 
                 VStack(alignment: .leading) {
-                    Text(String(format: L10n.t("Logo 占比 %.0f%%"), state.config.logoRatio * 100))
+                    Text(L10n.t("Logo 占比") + " " + (state.config.logoRatio * 100).formatted(.number.precision(.fractionLength(0))) + "%")
                     Slider(value: logoRatioBinding, in: 0.10...0.40, step: 0.01)
                 }
             }

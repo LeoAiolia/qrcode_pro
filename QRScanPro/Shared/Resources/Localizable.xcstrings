@@ -1,32 +1,6 @@
 {
   "sourceLanguage" : "zh-Hans",
   "strings" : {
-    "" : {
-
-    },
-    "·" : {
-
-    },
-    "%@ · %@ · %@" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "%1$@ · %2$@ · %3$@"
-          }
-        }
-      }
-    },
-    "%lld px · %@ · %@" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "%1$lld px · %2$@ · %3$@"
-          }
-        }
-      }
-    },
     "%lld 张未识别" : {
       "localizations" : {
         "en" : {
@@ -77,22 +51,45 @@
         }
       }
     },
-    "Logo 占比 %.0f%%" : {
+    "Logo 占比" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Logo Ratio %.0f%%"
+            "value" : "Logo Ratio"
           }
         }
       }
     },
-    "Logo 占比过大（> 30%），扫码可能失败，建议降低到 20% 以内" : {
+    "Logo 占比过大" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Logo ratio too large (> 30%). Scanning may fail. Reduce to 20% or less."
+            "value" : "Logo ratio too large"
+          }
+        }
+      }
+    },
+    "扫码可能失败，建议降低到" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scanning may fail. Reduce to"
+          }
+        }
+      }
+    },
+    "以内" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "or less"
           }
         }
       }
@@ -115,6 +112,17 @@
     },
     "QRScan Pro" : {
 
+    },
+    "sRGB Hex颜色" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "sRGB Hex Color"
+          }
+        }
+      }
     },
     "SVG" : {
 
@@ -200,7 +208,7 @@
       }
     },
     "保存到相册失败：%@" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -226,6 +234,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Info"
+          }
+        }
+      }
+    },
+    "光谱" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spectrum"
           }
         }
       }
@@ -360,12 +379,22 @@
         }
       }
     },
-    "前后景对比度过低（%.1f : 1，建议 ≥ 3.0），扫码可能失败" : {
+    "前后景对比度过低" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Low contrast (%.1f : 1; ≥ 3.0 recommended). Scanning may fail."
+            "value" : "Low contrast"
+          }
+        }
+      }
+    },
+    "建议 ≥ 3.0，扫码可能失败" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "≥ 3.0 recommended. Scanning may fail."
           }
         }
       }
@@ -381,7 +410,7 @@
       }
     },
     "历史" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -561,12 +590,12 @@
         }
       }
     },
-    "对比度 %.1f : 1" : {
+    "对比度" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Contrast %.1f : 1"
+            "value" : "Contrast"
           }
         }
       }
@@ -792,7 +821,7 @@
       }
     },
     "扫码" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -933,7 +962,7 @@
       }
     },
     "未授予相册写入权限，请在「设置」中开启" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -944,7 +973,7 @@
       }
     },
     "未知错误" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1054,6 +1083,17 @@
         }
       }
     },
+    "滑块" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sliders"
+          }
+        }
+      }
+    },
     "版本" : {
       "localizations" : {
         "en" : {
@@ -1115,7 +1155,7 @@
       }
     },
     "相机初始化失败：%@" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1126,7 +1166,7 @@
       }
     },
     "相机权限未授权，请在「设置」中开启相机权限。" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1137,7 +1177,7 @@
       }
     },
     "相机权限状态未知" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1207,6 +1247,16 @@
         }
       }
     },
+    "系统弹窗语言将在重启 App 后生效" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "System dialogs will switch after restarting the app"
+          }
+        }
+      }
+    },
     "纠错级别" : {
       "localizations" : {
         "en" : {
@@ -1223,6 +1273,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Edit"
+          }
+        }
+      }
+    },
+    "网格" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grid"
           }
         }
       }
@@ -1478,7 +1539,7 @@
       }
     },
     "闪光灯切换失败：%@" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {

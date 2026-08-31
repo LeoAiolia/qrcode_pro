@@ -107,7 +107,7 @@ struct HistoryView: View {
             list
         }
         .background(AppColor.background.ignoresSafeArea())
-        .navigationTitle("历史记录")
+        .navigationTitle(L10n.t("历史记录"))
         .toolbar { toolbarContent }
         .searchable(text: $query, prompt: "搜索内容")
         #if os(iOS)
@@ -260,7 +260,7 @@ struct HistoryView: View {
                         }
                     }
                 }
-                .navigationTitle("历史记录")
+                .navigationTitle(L10n.t("历史记录"))
                 .navigationDestination(for: ScanRecord.self) { record in
                     ScanResultView(record: record)
                 }

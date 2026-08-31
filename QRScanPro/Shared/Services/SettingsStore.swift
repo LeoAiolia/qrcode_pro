@@ -31,6 +31,14 @@ enum AppLanguage: String, Codable, CaseIterable, Identifiable {
             return "English"
         }
     }
+
+    /// 「跟随系统」时实际渲染的语言：按设备系统语言实时解析（中文系 → 简体中文，其余 → 英文）。
+    /// 注意不能用 `Locale.autoupdatingCurrent`——App 内写过的 `AppleLanguages` 覆盖会
+    /// 同时影响它（表现为切回 system 后残留上一次的显式选择），故用 `Locale.current`。
+    static var resolvedSystemLanguage: AppLanguage {
+        let systemCode = Locale.current.language.languageCode
+        return systemCode == "zh" ? .zhHans : .english
+    }
 }
 
 enum AppAppearance: String, Codable, CaseIterable, Identifiable {
@@ -166,9 +174,13 @@ final class SettingsStore {
         didSet { write(\.language, oldValue) }
     }
 
-    /// 当前语言对应的 SwiftUI 环境 Locale（跟随系统 → 自动更新）。
+    /// 当前语言对应的 SwiftUI 环境 Locale（跟随系统 → 按设备系统语言解析，
+    /// 不用 autoupdatingCurrent 以免残留 AppleLanguages 覆盖）。
     var resolvedLocale: Locale {
-        language.identifier.flatMap(Locale.init(identifier:)) ?? .autoupdatingCurrent
+        if let identifier = language.identifier {
+            return Locale(identifier: identifier)
+        }
+        return Locale(identifier: AppLanguage.resolvedSystemLanguage.identifier ?? "en")
     }
 
     private let defaults: UserDefaults
@@ -293,6 +305,8 @@ final class SettingsStore {
             let data = try JSONEncoder().encode(snapshot)
             defaults.set(data, forKey: Self.storageKey)
             defaults.set(language.rawValue, forKey: "app.language")
+            // 同步系统控件语言（AppleLanguages），下次启动后系统弹窗跟随所选语言。
+            L10n.syncPreferredLocalization(language)
         } catch {
             assertionFailure("设置序列化失败：\(error.localizedDescription)")
         }

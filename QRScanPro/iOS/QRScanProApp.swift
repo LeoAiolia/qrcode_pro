@@ -9,6 +9,9 @@ struct QRScanProApp: App {
     private let historyRepository: SwiftDataHistoryRepository
 
     init() {
+        // 启动早期同步系统控件语言（取色器 / 权限弹窗 / 分享面板等跟随 App 语言）。
+        L10n.syncPreferredLocalizationAtLaunch()
+
         do {
             let container = try ModelContainer(for: ScanRecord.self, GeneratedRecord.self)
             self.container = container

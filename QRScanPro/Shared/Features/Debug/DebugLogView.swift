@@ -3,6 +3,8 @@ import SwiftUI
 struct DebugLogView: View {
     @ObservedObject private var logger = DebugLogger.shared
     @Environment(\.dismiss) private var dismiss
+    /// 声明 locale 依赖：`L10n.t("调试日志")` 随语言切换即时刷新。
+    @Environment(\.locale) private var locale
 
     var body: some View {
         List {
@@ -36,7 +38,7 @@ struct DebugLogView: View {
         }
         .hideScrollBackgroundWhenAvailable()
         .background(AppColor.background.ignoresSafeArea())
-        .navigationTitle("调试日志")
+        .navigationTitle(L10n.t("调试日志"))
         .toolbar {
             ToolbarItem(placement: .cancellationAction) {
                 Button("关闭") {

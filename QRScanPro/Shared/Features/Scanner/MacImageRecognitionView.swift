@@ -74,7 +74,7 @@ struct MacImageRecognitionView: View {
             }
         }
         .background(AppColor.background)
-        .navigationTitle("图片识别")
+        .navigationTitle(L10n.t("图片识别"))
         .toolbar {
             ToolbarItem {
                 Button { selectImages() } label: {
@@ -231,7 +231,7 @@ private struct RecognitionResultsView: View {
             resultList
         }
         .background(AppColor.background)
-        .navigationTitle("识别结果（\(successCount) / \(state.results.count) 条）")
+        .navigationTitle(String(format: L10n.t("识别结果（%lld / %lld 条）"), successCount, state.results.count))
         .toolbar { toolbarContent }
         .overlay(alignment: .bottom) { toast }
     }

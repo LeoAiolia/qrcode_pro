@@ -15,7 +15,13 @@ struct SettingsView: View {
     /// 控制“调试日志”入口是否显示；默认不显示，需要调试时改为 true（仅 Debug 构建生效）。
     private static let showsDebugLogEntry = false
 
-    private let privacyPolicyURL = URL(string: "https://leoaiolia.github.io/qrcode_pro/privacy-policy.html")
+    /// 隐私政策地址：跟随 App 实际渲染语言选中文 / 英文版页面（英文版部署在 /en/ 子路径）。
+    /// 经由 L10n 判定，与界面文案保持同源，「跟随系统」时不残留旧选择。
+    private var privacyPolicyURL: URL? {
+        L10n.isEnglish
+            ? URL(string: "https://leoaiolia.github.io/qrcode_pro/en/privacy-policy.html")
+            : URL(string: "https://leoaiolia.github.io/qrcode_pro/privacy-policy.html")
+    }
 
     var body: some View {
         @Bindable var settings = settings
@@ -70,7 +76,13 @@ struct SettingsView: View {
             Section("通用") {
                 Picker(selection: $settings.language) {
                     ForEach(AppLanguage.allCases) { language in
-                        Text(LocalizedStringKey(language.title)).tag(language)
+                        // 选项名固定不翻译：各语言以自身名字呈现（简体中文 / English），
+                        // 仅「跟随系统」跟随界面语言本地化。
+                        if language == .system {
+                            Text(LocalizedStringKey(language.title)).tag(language)
+                        } else {
+                            Text(language.title).tag(language)
+                        }
                     }
                 } label: {
                     Label {
@@ -78,6 +90,12 @@ struct SettingsView: View {
                     } icon: {
                         SettingIcon(systemName: "globe", tint: .blue)
                     }
+                }
+                // 系统控件（取色器 / 权限弹窗等）文案要重启才切换，App 界面即时切换。
+                if settings.language != .system {
+                    Text("系统弹窗语言将在重启 App 后生效")
+                        .font(AppFont.caption)
+                        .foregroundColor(AppColor.textSecondary)
                 }
 
                 Picker(selection: $settings.appearance) {
@@ -170,7 +188,7 @@ struct SettingsView: View {
         #endif
         .hideScrollBackgroundWhenAvailable()
         .background(AppColor.background.ignoresSafeArea())
-        .navigationTitle("设置")
+        .navigationTitle(L10n.t("设置"))
         .sheet(isPresented: $debugPresented) {
             NavigationStack {
                 DebugLogView()
