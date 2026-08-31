@@ -79,7 +79,7 @@ final class ScannerViewController: UIViewController, AVCaptureMetadataOutputObje
             device.torchMode = target
             device.unlockForConfiguration()
         } catch {
-            onError("闪光灯切换失败：\(error.localizedDescription)")
+            onError(String(format: L10n.t("闪光灯切换失败：%@"), error.localizedDescription))
         }
     }
 
@@ -127,20 +127,20 @@ final class ScannerViewController: UIViewController, AVCaptureMetadataOutputObje
                     if isGranted {
                         self?.buildSession()
                     } else {
-                        self?.onError("相机权限未授权，请在「设置」中开启相机权限。")
+                        self?.onError(L10n.t("相机权限未授权，请在「设置」中开启相机权限。"))
                     }
                 }
             }
         case .denied, .restricted:
-            onError("相机权限未授权，请在「设置」中开启相机权限。")
+            onError(L10n.t("相机权限未授权，请在「设置」中开启相机权限。"))
         @unknown default:
-            onError("相机权限状态未知")
+            onError(L10n.t("相机权限状态未知"))
         }
     }
 
     private func buildSession() {
         guard let device = AVCaptureDevice.default(for: .video) else {
-            onError("当前设备不支持相机扫码")
+            onError(L10n.t("当前设备不支持相机扫码"))
             return
         }
 
@@ -165,7 +165,7 @@ final class ScannerViewController: UIViewController, AVCaptureMetadataOutputObje
             view.layer.insertSublayer(previewLayer, at: 0)
             self.previewLayer = previewLayer
         } catch {
-            onError("相机初始化失败：\(error.localizedDescription)")
+            onError(String(format: L10n.t("相机初始化失败：%@"), error.localizedDescription))
         }
     }
 }

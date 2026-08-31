@@ -37,6 +37,8 @@ struct RecognitionEntry: Identifiable {
 struct MacImageRecognitionView: View {
     @Environment(SettingsStore.self) private var settings
     @Environment(SwiftDataHistoryRepository.self) private var historyRepository
+    /// 声明 locale 依赖：body 内的 `L10n.t`（已复制等）随语言切换即时刷新。
+    @Environment(\.locale) private var locale
     @Bindable var state: MacImageRecognitionState
 
     private let recognizer = BarcodeImageRecognizer()
@@ -93,7 +95,7 @@ struct MacImageRecognitionView: View {
                 .font(.system(size: 56, weight: .light))
                 .foregroundColor(AppColor.accent.opacity(state.isDropTargeted ? 1 : 0.7))
 
-            Text(state.isDropTargeted ? "松手以识别" : "拖入图片到此处")
+            Text(LocalizedStringKey(state.isDropTargeted ? "松手以识别" : "拖入图片到此处"))
                 .font(AppFont.title)
                 .foregroundColor(AppColor.textPrimary)
 
@@ -271,7 +273,7 @@ private struct RecognitionResultsView: View {
         let row = ResultRow(entry: entry) {
             if let value = entry.code?.value {
                 ClipboardService.copy(value)
-                showToast("已复制")
+                showToast(L10n.t("已复制"))
             }
         } openURL: {
             if let url = entry.code?.url {
@@ -296,7 +298,7 @@ private struct RecognitionResultsView: View {
             Button {
                 let lines = state.results.compactMap { $0.code?.value }
                 ClipboardService.copy(lines.joined(separator: "\n"))
-                showToast("已复制 \(lines.count) 条")
+                showToast(String(format: L10n.t("已复制 %d 条"), lines.count))
             } label: {
                 Label("全部复制", systemImage: "doc.on.doc")
             }

@@ -22,7 +22,7 @@ enum HistoryRepositoryError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .persistenceFailure(let message):
-            return "历史记录写入失败：\(message)"
+            return String(format: L10n.t("历史记录写入失败：%@"), message)
         }
     }
 }

@@ -29,6 +29,8 @@ struct QRScanProApp: App {
                         .transition(.opacity)
                 }
             }
+            // 挂在 ZStack 上：SplashView 与 iOSRootView 都在 locale 环境作用域内
+            .environment(\.locale, settings.resolvedLocale)
             .animation(.easeOut(duration: 0.35), value: splashVisible)
         }
         .modelContainer(container)

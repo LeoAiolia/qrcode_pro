@@ -4,6 +4,8 @@ import SwiftUI
 struct ScanResultView: View {
     @Environment(SwiftDataHistoryRepository.self) private var historyRepository
     @Environment(\.dismiss) private var dismiss
+    /// 声明 locale 依赖：metaRow 中的 `L10n.t(record.source.displayName)` 随语言切换即时刷新。
+    @Environment(\.locale) private var locale
 
     let record: ScanRecord
     #if os(iOS)
@@ -40,7 +42,7 @@ struct ScanResultView: View {
     private var metaRow: some View {
         HStack(spacing: Spacing.s) {
             tag(record.kind.displayName, color: AppColor.accent)
-            tag(record.source.displayName, color: AppColor.textSecondary)
+            tag(L10n.t(record.source.displayName), color: AppColor.textSecondary)
             tag(AppDateFormatter.string(from: record.createdAt), color: AppColor.textSecondary)
         }
         .font(AppFont.caption)

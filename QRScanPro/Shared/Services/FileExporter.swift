@@ -11,9 +11,9 @@ enum FileExporterError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .userCancelled:
-            return "已取消导出"
+            return L10n.t("已取消导出")
         case .writeFailed(let message):
-            return "写入失败：\(message)"
+            return String(format: L10n.t("写入失败：%@"), message)
         }
     }
 }
@@ -24,12 +24,12 @@ enum FileExporter {
     static func csv(from codes: [RecognizedCode], includeHeader: Bool = true) -> String {
         var lines: [String] = []
         if includeHeader {
-            lines.append("码制,来源,内容")
+            lines.append(L10n.t("码制,来源,内容"))
         }
         for code in codes {
             let row = [
                 code.kind.displayName,
-                code.source.displayName,
+                L10n.t(code.source.displayName),
                 code.value
             ].map(escapeCSVField).joined(separator: ",")
             lines.append(row)

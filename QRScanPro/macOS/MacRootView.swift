@@ -46,7 +46,7 @@ struct MacRootView: View {
     var body: some View {
         NavigationSplitView {
             List(SidebarItem.allCases, selection: $selection) { item in
-                Label(item.title, systemImage: item.systemImage)
+                Label(LocalizedStringKey(item.title), systemImage: item.systemImage)
                     .tag(Optional(item))
             }
             .navigationTitle("QRScan Pro")

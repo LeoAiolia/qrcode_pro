@@ -6,6 +6,8 @@ import AppKit
 
 struct SettingsView: View {
     @Environment(SettingsStore.self) private var settings
+    /// 声明 locale 依赖：body 内的 `L10n.t("每次询问")` 随语言切换即时刷新。
+    @Environment(\.locale) private var locale
     @State private var debugPresented = false
     @State private var privacyPolicyPresented = false
     private let capability = PlatformCapability()
@@ -66,9 +68,21 @@ struct SettingsView: View {
             #endif
 
             Section("通用") {
+                Picker(selection: $settings.language) {
+                    ForEach(AppLanguage.allCases) { language in
+                        Text(LocalizedStringKey(language.title)).tag(language)
+                    }
+                } label: {
+                    Label {
+                        Text("语言")
+                    } icon: {
+                        SettingIcon(systemName: "globe", tint: .blue)
+                    }
+                }
+
                 Picker(selection: $settings.appearance) {
                     ForEach(AppAppearance.allCases) { appearance in
-                        Text(appearance.title).tag(appearance)
+                        Text(LocalizedStringKey(appearance.title)).tag(appearance)
                     }
                 } label: {
                     Label {
@@ -80,7 +94,7 @@ struct SettingsView: View {
 
                 Picker(selection: $settings.historyRetention) {
                     ForEach(HistoryRetention.allCases) { retention in
-                        Text(retention.title).tag(retention)
+                        Text(LocalizedStringKey(retention.title)).tag(retention)
                     }
                 } label: {
                     Label {
@@ -202,7 +216,7 @@ struct SettingsView: View {
         HStack {
             VStack(alignment: .leading, spacing: 2) {
                 Text("默认导出目录")
-                Text(resolvedURL?.path ?? "每次询问")
+                Text(resolvedURL?.path ?? L10n.t("每次询问"))
                     .font(AppFont.caption)
                     .foregroundColor(AppColor.textSecondary)
                     .lineLimit(1)
@@ -231,7 +245,7 @@ struct SettingsView: View {
         panel.canChooseDirectories = true
         panel.canChooseFiles = false
         panel.allowsMultipleSelection = false
-        panel.prompt = "选择"
+        panel.prompt = L10n.t("选择")
         guard panel.runModal() == .OK, let url = panel.url else { return }
         if let bookmark = ExportDirectoryBookmark.encode(url) {
             settings.defaultExportDirectoryBookmark = bookmark

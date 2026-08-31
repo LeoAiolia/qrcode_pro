@@ -18,11 +18,11 @@ enum QRCodeGenerationError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .emptyContent:
-            return "请输入需要生成二维码的内容"
+            return L10n.t("请输入需要生成二维码的内容")
         case .filterFailed:
-            return "二维码生成器初始化失败"
+            return L10n.t("二维码生成器初始化失败")
         case .imageRenderFailed:
-            return "二维码图片渲染失败"
+            return L10n.t("二维码图片渲染失败")
         }
     }
 }

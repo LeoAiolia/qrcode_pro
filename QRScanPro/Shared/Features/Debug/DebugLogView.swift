@@ -14,7 +14,7 @@ struct DebugLogView: View {
                 ForEach(logger.entries) { entry in
                     VStack(alignment: .leading, spacing: 6) {
                         HStack {
-                            Text(entry.level.title)
+                            Text(LocalizedStringKey(entry.level.title))
                                 .font(AppFont.caption.bold())
                                 .foregroundColor(color(for: entry.level))
 

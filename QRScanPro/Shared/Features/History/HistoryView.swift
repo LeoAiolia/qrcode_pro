@@ -76,6 +76,7 @@ private enum HistoryEntry: Identifiable {
 
 struct HistoryView: View {
     @Environment(SwiftDataHistoryRepository.self) private var historyRepository
+    @Environment(\.locale) private var locale
 
     #if os(iOS)
     @State private var editMode: EditMode = .inactive
@@ -176,13 +177,14 @@ struct HistoryView: View {
         return dayMap.keys.sorted(by: >).map { day in
             let title: String
             if day == todayStart {
-                title = "今天"
+                title = L10n.t("今天")
             } else if day == yesterdayStart {
-                title = "昨天"
+                title = L10n.t("昨天")
             } else {
+                let template = calendar.component(.year, from: day) == thisYear ? "MMMd" : "yMMMd"
                 let fmt = DateFormatter()
-                fmt.locale = Locale(identifier: "zh_CN")
-                fmt.dateFormat = calendar.component(.year, from: day) == thisYear ? "M月d日" : "yyyy年M月d日"
+                fmt.locale = locale
+                fmt.setLocalizedDateFormatFromTemplate(template)
                 title = fmt.string(from: day)
             }
             return (title, dayMap[day]!)
@@ -210,7 +212,7 @@ struct HistoryView: View {
         let groups = groupedEntries
         return Group {
             if groups.isEmpty {
-                emptyState(message: "暂无历史记录")
+                emptyState(message: L10n.t("暂无历史记录"))
             } else {
                 List(selection: $historySelection) {
                     ForEach(groups, id: \.0) { title, entries in
@@ -239,7 +241,7 @@ struct HistoryView: View {
         let groups = groupedEntries
         return Group {
             if groups.isEmpty {
-                emptyState(message: "暂无历史记录")
+                emptyState(message: L10n.t("暂无历史记录"))
             } else {
                 List(selection: $generatedSelection) {
                     ForEach(groups, id: \.0) { title, entries in
@@ -288,7 +290,7 @@ struct HistoryView: View {
     private var toolbarContent: some ToolbarContent {
         #if os(iOS)
         ToolbarItem(placement: .topBarTrailing) {
-            Button(editMode == .active ? "完成" : "编辑") {
+            Button(editMode == .active ? L10n.t("完成") : L10n.t("编辑")) {
                 withAnimation {
                     if editMode == .active {
                         editMode = .inactive
@@ -412,7 +414,7 @@ private struct ScanRow: View {
                     .foregroundColor(AppColor.textPrimary)
                     .lineLimit(2)
                     .truncationMode(.tail)
-                Text("\(record.kind.displayName) · \(record.source.displayName) · \(AppDateFormatter.string(from: record.createdAt))")
+                Text("\(record.kind.displayName) · \(L10n.t(record.source.displayName)) · \(AppDateFormatter.string(from: record.createdAt))")
                     .font(AppFont.caption)
                     .foregroundColor(AppColor.textSecondary)
             }
@@ -441,7 +443,7 @@ private struct GeneratedRow: View {
                     .foregroundColor(AppColor.textPrimary)
                     .lineLimit(2)
                     .truncationMode(.tail)
-                Text("\(record.config.sizePx) px · \(record.config.dotShape.displayName) · \(AppDateFormatter.string(from: record.createdAt))")
+                Text("\(record.config.sizePx) px · \(L10n.t(record.config.dotShape.displayName)) · \(AppDateFormatter.string(from: record.createdAt))")
                     .font(AppFont.caption)
                     .foregroundColor(AppColor.textSecondary)
             }

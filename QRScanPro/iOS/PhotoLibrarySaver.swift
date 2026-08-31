@@ -8,9 +8,9 @@ enum PhotoLibrarySaverError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .unauthorized:
-            return "未授予相册写入权限，请在「设置」中开启"
+            return L10n.t("未授予相册写入权限，请在「设置」中开启")
         case .writeFailed(let message):
-            return "保存到相册失败：\(message)"
+            return String(format: L10n.t("保存到相册失败：%@"), message)
         }
     }
 }
@@ -36,7 +36,7 @@ enum PhotoLibrarySaver {
                 } else if let error {
                     continuation.resume(throwing: PhotoLibrarySaverError.writeFailed(error.localizedDescription))
                 } else {
-                    continuation.resume(throwing: PhotoLibrarySaverError.writeFailed("未知错误"))
+                    continuation.resume(throwing: PhotoLibrarySaverError.writeFailed(L10n.t("未知错误")))
                 }
             }
         }

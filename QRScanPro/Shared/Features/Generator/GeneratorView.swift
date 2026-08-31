@@ -13,6 +13,8 @@ struct GeneratorView: View {
     @Environment(SwiftDataHistoryRepository.self) private var historyRepository
     @Environment(SettingsStore.self) private var settings
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+    /// 声明 locale 依赖：body 中的 `L10n.t`（对比度 / Logo 占比 / 空态提示）随语言切换即时刷新。
+    @Environment(\.locale) private var locale
 
     @State private var state: GeneratorState
     @State private var statusMessage: String?
@@ -117,14 +119,14 @@ struct GeneratorView: View {
                 } else {
                     let emptyHint: String = {
                         #if os(macOS)
-                        return "请在左侧输入内容"
+                        return L10n.t("请在左侧输入内容")
                         #else
-                        return "请在下方输入内容"
+                        return L10n.t("请在下方输入内容")
                         #endif
                     }()
                     Text(state.content.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
                          ? emptyHint
-                         : "等待生成…")
+                         : L10n.t("等待生成…"))
                         .font(AppFont.footnote)
                         .foregroundColor(AppColor.textSecondary)
                 }
@@ -144,10 +146,10 @@ struct GeneratorView: View {
     @ViewBuilder
     private var warnings: some View {
         if state.hasContrastWarning {
-            warningRow(String(format: "前后景对比度过低（%.1f : 1，建议 ≥ 3.0），扫码可能失败", state.contrastRatio))
+            warningRow(String(format: L10n.t("前后景对比度过低（%.1f : 1，建议 ≥ 3.0），扫码可能失败"), state.contrastRatio))
         }
         if state.hasLogoRatioWarning {
-            warningRow("Logo 占比过大（> 30%），扫码可能失败，建议降低到 20% 以内")
+            warningRow(L10n.t("Logo 占比过大（> 30%），扫码可能失败，建议降低到 20% 以内"))
         }
     }
 
@@ -188,7 +190,7 @@ struct GeneratorView: View {
                     Button {
                         if let data = PNGExporter.data(from: cgImage) {
                             UIPasteboard.general.image = UIImage(data: data)
-                            showStatus("已复制 PNG 到剪贴板", isError: false)
+                            showStatus(L10n.t("已复制 PNG 到剪贴板"), isError: false)
                         }
                     } label: {
                         Label("复制", systemImage: "doc.on.doc")
@@ -253,14 +255,14 @@ struct GeneratorView: View {
                         Spacer()
                         Picker("", selection: dotShapeBinding) {
                             ForEach(QRDotShape.allCases) { shape in
-                                Text(shape.displayName).tag(shape)
+                                Text(LocalizedStringKey(shape.displayName)).tag(shape)
                             }
                         }
                         .pickerStyle(.menu)
                     }
                     ColorPicker("前景色", selection: foregroundBinding, supportsOpacity: false)
                     ColorPicker("背景色", selection: backgroundBinding, supportsOpacity: false)
-                    Text(String(format: "对比度 %.1f : 1", state.contrastRatio))
+                    Text(String(format: L10n.t("对比度 %.1f : 1"), state.contrastRatio))
                         .font(AppFont.caption)
                         .foregroundColor(state.hasContrastWarning ? AppColor.warning : AppColor.textSecondary)
                 }
@@ -269,7 +271,7 @@ struct GeneratorView: View {
                     logoControls
 
                     VStack(alignment: .leading) {
-                        Text(String(format: "Logo 占比 %.0f%%", state.config.logoRatio * 100))
+                        Text(String(format: L10n.t("Logo 占比 %.0f%%"), state.config.logoRatio * 100))
                         Slider(value: logoRatioBinding, in: 0.10...0.40, step: 0.01)
                     }
                 }
@@ -301,12 +303,12 @@ struct GeneratorView: View {
             Section("形状与配色") {
                 Picker("码点形状", selection: dotShapeBinding) {
                     ForEach(QRDotShape.allCases) { shape in
-                        Text(shape.displayName).tag(shape)
+                        Text(LocalizedStringKey(shape.displayName)).tag(shape)
                     }
                 }
                 ColorPicker("前景色", selection: foregroundBinding, supportsOpacity: false)
                 ColorPicker("背景色", selection: backgroundBinding, supportsOpacity: false)
-                Text(String(format: "对比度 %.1f : 1", state.contrastRatio))
+                Text(String(format: L10n.t("对比度 %.1f : 1"), state.contrastRatio))
                     .font(AppFont.caption)
                     .foregroundColor(state.hasContrastWarning ? AppColor.warning : AppColor.textSecondary)
             }
@@ -315,7 +317,7 @@ struct GeneratorView: View {
                 logoControls
 
                 VStack(alignment: .leading) {
-                    Text(String(format: "Logo 占比 %.0f%%", state.config.logoRatio * 100))
+                    Text(String(format: L10n.t("Logo 占比 %.0f%%"), state.config.logoRatio * 100))
                     Slider(value: logoRatioBinding, in: 0.10...0.40, step: 0.01)
                 }
             }
@@ -351,7 +353,7 @@ struct GeneratorView: View {
 
     #if os(iOS)
     private func generatorSection<Content: View>(
-        _ title: String,
+        _ title: LocalizedStringKey,
         @ViewBuilder content: () -> Content
     ) -> some View {
         VStack(alignment: .leading, spacing: Spacing.s) {
@@ -400,7 +402,7 @@ struct GeneratorView: View {
     private var logoControls: some View {
         #if os(iOS)
         let hasLogo = state.config.logoData != nil
-        let pickerTitle = hasLogo ? "更换 Logo" : "选择 Logo"
+        let pickerTitle = hasLogo ? L10n.t("更换 Logo") : L10n.t("选择 Logo")
         PhotosPicker(selection: $logoPickerItem, matching: .images) {
             Label(pickerTitle, systemImage: "photo")
         }
@@ -412,7 +414,7 @@ struct GeneratorView: View {
             }
         }
         #else
-        Button(state.config.logoData == nil ? "选择 Logo…" : "更换 Logo…") {
+        Button(state.config.logoData == nil ? L10n.t("选择 Logo…") : L10n.t("更换 Logo…")) {
             pickLogoMac()
         }
         if state.config.logoData != nil {
@@ -450,9 +452,9 @@ struct GeneratorView: View {
         )
         do {
             try historyRepository.addGenerated(record)
-            showStatus("已加入生成历史", isError: false)
+            showStatus(L10n.t("已加入生成历史"), isError: false)
         } catch {
-            showStatus("保存到历史失败：\(error.localizedDescription)", isError: true)
+            showStatus(String(format: L10n.t("保存到历史失败：%@"), error.localizedDescription), isError: true)
         }
     }
 
@@ -533,14 +535,14 @@ struct GeneratorView: View {
                 state.config.logoData = data
             }
         } catch {
-            showStatus("Logo 读取失败：\(error.localizedDescription)", isError: true)
+            showStatus(String(format: L10n.t("Logo 读取失败：%@"), error.localizedDescription), isError: true)
         }
     }
 
     private func saveToPhotos(image: UIImage) async {
         do {
             try await PhotoLibrarySaver.save(image)
-            showStatus("已保存到相册", isError: false)
+            showStatus(L10n.t("已保存到相册"), isError: false)
         } catch {
             showStatus(error.localizedDescription, isError: true)
         }
@@ -595,14 +597,14 @@ struct GeneratorView: View {
         }
 
         guard let payload = data else {
-            showStatus("导出失败：编码错误", isError: true)
+            showStatus(L10n.t("导出失败：编码错误"), isError: true)
             return
         }
         do {
             try payload.write(to: url)
-            showStatus("已导出到 \(url.lastPathComponent)", isError: false)
+            showStatus(String(format: L10n.t("已导出到 %@"), url.lastPathComponent), isError: false)
         } catch {
-            showStatus("导出失败：\(error.localizedDescription)", isError: true)
+            showStatus(String(format: L10n.t("导出失败：%@"), error.localizedDescription), isError: true)
         }
     }
 
@@ -611,7 +613,7 @@ struct GeneratorView: View {
         let pasteboard = NSPasteboard.general
         pasteboard.clearContents()
         pasteboard.setData(data, forType: .png)
-        showStatus("已复制 PNG 到剪贴板", isError: false)
+        showStatus(L10n.t("已复制 PNG 到剪贴板"), isError: false)
     }
 
     private func pickLogoMac() {
@@ -622,7 +624,7 @@ struct GeneratorView: View {
         do {
             state.config.logoData = try Data(contentsOf: url)
         } catch {
-            showStatus("Logo 读取失败：\(error.localizedDescription)", isError: true)
+            showStatus(String(format: L10n.t("Logo 读取失败：%@"), error.localizedDescription), isError: true)
         }
     }
     #endif

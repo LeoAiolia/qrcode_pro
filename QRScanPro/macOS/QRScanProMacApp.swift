@@ -23,6 +23,7 @@ struct QRScanProMacApp: App {
                 .environment(settings)
                 .environment(historyRepository)
                 .frame(minWidth: 860, minHeight: 620)
+                .environment(\.locale, settings.resolvedLocale)
         }
         .modelContainer(container)
     }

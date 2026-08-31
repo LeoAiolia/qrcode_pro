@@ -1,6 +1,38 @@
 import Foundation
 import Observation
 
+/// App 显示语言；默认 `.system`（跟随系统）。`title` 返回源串，同时作为 String Catalog 的 key。
+enum AppLanguage: String, Codable, CaseIterable, Identifiable {
+    case system
+    case zhHans
+    case english
+
+    var id: String { rawValue }
+
+    /// 对应的系统语言标识（nil = 跟随系统）。
+    var identifier: String? {
+        switch self {
+        case .system:
+            return nil
+        case .zhHans:
+            return "zh-Hans"
+        case .english:
+            return "en"
+        }
+    }
+
+    var title: String {
+        switch self {
+        case .system:
+            return "跟随系统"
+        case .zhHans:
+            return "简体中文"
+        case .english:
+            return "English"
+        }
+    }
+}
+
 enum AppAppearance: String, Codable, CaseIterable, Identifiable {
     case system
     case light
@@ -130,6 +162,14 @@ final class SettingsStore {
     var defaultExportDirectoryBookmark: Data? {
         didSet { write(\.defaultExportDirectoryBookmark, oldValue) }
     }
+    var language: AppLanguage {
+        didSet { write(\.language, oldValue) }
+    }
+
+    /// 当前语言对应的 SwiftUI 环境 Locale（跟随系统 → 自动更新）。
+    var resolvedLocale: Locale {
+        language.identifier.flatMap(Locale.init(identifier:)) ?? .autoupdatingCurrent
+    }
 
     private let defaults: UserDefaults
     private var isLoading = false
@@ -147,8 +187,10 @@ final class SettingsStore {
         self.historyRetention = snapshot.historyRetention
         self.defaultExportFormat = snapshot.defaultExportFormat
         self.defaultExportDirectoryBookmark = snapshot.defaultExportDirectoryBookmark
+        self.language = snapshot.language
 
         self.isLoading = false
+        defaults.set(language.rawValue, forKey: "app.language")
     }
 
     // MARK: - Persistence
@@ -162,6 +204,7 @@ final class SettingsStore {
         var historyRetention: HistoryRetention
         var defaultExportFormat: ExportFormat
         var defaultExportDirectoryBookmark: Data?
+        var language: AppLanguage
 
         static let `default` = Snapshot(
             enabledKinds: Set(BarcodeKind.allCases),
@@ -171,13 +214,15 @@ final class SettingsStore {
             appearance: .system,
             historyRetention: .forever,
             defaultExportFormat: .png,
-            defaultExportDirectoryBookmark: nil
+            defaultExportDirectoryBookmark: nil,
+            language: .system
         )
 
         enum CodingKeys: String, CodingKey {
             case enabledKinds, vibrationEnabled, soundEnabled, continuousScanEnabled
             case appearance, historyRetention
             case defaultExportFormat, defaultExportDirectoryBookmark
+            case language
         }
 
         init(
@@ -188,7 +233,8 @@ final class SettingsStore {
             appearance: AppAppearance,
             historyRetention: HistoryRetention,
             defaultExportFormat: ExportFormat,
-            defaultExportDirectoryBookmark: Data?
+            defaultExportDirectoryBookmark: Data?,
+            language: AppLanguage
         ) {
             self.enabledKinds = enabledKinds
             self.vibrationEnabled = vibrationEnabled
@@ -198,6 +244,7 @@ final class SettingsStore {
             self.historyRetention = historyRetention
             self.defaultExportFormat = defaultExportFormat
             self.defaultExportDirectoryBookmark = defaultExportDirectoryBookmark
+            self.language = language
         }
 
         init(from decoder: Decoder) throws {
@@ -211,6 +258,7 @@ final class SettingsStore {
             self.historyRetention = (try? c.decode(HistoryRetention.self, forKey: .historyRetention)) ?? defaults.historyRetention
             self.defaultExportFormat = (try? c.decode(ExportFormat.self, forKey: .defaultExportFormat)) ?? defaults.defaultExportFormat
             self.defaultExportDirectoryBookmark = try? c.decode(Data.self, forKey: .defaultExportDirectoryBookmark)
+            self.language = (try? c.decode(AppLanguage.self, forKey: .language)) ?? defaults.language
         }
     }
 
@@ -237,12 +285,14 @@ final class SettingsStore {
             appearance: appearance,
             historyRetention: historyRetention,
             defaultExportFormat: defaultExportFormat,
-            defaultExportDirectoryBookmark: defaultExportDirectoryBookmark
+            defaultExportDirectoryBookmark: defaultExportDirectoryBookmark,
+            language: language
         )
 
         do {
             let data = try JSONEncoder().encode(snapshot)
             defaults.set(data, forKey: Self.storageKey)
+            defaults.set(language.rawValue, forKey: "app.language")
         } catch {
             assertionFailure("设置序列化失败：\(error.localizedDescription)")
         }

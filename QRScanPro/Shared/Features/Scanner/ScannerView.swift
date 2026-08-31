@@ -103,19 +103,19 @@ struct ScannerView: View {
             if capability.supportsTorch {
                 controlButton(
                     systemImage: isTorchOn ? "bolt.fill" : "bolt",
-                    label: isTorchOn ? "关灯" : "开灯",
+                    label: LocalizedStringKey(isTorchOn ? "关灯" : "开灯"),
                     tint: isTorchOn ? AppColor.warning : .white
                 ) {
                     isTorchOn.toggle()
                 }
-                .accessibilityLabel(isTorchOn ? "关闭闪光灯" : "打开闪光灯")
+                .accessibilityLabel(LocalizedStringKey(isTorchOn ? "关闭闪光灯" : "打开闪光灯"))
             }
         }
     }
 
     private func controlButton(
         systemImage: String,
-        label: String,
+        label: LocalizedStringKey,
         tint: Color = .white,
         action: @escaping () -> Void
     ) -> some View {
@@ -173,7 +173,7 @@ struct ScannerView: View {
         do {
             try historyRepository.addScan(record)
         } catch {
-            errorMessage = "扫描结果保存失败：\(error.localizedDescription)"
+            errorMessage = String(format: L10n.t("扫描结果保存失败：%@"), error.localizedDescription)
             return
         }
 
@@ -183,7 +183,7 @@ struct ScannerView: View {
         )
 
         if settings.continuousScanEnabled {
-            showToast("已识别：\(result.value)")
+            showToast(String(format: L10n.t("已识别：%@"), result.value))
         } else {
             pushedRecord = record
         }

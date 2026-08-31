@@ -15,13 +15,13 @@ enum ImageRecognitionError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .noBarcode:
-            return "未在图片中识别到二维码或条形码"
+            return L10n.t("未在图片中识别到二维码或条形码")
         case .noEnabledKind:
-            return "请先在设置中启用至少一种码制"
+            return L10n.t("请先在设置中启用至少一种码制")
         case .invalidImage:
-            return "图片无法读取"
+            return L10n.t("图片无法读取")
         case .requestFailed(let message):
-            return "图片识别失败：\(message)"
+            return String(format: L10n.t("图片识别失败：%@"), message)
         }
     }
 }

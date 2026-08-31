@@ -72,7 +72,7 @@ struct iOSRootView: View {
                     detail(for: tab)
                 }
                 .tabItem {
-                    Label(tab.title, systemImage: tab.systemImage)
+                    Label(LocalizedStringKey(tab.title), systemImage: tab.systemImage)
                 }
                 .tag(tab)
             }
@@ -84,7 +84,7 @@ struct iOSRootView: View {
     private var splitView: some View {
         NavigationSplitView {
             List(Tab.allCases, selection: sidebarSelection) { tab in
-                Label(tab.title, systemImage: tab.systemImage)
+                Label(LocalizedStringKey(tab.title), systemImage: tab.systemImage)
                     .tag(tab)
             }
             .navigationTitle("QRScan Pro")
