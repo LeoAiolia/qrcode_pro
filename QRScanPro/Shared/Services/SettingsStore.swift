@@ -32,12 +32,25 @@ enum AppLanguage: String, Codable, CaseIterable, Identifiable {
         }
     }
 
-    /// 「跟随系统」时实际渲染的语言：按设备系统语言实时解析（中文系 → 简体中文，其余 → 英文）。
-    /// 注意不能用 `Locale.autoupdatingCurrent`——App 内写过的 `AppleLanguages` 覆盖会
-    /// 同时影响它（表现为切回 system 后残留上一次的显式选择），故用 `Locale.current`。
+    /// 「跟随系统」时实际渲染的语言：按系统语言实时解析（中文系 → 简体中文，其余 → 英文）。
+    /// 注意不能读 `Locale.current` / `Locale.preferredLanguages`——App 内写过的 `AppleLanguages`
+    /// 覆盖（持久化在 App 域）会污染它们（表现为切回 system 后残留上一次的显式选择），
+    /// 故直接读系统全局域的 `AppleLanguages`，绕过 App 自身域的覆盖。
     static var resolvedSystemLanguage: AppLanguage {
-        let systemCode = Locale.current.language.languageCode
-        return systemCode == "zh" ? .zhHans : .english
+        let codes = trueSystemLanguageCodes
+        if let primary = codes.first {
+            // 只看首选语言（列表第一项），与旧逻辑（主语言判定）保持一致；
+            // 避免把「英语主语言 + 中文次语言」的设备误判为中文。
+            return primary.hasPrefix("zh") ? .zhHans : .english
+        }
+        // 全局域读取失败的兜底：退回 Locale.current（可能被污染，但优于默认英文）。
+        return Locale.current.language.languageCode == "zh" ? .zhHans : .english
+    }
+
+    /// 系统全局域（`.GlobalPreferences`）里的首选语言列表，不受 App 自身 `AppleLanguages` 覆盖影响。
+    private static var trueSystemLanguageCodes: [String] {
+        let value = CFPreferencesCopyAppValue("AppleLanguages" as CFString, kCFPreferencesAnyApplication)
+        return (value as? [String]) ?? []
     }
 }
 
