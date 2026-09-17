@@ -165,7 +165,7 @@ struct HistoryView: View {
         let calendar = Calendar.current
         let now = Date()
         let todayStart = calendar.startOfDay(for: now)
-        let yesterdayStart = calendar.date(byAdding: .day, value: -1, to: todayStart)!
+        let yesterdayStart = calendar.date(byAdding: .day, value: -1, to: todayStart) ?? todayStart
         let thisYear = calendar.component(.year, from: now)
 
         var dayMap: [Date: [HistoryEntry]] = [:]
@@ -182,13 +182,24 @@ struct HistoryView: View {
                 title = L10n.t("昨天")
             } else {
                 let template = calendar.component(.year, from: day) == thisYear ? "MMMd" : "yMMMd"
-                let fmt = DateFormatter()
-                fmt.locale = locale
-                fmt.setLocalizedDateFormatFromTemplate(template)
-                title = fmt.string(from: day)
+                title = Self.dayFormatter(template: template, locale: locale).string(from: day)
             }
-            return (title, dayMap[day]!)
+            return (title, dayMap[day] ?? [])
         }
+    }
+
+    /// DateFormatter 创建昂贵且 body 每次求值都会走到这里，按 template+locale 缓存复用。
+    private static var dayFormatterCache: [String: DateFormatter] = [:]
+    private static func dayFormatter(template: String, locale: Locale) -> DateFormatter {
+        let key = "\(template)|\(locale.identifier)"
+        if let cached = dayFormatterCache[key] {
+            return cached
+        }
+        let formatter = DateFormatter()
+        formatter.locale = locale
+        formatter.setLocalizedDateFormatFromTemplate(template)
+        dayFormatterCache[key] = formatter
+        return formatter
     }
 
     @ViewBuilder

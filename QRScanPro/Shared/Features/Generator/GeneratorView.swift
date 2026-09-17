@@ -465,7 +465,8 @@ struct GeneratorView: View {
 
     private func saveToHistory() {
         guard let cgImage = state.cgImage else { return }
-        let thumbnail = PNGExporter.data(from: cgImage)
+        // 缩略图降采样入库：历史列表只做预览，全尺寸原图需要时可由内容+配置重新生成。
+        let thumbnail = PNGExporter.thumbnailData(from: cgImage)
         let record = GeneratedRecord(
             content: state.content,
             config: state.config,

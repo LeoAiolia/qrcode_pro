@@ -61,10 +61,16 @@ final class ScannerViewController: UIViewController, AVCaptureMetadataOutputObje
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        if session.isRunning {
+        stopSessionIfRunning()
+        setTorch(on: false)
+    }
+
+    /// startRunning/stopRunning 都是阻塞调用，统一放后台队列，避免主线程掉帧。
+    private func stopSessionIfRunning() {
+        guard session.isRunning else { return }
+        DispatchQueue.global(qos: .userInitiated).async { [session] in
             session.stopRunning()
         }
-        setTorch(on: false)
     }
 
     func setTorch(on: Bool) {

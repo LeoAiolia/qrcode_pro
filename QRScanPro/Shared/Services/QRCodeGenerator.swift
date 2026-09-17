@@ -35,7 +35,10 @@ struct QRCodeBitMatrix: Equatable {
 }
 
 struct QRCodeGenerator {
-    private let context = CIContext()
+    /// CIContext 创建开销大（GPU/CPU 资源分配），且线程安全可全局复用；
+    /// 共享单例避免每次生成（含后台防抖重建）都付出重建成本。
+    private static let sharedContext = CIContext()
+    private var context: CIContext { Self.sharedContext }
 
     /// 把内容编码为 QR，并把 CIFilter 的位图输出转成 BitMatrix。
     func bitMatrix(content: String, correctionLevel: QRErrorCorrectionLevel) throws -> QRCodeBitMatrix {

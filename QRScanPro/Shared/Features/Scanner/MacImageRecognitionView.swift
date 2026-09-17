@@ -40,7 +40,6 @@ struct MacImageRecognitionView: View {
     /// 声明 locale 依赖：body 内的 `L10n.t`（已复制等）随语言切换即时刷新。
     @Environment(\.locale) private var locale
     @Bindable var state: MacImageRecognitionState
-
     private let recognizer = BarcodeImageRecognizer()
 
     var body: some View {
@@ -145,11 +144,16 @@ struct MacImageRecognitionView: View {
 
     private func handleDrop(providers: [NSItemProvider]) -> Bool {
         let group = DispatchGroup()
+        // loadObject 回调在各自后台队列并发执行；Array 非线程安全，
+        // 并发 append 可能崩溃或丢元素，需加锁串行收集。
+        let lock = NSLock()
         var urls: [URL] = []
         for provider in providers where provider.hasItemConformingToTypeIdentifier(UTType.fileURL.identifier) {
             group.enter()
             _ = provider.loadObject(ofClass: URL.self) { url, _ in
+                lock.lock()
                 if let url { urls.append(url) }
+                lock.unlock()
                 group.leave()
             }
         }
@@ -162,30 +166,39 @@ struct MacImageRecognitionView: View {
         state.isRecognizing = true
         state.errorMessage = nil
 
+        // 只在主线程取一次值，detached 闭包内不触碰 @Environment / @Observable，避免跨 actor 访问。
+        let enabledKinds = settings.enabledKinds
+        let recognizer = self.recognizer
+
         Task {
             var newEntries: [RecognitionEntry] = []
             for url in urls {
-                guard
-                    let image = NSImage(contentsOf: url),
-                    let cgImage = image.cgImage(forProposedRect: nil, context: nil, hints: nil)
-                else {
-                    DebugLogger.shared.warning("无法读取图片：\(url.lastPathComponent)")
-                    continue
-                }
-                do {
-                    let codes = try await recognizer.recognizeAll(
-                        cgImage: cgImage,
-                        allowedKinds: settings.enabledKinds
-                    )
-                    if codes.isEmpty {
-                        newEntries.append(RecognitionEntry(fileName: url.lastPathComponent, code: nil))
-                    } else {
-                        for code in codes {
-                            newEntries.append(RecognitionEntry(fileName: url.lastPathComponent, code: code))
-                        }
+                // NSImage(contentsOf:) 含磁盘 IO + 全图解码，放主线程会卡住 ProgressView；
+                // 移到后台加载，错误信息带回主线程再赋值（@Observable 状态只在主线程写）。
+                let outcome: (codes: [RecognizedCode?], failure: String?) = await Task.detached(priority: .userInitiated) {
+                    guard
+                        let image = NSImage(contentsOf: url),
+                        let cgImage = image.cgImage(forProposedRect: nil, context: nil, hints: nil)
+                    else {
+                        DebugLogger.shared.warning("无法读取图片：\(url.lastPathComponent)")
+                        return ([nil], nil as String?)
                     }
-                } catch {
-                    state.errorMessage = error.localizedDescription
+                    do {
+                        let codes = try await recognizer.recognizeAll(
+                            cgImage: cgImage,
+                            allowedKinds: enabledKinds
+                        )
+                        return (codes.isEmpty ? [nil] : codes, nil)
+                    } catch {
+                        return ([], error.localizedDescription)
+                    }
+                }.value
+
+                if let failure = outcome.failure {
+                    state.errorMessage = failure
+                }
+                for code in outcome.codes {
+                    newEntries.append(RecognitionEntry(fileName: url.lastPathComponent, code: code))
                 }
             }
 
