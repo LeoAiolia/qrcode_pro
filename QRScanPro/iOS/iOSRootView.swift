@@ -1,3 +1,4 @@
+import CoreSpotlight
 import SwiftData
 import SwiftUI
 
@@ -6,6 +7,7 @@ struct iOSRootView: View {
     @Environment(SwiftDataHistoryRepository.self) private var historyRepository
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @State private var selectedTab: Tab = .scanner
+    @State private var route = AppRoute.shared
 
     enum Tab: Hashable, CaseIterable, Identifiable {
         case scanner
@@ -53,6 +55,8 @@ struct iOSRootView: View {
         .tint(AppColor.accent)
         .preferredColorScheme(colorScheme(for: settings.appearance))
         .task {
+            consumePendingRoute()
+            SpotlightIndexer.indexAll()
             QRCodeGeneratorWarmup.start()
 
             do {
@@ -60,6 +64,28 @@ struct iOSRootView: View {
             } catch {
                 DebugLogger.shared.warning("启动清理失败：\(error.localizedDescription)")
             }
+        }
+        .onChange(of: route.pendingDestination) { _, _ in
+            consumePendingRoute()
+        }
+        .onContinueUserActivity(CSSearchableItemActionType) { activity in
+            guard
+                let identifier = activity.userInfo?[CSSearchableItemActivityIdentifier] as? String,
+                let destination = SpotlightIndexer.destination(forIdentifier: identifier)
+            else { return }
+            route.request(destination)
+            consumePendingRoute()
+        }
+    }
+
+    /// 消费 App Intent（控制中心 / Siri / Spotlight）记录的跳转请求。
+    private func consumePendingRoute() {
+        guard let destination = route.consumePending() else { return }
+        switch destination {
+        case .scanner:
+            selectedTab = .scanner
+        case .generator:
+            selectedTab = .generator
         }
     }
 

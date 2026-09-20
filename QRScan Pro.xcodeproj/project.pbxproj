@@ -97,7 +97,40 @@
 		B00000000000000000000223 /* CheckerboardBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000023 /* CheckerboardBackground.swift */; };
 		B00000000000000000000224 /* GeneratorState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000024 /* GeneratorState.swift */; };
 		B00000000000000000000227 /* ExportDirectoryBookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000027 /* ExportDirectoryBookmark.swift */; };
+		A00000000000000000000141 /* AppShortcuts.strings in Resources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000429 /* AppShortcuts.strings */; };
+		A00000000000000000000142 /* QRScanProWidgets.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = A00000000000000000000032 /* QRScanProWidgets.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		A00000000000000000000143 /* AppIntentsSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000033 /* AppIntentsSupport.swift */; };
+		A00000000000000000000144 /* QRScanProShortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000034 /* QRScanProShortcuts.swift */; };
+		A00000000000000000000145 /* AppIntentsSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000033 /* AppIntentsSupport.swift */; };
+		A00000000000000000000146 /* ScanControlWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000035 /* ScanControlWidget.swift */; };
+		A00000000000000000000147 /* QRScanProWidgetsBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000036 /* QRScanProWidgetsBundle.swift */; };
+		A00000000000000000000148 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000035 /* Localizable.xcstrings */; };
+		A00000000000000000000149 /* SpotlightIndexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000003A /* SpotlightIndexer.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		A00000000000000000000291 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A00000000000000000000800 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A00000000000000000000503;
+			remoteInfo = QRScanProWidgets;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		A00000000000000000000710 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				A00000000000000000000142 /* QRScanProWidgets.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		A00000000000000000000002 /* BarcodeModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeModels.swift; sourceTree = "<group>"; };
@@ -156,6 +189,15 @@
 		B00000000000000000000036 /* L10n.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = L10n.swift; sourceTree = "<group>"; };
 		B00000000000000000000037 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		B00000000000000000000038 /* LanguageBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageBundle.swift; sourceTree = "<group>"; };
+		A00000000000000000000032 /* QRScanProWidgets.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = QRScanProWidgets.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		A00000000000000000000033 /* AppIntentsSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIntentsSupport.swift; sourceTree = "<group>"; };
+		A00000000000000000000034 /* QRScanProShortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScanProShortcuts.swift; sourceTree = "<group>"; };
+		A00000000000000000000035 /* ScanControlWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanControlWidget.swift; sourceTree = "<group>"; };
+		A00000000000000000000036 /* QRScanProWidgetsBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScanProWidgetsBundle.swift; sourceTree = "<group>"; };
+		A00000000000000000000037 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A00000000000000000000038 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = "en.lproj/AppShortcuts.strings"; sourceTree = "<group>"; };
+		A00000000000000000000039 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/AppShortcuts.strings"; sourceTree = "<group>"; };
+		A0000000000000000000003A /* SpotlightIndexer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotlightIndexer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -189,6 +231,7 @@
 			children = (
 				A00000000000000000000030 /* QRScan Pro.app */,
 				A00000000000000000000031 /* QRScan Pro.app */,
+				A00000000000000000000032 /* QRScanProWidgets.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -199,6 +242,7 @@
 				A00000000000000000000411 /* Shared */,
 				A00000000000000000000421 /* iOS */,
 				A00000000000000000000422 /* macOS */,
+				A00000000000000000000428 /* Widgets */,
 			);
 			path = QRScanPro;
 			sourceTree = "<group>";
@@ -210,6 +254,7 @@
 				A00000000000000000000413 /* Services */,
 				A00000000000000000000414 /* UI */,
 				A00000000000000000000415 /* Features */,
+				A00000000000000000000427 /* Intents */,
 				A00000000000000000000425 /* Resources */,
 			);
 			path = Shared;
@@ -328,9 +373,12 @@
 				B00000000000000000000025 /* PhotoLibrarySaver.swift */,
 				B00000000000000000000026 /* ShareItemsButton.swift */,
 				B00000000000000000000028 /* SplashView.swift */,
+				A00000000000000000000034 /* QRScanProShortcuts.swift */,
+				A0000000000000000000003A /* SpotlightIndexer.swift */,
 				B00000000000000000000030 /* Assets.xcassets */,
 				B00000000000000000000032 /* PrivacyInfo.xcprivacy */,
 				A00000000000000000000426 /* InfoPlist.strings */,
+				A00000000000000000000429 /* AppShortcuts.strings */,
 			);
 			path = iOS;
 			sourceTree = "<group>";
@@ -374,6 +422,24 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		A00000000000000000000427 /* Intents */ = {
+			isa = PBXGroup;
+			children = (
+				A00000000000000000000033 /* AppIntentsSupport.swift */,
+			);
+			path = Intents;
+			sourceTree = "<group>";
+		};
+		A00000000000000000000428 /* Widgets */ = {
+			isa = PBXGroup;
+			children = (
+				A00000000000000000000036 /* QRScanProWidgetsBundle.swift */,
+				A00000000000000000000035 /* ScanControlWidget.swift */,
+				A00000000000000000000037 /* Info.plist */,
+			);
+			path = Widgets;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -385,10 +451,12 @@
 				A00000000000000000000301 /* Frameworks */,
 				A00000000000000000000701 /* Resources */,
 				A00000000000000000000801 /* Set Build Number (git commit count) */,
+				A00000000000000000000710 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				A00000000000000000000292 /* PBXTargetDependency */,
 			);
 			name = "QRScan Pro iOS";
 			productName = "QRScan Pro";
@@ -413,6 +481,24 @@
 			productReference = A00000000000000000000031 /* QRScan Pro.app */;
 			productType = "com.apple.product-type.application";
 		};
+		A00000000000000000000503 /* QRScanProWidgets */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A00000000000000000000903 /* Build configuration list for PBXNativeTarget "QRScanProWidgets" */;
+			buildPhases = (
+				A00000000000000000000603 /* Sources */,
+				A00000000000000000000303 /* Frameworks */,
+				A00000000000000000000703 /* Resources */,
+				A00000000000000000000803 /* Set Build Number (git commit count) */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = QRScanProWidgets;
+			productName = QRScanProWidgets;
+			productReference = A00000000000000000000032 /* QRScanProWidgets.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -427,6 +513,9 @@
 						CreatedOnToolsVersion = 26.4;
 					};
 					A00000000000000000000502 = {
+						CreatedOnToolsVersion = 26.4;
+					};
+					A00000000000000000000503 = {
 						CreatedOnToolsVersion = 26.4;
 					};
 				};
@@ -447,6 +536,7 @@
 			targets = (
 				A00000000000000000000501 /* QRScan Pro iOS */,
 				A00000000000000000000502 /* QRScan Pro Mac */,
+				A00000000000000000000503 /* QRScanProWidgets */,
 			);
 		};
 /* End PBXProject section */
@@ -460,6 +550,7 @@
 				B00000000000000000000132 /* PrivacyInfo.xcprivacy in Resources */,
 				B00000000000000000000134 /* Localizable.xcstrings in Resources */,
 				B00000000000000000000138 /* InfoPlist.strings in Resources */,
+				A00000000000000000000141 /* AppShortcuts.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -470,6 +561,14 @@
 				B00000000000000000000131 /* Assets.xcassets in Resources */,
 				B00000000000000000000133 /* PrivacyInfo.xcprivacy in Resources */,
 				B00000000000000000000135 /* Localizable.xcstrings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A00000000000000000000703 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A00000000000000000000148 /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -496,6 +595,25 @@
 			shellScript = "\"$SRCROOT/tools/set_build_number.sh\"\n";
 		};
 		A00000000000000000000802 /* Set Build Number (git commit count) */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Set Build Number (git commit count)";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"$SRCROOT/tools/set_build_number.sh\"\n";
+		};
+		A00000000000000000000803 /* Set Build Number (git commit count) */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
@@ -565,6 +683,9 @@
 				B00000000000000000000128 /* SplashView.swift in Sources */,
 				B00000000000000000000136 /* L10n.swift in Sources */,
 				B00000000000000000000139 /* LanguageBundle.swift in Sources */,
+				A00000000000000000000143 /* AppIntentsSupport.swift in Sources */,
+				A00000000000000000000144 /* QRScanProShortcuts.swift in Sources */,
+				A00000000000000000000149 /* SpotlightIndexer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -614,7 +735,25 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A00000000000000000000603 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A00000000000000000000145 /* AppIntentsSupport.swift in Sources */,
+				A00000000000000000000146 /* ScanControlWidget.swift in Sources */,
+				A00000000000000000000147 /* QRScanProWidgetsBundle.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		A00000000000000000000292 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A00000000000000000000503 /* QRScanProWidgets */;
+			targetProxy = A00000000000000000000291 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		A00000000000000000000426 /* InfoPlist.strings */ = {
@@ -623,6 +762,15 @@
 				B00000000000000000000037 /* en */,
 			);
 			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		A00000000000000000000429 /* AppShortcuts.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A00000000000000000000038 /* en */,
+				A00000000000000000000039 /* zh-Hans */,
+			);
+			name = AppShortcuts.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -874,6 +1022,52 @@
 			};
 			name = Release;
 		};
+		A00000000000000000001301 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = QRScanPro/Widgets/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "QRScan Pro";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 1.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pz.qrscanpro.widgets;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A00000000000000000001302 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = QRScanPro/Widgets/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "QRScan Pro";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 1.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pz.qrscanpro.widgets;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -900,6 +1094,15 @@
 			buildConfigurations = (
 				A00000000000000000001201 /* Debug */,
 				A00000000000000000001202 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A00000000000000000000903 /* Build configuration list for PBXNativeTarget "QRScanProWidgets" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A00000000000000000001301 /* Debug */,
+				A00000000000000000001302 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

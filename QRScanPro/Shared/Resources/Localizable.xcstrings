@@ -835,6 +835,61 @@
         }
       }
     },
+    "扫一扫" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scan"
+          }
+        }
+      }
+    },
+    "打开扫一扫" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open Scanner"
+          }
+        }
+      }
+    },
+    "打开生成二维码" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open QR Code Generator"
+          }
+        }
+      }
+    },
+    "打开 QRScan Pro 开始扫码" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open QRScan Pro to scan QR codes and barcodes."
+          }
+        }
+      }
+    },
+    "打开 QRScan Pro 生成二维码" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open QRScan Pro to generate QR codes."
+          }
+        }
+      }
+    },
     "扫码" : {
       "extractionState" : "manual",
       "localizations" : {

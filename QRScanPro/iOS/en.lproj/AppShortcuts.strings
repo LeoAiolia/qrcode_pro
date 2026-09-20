@@ -1,0 +1,13 @@
+/* AppShortcuts phrase localization (English).
+   Keys are the development-language phrases from code; %@ is the app name. */
+
+"%@扫一扫" = "Scan with %@";
+"%@扫码" = "Scan with %@";
+"用%@扫码" = "Scan with %@";
+"用%@扫描二维码" = "Scan a QR code with %@";
+"打开%@扫一扫" = "Open %@ scanner";
+"%@生成二维码" = "Generate QR code with %@";
+"用%@生成二维码" = "Generate a QR code with %@";
+"打开%@生成二维码" = "Open %@ QR code generator";
+"Scan qrcode with %@" = "Scan qrcode with %@";
+"Generate qrcode with %@" = "Generate qrcode with %@";
