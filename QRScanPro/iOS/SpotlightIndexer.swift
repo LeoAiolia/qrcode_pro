@@ -27,8 +27,11 @@ enum SpotlightIndexer {
     static func indexAll() {
         let items = [scannerItem(), generatorItem()]
         CSSearchableIndex.default().indexSearchableItems(items) { error in
-            if let error {
-                DebugLogger.shared.warning("Spotlight 索引失败：\(error.localizedDescription)")
+            guard let error else { return }
+            // completion 在非主线程回调，DebugLogger 是 @MainActor；先取出 Sendable 的字符串再切回主线程记录。
+            let message = error.localizedDescription
+            Task { @MainActor in
+                DebugLogger.shared.warning("Spotlight 索引失败：\(message)")
             }
         }
     }

@@ -1,13 +1,13 @@
 /* AppShortcuts phrase localization (English).
-   Keys are the development-language phrases from code; %@ is the app name. */
+   Keys are the development-language phrases from code; ${applicationName} is the app name placeholder. */
 
-"%@扫一扫" = "Scan with %@";
-"%@扫码" = "Scan with %@";
-"用%@扫码" = "Scan with %@";
-"用%@扫描二维码" = "Scan a QR code with %@";
-"打开%@扫一扫" = "Open %@ scanner";
-"%@生成二维码" = "Generate QR code with %@";
-"用%@生成二维码" = "Generate a QR code with %@";
-"打开%@生成二维码" = "Open %@ QR code generator";
-"Scan qrcode with %@" = "Scan qrcode with %@";
-"Generate qrcode with %@" = "Generate qrcode with %@";
+"${applicationName}扫一扫" = "Scan with ${applicationName}";
+"${applicationName}扫码" = "Scan with ${applicationName}";
+"用${applicationName}扫码" = "Scan with ${applicationName}";
+"用${applicationName}扫描二维码" = "Scan a QR code with ${applicationName}";
+"打开${applicationName}扫一扫" = "Open ${applicationName} scanner";
+"${applicationName}生成二维码" = "Generate QR code with ${applicationName}";
+"用${applicationName}生成二维码" = "Generate a QR code with ${applicationName}";
+"打开${applicationName}生成二维码" = "Open ${applicationName} QR code generator";
+"Scan qrcode with ${applicationName}" = "Scan qrcode with ${applicationName}";
+"Generate qrcode with ${applicationName}" = "Generate qrcode with ${applicationName}";

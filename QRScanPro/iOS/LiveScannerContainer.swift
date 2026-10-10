@@ -26,8 +26,12 @@ final class ScannerViewController: UIViewController, AVCaptureMetadataOutputObje
     private let onResult: (RecognizedCode) -> Void
     private let onError: (String) -> Void
     private let session = AVCaptureSession()
+    /// startRunning/stopRunning 都是阻塞调用，统一扔到专用串行队列，保证启停顺序且不卡主线程。
+    private let sessionQueue = DispatchQueue(label: "com.pz.qrscanpro.scanner.session")
     private var previewLayer: AVCaptureVideoPreviewLayer?
     private var isHandlingResult = false
+    /// 页面当前是否可见。首次授权时 buildSession() 晚于 viewWillAppear，用它决定构建完成后要不要立即启动。
+    private var wantsRunning = false
 
     init(onResult: @escaping (RecognizedCode) -> Void, onError: @escaping (String) -> Void) {
         self.onResult = onResult
@@ -52,23 +56,31 @@ final class ScannerViewController: UIViewController, AVCaptureMetadataOutputObje
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if !session.isRunning {
-            DispatchQueue.global(qos: .userInitiated).async {
-                self.session.startRunning()
-            }
-        }
+        wantsRunning = true
+        startSessionIfNeeded()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        stopSessionIfRunning()
+        wantsRunning = false
+        stopSessionIfNeeded()
         setTorch(on: false)
     }
 
-    /// startRunning/stopRunning 都是阻塞调用，统一放后台队列，避免主线程掉帧。
-    private func stopSessionIfRunning() {
-        guard session.isRunning else { return }
-        DispatchQueue.global(qos: .userInitiated).async { [session] in
+    /// 启动相机预览；此时若还没有 input（授权尚未完成）就先返回，等 buildSession() 收尾时再启动。
+    private func startSessionIfNeeded() {
+        guard wantsRunning, !session.inputs.isEmpty else { return }
+        sessionQueue.async { [session] in
+            guard !session.isRunning else { return }
+            session.startRunning()
+        }
+    }
+
+    /// 停止相机预览。这里不能用主线程读到的 isRunning 做判断（start 可能仍在队列里排队），
+    /// 交给串行队列保证它一定排在已入队的 start 之后执行。
+    private func stopSessionIfNeeded() {
+        sessionQueue.async { [session] in
+            guard session.isRunning else { return }
             session.stopRunning()
         }
     }
@@ -170,6 +182,9 @@ final class ScannerViewController: UIViewController, AVCaptureMetadataOutputObje
             previewLayer.frame = view.bounds
             view.layer.insertSublayer(previewLayer, at: 0)
             self.previewLayer = previewLayer
+
+            // 首次授权时本方法晚于 viewWillAppear，这里补一次启动，否则预览会一直黑屏。
+            startSessionIfNeeded()
         } catch {
             onError(String(format: L10n.t("相机初始化失败：%@"), error.localizedDescription))
         }
