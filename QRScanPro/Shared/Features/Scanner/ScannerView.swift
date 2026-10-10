@@ -11,6 +11,7 @@ struct ScannerView: View {
     @Environment(\.scenePhase) private var scenePhase
 
     @State private var isTorchOn = false
+    @State private var feedback = ScannerFeedback()
     @State private var pickerPresented = false
     @State private var pushedRecord: ScanRecord?
     @State private var errorMessage: String?
@@ -27,12 +28,16 @@ struct ScannerView: View {
             if capability.supportsCameraScanning {
                 LiveScannerContainer(
                     isTorchOn: $isTorchOn,
+                    feedback: feedback,
                     onResult: handle(result:),
                     onError: { message in errorMessage = message }
                 )
                 .ignoresSafeArea()
 
                 ScannerOverlay(isContinuous: settings.continuousScanEnabled)
+                    .ignoresSafeArea()
+
+                ScannerFocusFeedbackOverlay(feedback: feedback)
                     .ignoresSafeArea()
 
                 bottomControls

@@ -1,13 +1,10 @@
 /* AppShortcuts 短语本地化（zh-Hans）。
-   key 为代码中的开发语言短语，\(.applicationName) 在本文件中写作 ${applicationName}。 */
+   源语言是英文（见 QRScanProShortcuts.swift 里的短语），${applicationName} 是 App 名称占位符。 */
 
-"${applicationName}扫一扫" = "${applicationName}扫一扫";
-"${applicationName}扫码" = "${applicationName}扫码";
-"用${applicationName}扫码" = "用${applicationName}扫码";
-"用${applicationName}扫描二维码" = "用${applicationName}扫描二维码";
-"打开${applicationName}扫一扫" = "打开${applicationName}扫一扫";
-"${applicationName}生成二维码" = "${applicationName}生成二维码";
-"用${applicationName}生成二维码" = "用${applicationName}生成二维码";
-"打开${applicationName}生成二维码" = "打开${applicationName}生成二维码";
+"Scan with ${applicationName}" = "用${applicationName}扫一扫";
+"Scan a QR code with ${applicationName}" = "用${applicationName}扫描二维码";
 "Scan qrcode with ${applicationName}" = "用${applicationName}扫码";
-"Generate qrcode with ${applicationName}" = "用${applicationName}生成二维码";
+"Open ${applicationName} scanner" = "打开${applicationName}扫一扫";
+"Generate QR code with ${applicationName}" = "用${applicationName}生成二维码";
+"Generate a QR code with ${applicationName}" = "用${applicationName}生成二维码";
+"Open ${applicationName} QR code generator" = "打开${applicationName}生成二维码";

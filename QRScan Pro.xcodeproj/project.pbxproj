@@ -33,6 +33,9 @@
 		A00000000000000000000147 /* QRScanProWidgetsBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000036 /* QRScanProWidgetsBundle.swift */; };
 		A00000000000000000000148 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000035 /* Localizable.xcstrings */; };
 		A00000000000000000000149 /* SpotlightIndexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000003A /* SpotlightIndexer.swift */; };
+		A0000000000000000000014A /* ScannerTuning.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000003B /* ScannerTuning.swift */; };
+		A0000000000000000000014B /* CameraFocusController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000003C /* CameraFocusController.swift */; };
+		A0000000000000000000014C /* ScannerFeedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000003D /* ScannerFeedback.swift */; };
 		A00000000000000000000202 /* BarcodeModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000002 /* BarcodeModels.swift */; };
 		A00000000000000000000204 /* DebugLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000004 /* DebugLogger.swift */; };
 		A00000000000000000000207 /* PlatformCapability.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000007 /* PlatformCapability.swift */; };
@@ -160,9 +163,11 @@
 		A00000000000000000000035 /* ScanControlWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanControlWidget.swift; sourceTree = "<group>"; };
 		A00000000000000000000036 /* QRScanProWidgetsBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScanProWidgetsBundle.swift; sourceTree = "<group>"; };
 		A00000000000000000000037 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A00000000000000000000038 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/AppShortcuts.strings; sourceTree = "<group>"; };
 		A00000000000000000000039 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/AppShortcuts.strings"; sourceTree = "<group>"; };
 		A0000000000000000000003A /* SpotlightIndexer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotlightIndexer.swift; sourceTree = "<group>"; };
+		A0000000000000000000003B /* ScannerTuning.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerTuning.swift; sourceTree = "<group>"; };
+		A0000000000000000000003C /* CameraFocusController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraFocusController.swift; sourceTree = "<group>"; };
+		A0000000000000000000003D /* ScannerFeedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerFeedback.swift; sourceTree = "<group>"; };
 		B00000000000000000000001 /* ScanRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanRecord.swift; sourceTree = "<group>"; };
 		B00000000000000000000002 /* GeneratedRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratedRecord.swift; sourceTree = "<group>"; };
 		B00000000000000000000003 /* GenerateConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerateConfig.swift; sourceTree = "<group>"; };
@@ -370,6 +375,9 @@
 				B00000000000000000000009 /* iOSRootView.swift */,
 				A00000000000000000000021 /* ClipboardService.swift */,
 				A00000000000000000000024 /* LiveScannerContainer.swift */,
+				A0000000000000000000003B /* ScannerTuning.swift */,
+				A0000000000000000000003C /* CameraFocusController.swift */,
+				A0000000000000000000003D /* ScannerFeedback.swift */,
 				B00000000000000000000011 /* HapticFeedback.swift */,
 				B00000000000000000000025 /* PhotoLibrarySaver.swift */,
 				B00000000000000000000026 /* ShareItemsButton.swift */,
@@ -686,6 +694,9 @@
 				A00000000000000000000143 /* AppIntentsSupport.swift in Sources */,
 				A00000000000000000000144 /* QRScanProShortcuts.swift in Sources */,
 				A00000000000000000000149 /* SpotlightIndexer.swift in Sources */,
+				A0000000000000000000014A /* ScannerTuning.swift in Sources */,
+				A0000000000000000000014B /* CameraFocusController.swift in Sources */,
+				A0000000000000000000014C /* ScannerFeedback.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -768,7 +779,6 @@
 		A00000000000000000000429 /* AppShortcuts.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				A00000000000000000000038 /* en */,
 				A00000000000000000000039 /* zh-Hans */,
 			);
 			name = AppShortcuts.strings;

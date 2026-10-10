@@ -79,9 +79,8 @@ struct ScannerOverlay: View {
     }
 
     private func frameRect(in size: CGSize) -> CGRect {
-        let side = min(size.width, size.height) * 0.7
-        let origin = CGPoint(x: (size.width - side) / 2, y: (size.height - side) / 2)
-        return CGRect(origin: origin, size: CGSize(width: side, height: side))
+        // 与相机的 rectOfInterest 共用同一份几何，保证「画出来的框」就是「真正识别的区域」。
+        ScannerTuning.scanBoxRect(in: size)
     }
 }
 

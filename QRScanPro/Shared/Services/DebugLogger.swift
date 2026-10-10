@@ -80,5 +80,11 @@ final class DebugLogger: ObservableObject {
         }
 
         logger.log(level: level.osLogType, "\(message, privacy: .public)")
+
+        #if DEBUG
+        // 同步一份到 stdout：`xcrun devicectl device process launch --console` 与 Xcode
+        // 控制台只桥接标准流，拿不到 OSLog，调试真机时需要这行。
+        print("[\(level.rawValue)] \(message)")
+        #endif
     }
 }
