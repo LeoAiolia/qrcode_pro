@@ -38,8 +38,8 @@ enum SpotlightIndexer {
 
     private static func scannerItem() -> CSSearchableItem {
         let attributes = CSSearchableItemAttributeSet(contentType: .item)
-        attributes.title = "扫一扫"
-        attributes.contentDescription = "QRScan Pro · 扫码 / Scan QR Code"
+        attributes.title = L10n.t("扫一扫")
+        attributes.contentDescription = "QRScan Pro · \(L10n.t("扫一扫"))"
         attributes.keywords = ["扫", "sao", "saoyisao", "sys", "扫一扫", "扫码", "扫描", "扫码器", "scan", "scanning"]
         return CSSearchableItem(
             uniqueIdentifier: scannerIdentifier,
@@ -50,8 +50,8 @@ enum SpotlightIndexer {
 
     private static func generatorItem() -> CSSearchableItem {
         let attributes = CSSearchableItemAttributeSet(contentType: .item)
-        attributes.title = "生成二维码"
-        attributes.contentDescription = "QRScan Pro · 生成二维码 / Generate QR Code"
+        attributes.title = L10n.t("生成二维码")
+        attributes.contentDescription = "QRScan Pro · \(L10n.t("生成二维码"))"
         attributes.keywords = ["qr", "qrcode", "qr code", "二维码", "生成二维码", "erweima", "generate"]
         return CSSearchableItem(
             uniqueIdentifier: generatorIdentifier,
